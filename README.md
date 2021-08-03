@@ -149,5 +149,3 @@ As per the CPU issue, in practical terms this does not seem to significantly imp
 system performance. Thanks to the Seagate Central having sufficent swap space there
 doesn't appear to be any problems.
 
-![image](https://user-images.githubusercontent.com/53927348/127943946-869ad17f-236d-453d-b49f-11a80b78cb87.png)
-
