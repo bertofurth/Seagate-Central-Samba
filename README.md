@@ -160,20 +160,20 @@ the command line and configuration file rather than the web interface.
 
 ### Disadvantages of installing the new samba server
 #### Second CPU
-The Seagate Central is based on a Cortex CNS3420 CPU which has 2 CPU cores.
+The Seagate Central is based on a Cavium CNS3420 CPU which has 2 CPU cores.
 In stock Seagate Central firmware, one CPU core is available for normal linux 
 processes and the other is reserved exclusively for the samba file server. In
 other words, the second CPU cannot be used by any "normal" linux processes.
-For this reason Linux on the Seagate Central acts as if it only has one CPU
-available 
+This scheme is known as the Cavium SMP Offloading Procession (SOP),
+or AMP (Asymmetric Multi Processing).
 
 The original samba software on the Seagate Central has custom modifications that
-allow it to make use of the second CPU core. This means that in the unlikely event 
-that the Seagate Central is overwhelmed by some other task, the file serving
-functionality will not be slowed down.
+allow it to make use of the second CPU core operating in AMP mode. This means
+that in the unlikely event that the Seagate Central is overwhelmed by some other
+task, the file serving functionality will not be slowed down.
 
-Unfortunately, the standard samba software as used by this installation guide
-does not make use of this second CPU core.
+Unfortunately, standard samba software as used by this installation guide does
+not make use of AMP mode.
 
 Given that the Seagate Central doesn't normally do anything except serve files,
 in my judgement this won't make much of a practical difference in the moderate
@@ -182,11 +182,13 @@ be deployed.
 
 Note that I have another project in the works that deals with upgrading the Linux 
 Kernel on the Seagate Central. This will overcome second CPU problem by making
-both CPUs in the Seagate Central available for _all_ linux processes.
+both CPUs in the Seagate Central available for _all_ linux processes. That is, 
+SMP (Symmetrical Multi Processing) will be implemented in this updated Linux
+Kernel. 
 
 If this new updgraded linux kernel is installed and running then the new version of
-samba can take advantage of both the CPU cores on the system and then in theory it 
-can be even more efficient than the original samba software.
+samba can take advantage of both the CPU cores on the system and then, in theory, it 
+can be even more efficient than the original Seagate AMP based samba software.
 
 #### Memory
 My tests reveal that the updated samba v4.14.6 software seems to consume significantly
@@ -197,19 +199,18 @@ As per the CPU issue, in practical terms this does not seem to significantly imp
 system performance. This is thanks to the Seagate Central having sufficent swap space
 to cater for any temporary excessive memry usage.
 
-
 ### Motivation for this project
 My work supplied laptop currently runs Windows 10. After one particular IT department
 mandated system update I was no longer able to connect to my Seagate Central NAS
-via the normal Windows Explorer file management tool.
+via the normal Windows Explorer file management tool. This was because SMBv1.0
+client capability was turned off by the update.
 
-My work IT department administratively disabled the ability to configure the
-above mentioned workaround allowing Windows 10 to use SMBv1.0. This was presumably
-done for valid security reasons, however I imagine that a significant portion of
-Windows users suffered the same kind of inconvinience that I did.
+My work IT department administratively disabled the ability to re-enable SMBv1.0.
+This was presumably done for valid security reasons, however it meant that I had
+no easy way of accessing the Seagate Central file server.
 
 I was still able to temporarily perform file transfers via FTP, which the Seagate
-Central supports, however this was less convinient than I was used to.
+Central supports, however this was a less convinient option than I was used to.
 
 After doing some research I was able to put together this guide to modifying the
 offending component of the Seagate Central, namely the outdated samba software. I 
@@ -232,3 +233,7 @@ third parties. For this reason I am grateful to Seagate and if someone from the
 company is reading this note then I would be thrilled for them to take this work
 and make it the basis for an official update for the Seagate Central product.
 Naturally all the guidelines of the GPLv2 would need to be adhered to. 
+
+Finally I learned a great deal about Linux, samba and the cross-compilation 
+in the process of writing this guide. Hopefully the instructions I've developed will
+help others to learn.
