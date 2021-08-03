@@ -77,7 +77,7 @@ you may see an error message similar to the following
 If you try to connect to the NAS using a Windows command line tool such
 as **net view** an error message similar to the following may be generated
 
-    PS C:\WINDOWS\system32> net view \\10.0.2.199 /ALL
+    PS C:\WINDOWS\system32> net view \\10.0.2.199
     System error 53 has occurred.
 
     The network path was not found.
@@ -100,7 +100,7 @@ vulnerabilities.
 The version of samba software on the Seagate Central, v3.5.16, does in theory
 suport disabling SMBv1.0 and using only SMBv2.1 however in practise it doesn't 
 work well. Versions of samba software v4.x and later are generally considered 
-to support SMBv2.1 and higher properly and versions v4.13 and higher
+to support SMBv2.1 and higher properly. Samba versions v4.13 and higher
 deprecate support for much of SMBv1.0.
 
 ### SMBv1.0 Workaround for Windows 10 clients
@@ -111,9 +111,10 @@ and videos on the web showing how to do this (search for : smbv1 windows 10)
 however the main steps are summarized here.
 
 Launch the Control Panel applet **Turn Windows features on or off**
-(Windows + S, then search for "Turn Windows features on or off" and the applet 
-should appear. Alternatively launch Control Panel and find the applet in the
-"Programs and Features" tool)
+
+This applet can be launched by pressing Windows Key + S to invoke the
+Windows Search dialog, then searching for "Turn Windows features on or off". 
+The applet should appear in the search results and can be launched from there.
 
 In the "Windows Features" app window that appears expand the **SMB 1.0/CIFS File 
 Sharing Support** folder and check the box next to **SMB 1.0/CIFS Client**
@@ -123,10 +124,9 @@ Confirm the change by selecting "OK" at the bottom of the window.
 After the changes are made you may be asked to reboot the system to enable
 the SMBv1.0 client feature.
 
-These steps may not work if you have a Windows 10 system that is administered by
-a third party, such as your work or school, and they may have administratively
-prohibited changing the device's settings to allow it to use less secure SMB 
-v1.0.
+Be aware that in some cases an IT department administed Windows 10 system will
+be administratively prohibited from changing the device's settings to allow
+it to use less secure SMB v1.0.
 
 ### SMBv1.0 Workaround for Linux clients
 On a linux client the problem can be rectified by simply adding the "vers=1.0" 
@@ -141,34 +141,11 @@ or in the /etc/fstab file
 
     //NAS-X/user1    /mnt/NAS-X-user1    cifs    usr=user1,password=pass1,vers=1.0    0    0
 
-
-
-
-### Workaround that involes minor modification of the Seagate Central
-It is possible to alter the configuration of the samba v3.5.16 software running on
-the Seagate Central so that it no longer accepts SMBv1.0 connections. This will
-allow Windows 10 clients to be able to connect to the NAS however only SMBv2.1
-is supported in samba v3.5.16. While this version of SMB is more secure than 
-SMBv1.0 it still has flaws that are fixed in later versions.
-
-In addition this workaround will not help linux clients to connect.
-
-
-
-is still not completely 
-
-This means that linux
-
-server that are unable to connect and are not able to be reconfigured
-to connect using SMB
-https://wiki.samba.org/index.php/Samba3/SMB2#Introduction
-
 ### Advantages of installing the new samba server
-
 #### Modern Windows 10 and Linux will connect properly
-As per the notes above by upgrading to an SMBv2 and later capable file server the
+As per the notes above, by upgrading to an SMBv2 and later capable file server the
 Seagate Central will still be able to serve modern security conscious operating
-systems.
+systems without the need for any workarounds on the client systems.
 
 #### Enhanced security and performance
 SMBv1.0 has multiple security issues that make it vulnerable to various forms of
@@ -182,34 +159,39 @@ array of features availabe in samba server software may be configured, albeit vi
 the command line and configuration file rather than the web interface.
 
 ### Disadvantages of installing the new samba server
-
 #### Second CPU
 The Seagate Central is based on a Cortex CNS3420 CPU which has 2 CPU cores.
 In stock Seagate Central firmware, one CPU core is available for normal linux 
 processes and the other is reserved exclusively for the samba file server. In
-other words, the second CPU cannot be used by other processed. Linux acts as if
-it only has one CPU core available.
+other words, the second CPU cannot be used by any "normal" linux processes.
+For this reason Linux on the Seagate Central acts as if it only has one CPU
+available 
 
 The original samba software on the Seagate Central has custom modifications that
-allow it to make use of this second CPU core. This means that in the unlikely event 
+allow it to make use of the second CPU core. This means that in the unlikely event 
 that the Seagate Central is overwhelmed by some other task, the file serving
 functionality will not be slowed down.
 
-Unfortunately, standard samba software does not make use of this second CPU core.
+Unfortunately, the standard samba software as used by this installation guide
+does not make use of this second CPU core.
 
-Given that the Seagate Central doesn't normally do anything except serve files, in my
-experience this doesn't make much of a practical difference in a home network
-environment where at most only a few clients are interacting with the NAS at any
-given time.
+Given that the Seagate Central doesn't normally do anything except serve files,
+in my judgement this won't make much of a practical difference in the moderate
+usage environment of a home or small business where a Seagate Central would typically
+be deployed. 
 
 Note that I have another project in the works that deals with upgrading the Linux 
-Kernel on the Seagate Central. This will overcome this CPU sharing problem by making
-both CPUs in the Seagate Central available for _all_ linux processes to make use of.
+Kernel on the Seagate Central. This will overcome second CPU problem by making
+both CPUs in the Seagate Central available for _all_ linux processes.
+
+If this new updgraded linux kernel is installed and running then the new version of
+samba can take advantage of both the CPU cores on the system and then in theory it 
+can be even more efficient than the original samba software.
 
 #### Memory
-My tests reveal that the new SAMBA service seems to consume significantly more system 
-memory than the original. Most recent versions of SAMBA will generally be quite
-memory hungry so this is not something unique to this project. 
+My tests reveal that the updated samba v4.14.6 software seems to consume significantly
+more system memory than the original v3.5.16. Most recent versions of SAMBA will
+generally be quite memory hungry so this is not something unique to this project. 
 
 As per the CPU issue, in practical terms this does not seem to significantly impact
 system performance. This is thanks to the Seagate Central having sufficent swap space
@@ -217,7 +199,7 @@ to cater for any temporary excessive memry usage.
 
 
 ### Motivation for this project
-My work supplied laptop currently runs Windows 10. After one particular work
+My work supplied laptop currently runs Windows 10. After one particular IT department
 mandated system update I was no longer able to connect to my Seagate Central NAS
 via the normal Windows Explorer file management tool.
 
@@ -230,7 +212,7 @@ I was still able to temporarily perform file transfers via FTP, which the Seagat
 Central supports, however this was less convinient than I was used to.
 
 After doing some research I was able to put together this guide to modifying the
-offending component of the Seagate Central, namely the outdate samba software. I 
+offending component of the Seagate Central, namely the outdated samba software. I 
 realise that this information is probably years too late to be of real help however
 I am uploading this information in conjunction with some other related projects
 centered on the Seagate Central which have taken me a long time to develop.
@@ -249,4 +231,4 @@ source code to make the Seagate Central relatively modifyable and serviceable by
 third parties. For this reason I am grateful to Seagate and if someone from the
 company is reading this note then I would be thrilled for them to take this work
 and make it the basis for an official update for the Seagate Central product.
-Naturally all the guidelines of the GPLv2 would need to be adhered to.
+Naturally all the guidelines of the GPLv2 would need to be adhered to. 
