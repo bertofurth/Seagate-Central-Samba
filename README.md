@@ -81,51 +81,73 @@ For Windows 10, you may need to manually reconfigure your client Windows 10
 system to allow connections to SMB v1.0 file services. There are plenty of in depth 
 instructions on the web however the main steps are summarized here.
 
-Launch the Control Panel applet "Turn Windows features on or off" (Windows + S,
-then search for "Turn Windows features on or off" and the applet should appear, 
+Launch the Control Panel applet **Turn Windows features on or off**
+(Windows + S, then search for "Turn Windows features on or off" and the applet should appear, 
 or Launch Control panel and find the applet in the "Programs and Features" tool)
 
-In the "Windows Features" app window that appears expand the "SMB 1.0/CIFS File 
-Sharing Support" folder and check the box next to 
-
-"SMB 1.0/CIFS Client"
+In the "Windows Features" app window that appears expand the **SMB 1.0/CIFS File 
+Sharing Support** folder and check the box next to **SMB 1.0/CIFS Client**
 
 Confirm the change by selecting "OK" at the bottom of the window. 
 
 You may be asked to reboot to enable the feature.
 
-These steps may not work if you have a client that is administered by your work or 
-school and they may have administratively prohibited the device from changing the
-device's settings to allow it to use less secure SMB v1.0. This was true in my case.
+These steps may not work if you have a Windows 10 system client that is
+administered by your work or school and they may have administratively prohibited
+changing the device's settings to allow it to use less secure SMB v1.0. This was 
+true in my case.
 
 This is why I've gone to the effort of putting together the steps for replacing 
-the default SAMBA server on the Seagate Central NAS with a new one.
+the default SAMBA server on the Seagate Central NAS with a new one. I didn't feel 
+like I should go out and buy a new file server device when I knew that the one 
+I had was perfectly capapble of serving my needs but for the want of a little
+tweaking.
 
+### Advantages of the new server
 
-NEW SAMBA SERVER
+#### SMBv2.0 and later support
+SMBv2.0 and later versions of SMB are more secure thatn SMB v1.0. This means that
+modern cleints should have noproblems interacting with the file server.
 
-Advantages : SMBv2 support. More secure. Works with modern systems like Windows 10.
-Much more configurable, albeit using the command line  rather than the web interface.
+#### Support for new features 
+The version of the SAMBA server in these instructions is not crippled in the same
+way that the one provided in the original firmware is. This means that the full
+array of features in the SAMBA server software may be configured, albeit via the
+command line rather than the web interface.
 
+### Disadvantages of the new server
+#### Second CPU
+In stock Seagate Central firmware, one CPU core is available for normal linux 
+processes to make use of and the other is reserved exclusively for the
+SAMBA file server.
 
-Disadvantages : Does NOT make use of second CPU when using stock Seagate Central firmware. Does make use of the second CPU when running Updated v4/v5 Seagate Central Kernel (see other post). This won't make much difference on a moderately loaded system.
+The original SAMBA software on the Seagate Central has custom modifications that
+allow it to make use of this second CPU core. This means that in the unlikely event 
+that the Seagate Central is overwhelmed by some other task, the file serving
+functionality will not be slowed down.
 
-Can consume significantly more memory than the original Samba service, although thanks to the swap memory configured on the device, this doesn't seem to impact the system operation.
+Unfortunately the version of SAMBA being built using these instructions is based
+on the generic SAMBA server software and will NOT make use of this second CPU core.
+This is because it does not contain the custom modifications that Seagate added to 
+their version of the SAMBA software.
 
+Given that the Seagate Central doesn't normally do anything except serve files, in my
+experience this doesn't make much of a practical difference in a home network
+environment where at most only a few clients are interacting with the NAS at any
+given time.
 
+Note that I have another project in the works that deals with upgrading the Linux 
+Kernel on the Seagate Central. This will overcome this CPU sharing problem by making
+both CPUs in the Seagate Central available for _all_ processes to make use of.
 
+#### Memory
+My tests reveal that the new SAMBA service seems to consume significantly more system 
+memory than the original. Most recent versions of SAMBA will generally be quite
+memory hungry and so this is not something unique to this project. 
 
-
-
-
-
-
-
-
-
-
-
-
+As per the CPU issue, in practical terms this does not seem to significantly impact
+system performance. Thanks to the Seagate Central having sufficent swap space there
+doesn't appear to be any problems.
 
 ![image](https://user-images.githubusercontent.com/53927348/127943946-869ad17f-236d-453d-b49f-11a80b78cb87.png)
 
