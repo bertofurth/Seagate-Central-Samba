@@ -32,11 +32,16 @@ of modification to their Seagate Central to try to understand each step
 before they apply it in order to reduce the chances of rendering their NAS
 device useless.
 
+Hopefully these instructions can also serve as a template for upgrading
+old SAMBA servers on other linux based embedded equipment. It should not 
+take much tuning of these instructions to be able to apply it to other
+similar devices.
+
 Finally, note that the Seagate Central has not received an official 
 firmware update since 2015 so the manufacturer will probably not be fixing
 this issue of their own accord! That being said, Seagate is to be 
-commended for making this product customizable enough for these 
-instructions to work.
+commended for making the Seagate Central product customizable enough for 
+these instructions to work.
 
 ### The problem this project tries to solve
 Many modern Windows 10 systems with the latest updates can no longer easily 
