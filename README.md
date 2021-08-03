@@ -20,16 +20,17 @@ more modern versions. For security reasons, many modern operating
 systems will not, by default, allow connections to file servers 
 using the SMBv1.0 protocol.
 
-This project seeks to provide a guide to cross-compile and install
-a new and replace the old version of samba software (V3.5.16 with
-Seagate specific customizations) with a more modern version of 
-samba software (v4.14.6) which supports the more secure and efficient
-versions of the SMB protocol (V2.1 and above).
+The version of samba software on the Seagate Central is an outdated
+version, v3.5.16.
 
-See the INSTRUCTIONS.md file in this project for the details.
+This project seeks to provide a guide to cross-compile and install
+a new version of samba software (v4.14.6) which supports the more
+secure and efficient versions of the SMB protocol (V2.1 and above)
+as well as new samba software features.
 
 For anyone who does not have the skill, resources or inclination to execute
-these instructions themselves, there is a set of pre-built binaries at
+these instructions themselves, there is a set of pre-built binaries that
+can be fairly easily installed on the Seagate Central available at
 
 INSERT LINK TO DROP BOX HERE
 
@@ -38,10 +39,11 @@ not without risk. Making the changes suggested in these instructions will
 likely void any warranty and may potentially lead to the device becoming 
 unuseable or damaged.**
 
-That being said I've peformed this upgrade on two seperate single bay
-Seagate Central systems and they are both working fine. It is also very
-simple to roll back the changes should they prove to be inneffective or
-have undesirable side effects.
+That being said I doubt that any Seagate Centrals are currently under 
+an kind of warranty. In addition I've peformed this upgrade on two
+seperate single bay Seagate Central systems and they are both working 
+fine. It is also very simple to roll back the changes should they
+prove to be inneffective or have undesirable side effects.
 
 I encourage anyone who is adventurous enough to attempt to this kind
 of modification to their Seagate Central to try to understand each step 
