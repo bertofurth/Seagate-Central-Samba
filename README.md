@@ -4,11 +4,35 @@ on the Seagate Central with a new more secure and configurable version of
 samba (v4.14.6) in order to solve problems with Windows 10, Linux and
 other modern clients not being able to connect to the Seagate Central.
 
-See INSTRUCTIONS.md for the guide and instructions.
+You can chose from three methods to accomplish this goal. Here they
+are ranging from hardest to easiest.
 
-Pre-compiled binaries are available for download at
+# INSTRUCTIONS_CROSS_COMPILE.md 
+Cross compile and install the replacement samba server from scratch.
+This is the most difficult and involved option but is the safest and
+most customizable.
 
-INSERT URL HERE
+# INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md
+Install pre-built or self-built samba binaries on the Seagate Central.
+This method involves installing the binaries built in the first set
+of instructions, or a set of pre-built binaries. It also involves
+manually altering the Seagate Central configuration to suit the
+new samba server. This is the method you should probably chose if
+you have already made significant custom modifications to your
+Seagate Central.
+
+Pre-compiled binaries are currently available at
+
+BERTO INSERT LINK HERE
+
+# INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md
+Create a custom Seagate Central firmware image and use the web
+management upgrade tool to install it. This option involves running
+an automated script that takes an existing Seagate Central firmware
+image and the samba binaries as it's input. The script modifies the
+supplied Seagate Central firmware image to include the samba binaries,
+appropriate configuration, and other information. The resultant image
+can be used to upgrade the Seagate Central via the web management interface.
 
 ### Summary
 Many Windows 10, Linux and other modern clients may have difficulty
@@ -33,22 +57,17 @@ secure and efficient versions of the SMB protocol (V2.1 and above)
 as well as new samba software features. This new version of samba
 does not, by default, support SMBv1.0.
 
-For anyone who does not have the skill, resources or inclination to execute
-these instructions themselves, there is a set of pre-built binaries that
-can be fairly easily installed on the Seagate Central available at
-
-INSERT LINK TO DROP BOX HERE
-
 **NOTE : Performing modifications of this kind on the Seagate Central is 
 not without risk. Making the changes suggested in these instructions will 
 likely void any warranty and may potentially lead to the device becoming 
 unuseable or damaged.**
 
-That being said I doubt that any Seagate Centrals are currently under 
-any kind of warranty due to their age. In addition I've peformed this 
-upgrade on two seperate single bay Seagate Central systems and they 
-are both working fine. It is also very simple to roll back the changes 
-should they prove to be inneffective or have undesirable side effects.
+That being said I doubt that as I write this note in 2021 that any
+Seagate Centrals are currently under any kind of warranty due to their
+age. In addition I've peformed this upgrade on two seperate single 
+bay Seagate Central systems and they are both working fine. It is also
+not too difficult to roll back the changes should they prove to be
+inneffective or have undesirable side effects.
 
 I encourage anyone who is adventurous enough to attempt to this kind
 of modification to their Seagate Central to try to understand each step 
