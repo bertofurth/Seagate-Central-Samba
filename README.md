@@ -5,7 +5,8 @@ samba (v4.14.6) in order to solve problems with Windows 10, Linux and
 other modern clients no longer being able to connect to the Seagate
 Central using the old and insecure SMBv1.0 protocol.
 
-You can chose from three methods to accomplish this goal. Here they
+There are three sets of instructions included in this project that 
+describe three different methods to accomplish this goal. Here they
 are ranging from hardest to easiest.
 
 ### INSTRUCTIONS_CROSS_COMPILE.md 
@@ -15,33 +16,40 @@ This is the most difficult and involved option but compiling your own
 version of samba is the best way to ensure that you are getting a safe
 and untarnished product for your Seagate Central system. 
 
-That being said, this option may not be for everyone as it takes a
-number of hours and and will likely take a number of hours and a moderate to
-advanced level of technical knowledge to complete.
+The process involves running a number of scripts which ideally will
+execute seamlessly and without error. Unfortunately there is a 
+significant chance that the process may require tweaking to suit
+different systems and therefore might require some understanding of
+the cross compilation process if anything goes wrong.
 
 ### INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md
-Install pre-built or self-built samba binaries on the Seagate Central.
 This method involves installing the binaries built in the first set
-of instructions, or a set of pre-built binaries. It also involves
+of instructions, or using a set of pre-built binaries. It also involves
 manually altering the Seagate Central configuration to suit the
 new samba server. This is the method of installation you should 
-probably chose if you have already made significant custom 
-modifications to your Seagate Central.
+probably chose if you have already installed custom software or 
+modified the settings on the Seagate Central using the command line
+rather than the web management interface. 
 
 Pre-compiled binaries are currently available at
 
 BERTO INSERT LINK HERE
 
 ### INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md
-Create a custom Seagate Central firmware image and use the web
-management upgrade tool to install it. This option involves running
-an automated script that takes an existing official Seagate Central
-firmware image and the samba binaries as it's input. The script modifies
-the supplied Seagate Central firmware image to include the samba binaries,
-appropriate configuration, and other information. The resultant image
-can be used to upgrade the Seagate Central via the web management interface.
+This option involves running an automated script that takes an existing 
+official Seagate Central firmware image and the samba binaries as it's 
+input. The script modifies the supplied Seagate Central firmware image 
+to include the samba binaries, appropriate configuration, and other 
+information. The resultant image can be used to upgrade the Seagate 
+Central via the web management interface.
 
-## Summary
+The disadvantage of this method is that if you've already made custom
+modifications to your Seagate Central, such as manually installing other
+cross compiled software or tweaking the configuration using the command
+line rather than the web management interface, then this method might
+overwrite those changes unless special care is taken.
+
+## Details
 Many Windows 10, Linux and other modern clients may have difficulty
 connecting to the Seagate Central NAS file server. This is because the
 file serving samba v3.5.16 software installed on the Seagate Central uses 
@@ -88,7 +96,7 @@ similar ARM based devices running outdated samba software.
 
 Finally, note that the Seagate Central has not received an official 
 firmware update since 2015 so the manufacturer will probably not be
-providing any resolution of the mentioned issues. That being said,
+providing any resolution of the SMBv1.0 issues. That being said,
 Seagate is to be commended for making the Seagate Central product 
 customizable and open enough for these instructions to work.
 
@@ -105,15 +113,15 @@ you may see an error message similar to the following
     Error code: 0x80070035
     The network path was not found.
 
-If you try to connect to the NAS using a Windows command line tool such
-as **net view** an error message similar to the following may be generated
+If you try to probe the status of the NAS using a Windows command line tool
+such as **net view** an error message similar to the following may be generated
 
     PS C:\WINDOWS\system32> net view \\10.0.2.199
     System error 53 has occurred.
 
     The network path was not found.
 
-A similar problem can occur for modern Linux based client systems as well.
+The same problem can occur for modern Linux based client systems as well.
 When trying to mount a Seagate Central NAS drive an error message similar to 
 the following may appear
 
@@ -124,13 +132,13 @@ the following may appear
     mount error(112): Host is down
     Refer to the mount.cifs(8) manual page (e.g. man mount.cifs) and kernel log messages (dmesg)
 
-As mentioned, these problems arise because the Seagate Central's native 
-samba software allows connections using SMBv1.0 which has a number of known
-security vulnerabilities.
+This problem arises because modern versions of the cifs tools, which allow
+linux systems to connect to samba NAS devices, do not by default use the SMBv1.0
+protocol.
 
-The version of samba software on the Seagate Central, v3.5.16, does in 
-theory suport disabling SMBv1.0 and using only SMBv2.1 however in practise
-it doesn't work well. Versions of samba software v4.x and later are generally
+The version of samba software on the Seagate Central, v3.5.16, does in theory 
+suport manually disabling SMBv1.0 and using only SMBv2.1 however in practise 
+it doesn't work well. Versions of samba software v4.x and later are generally 
 considered to support SMBv2.1 and higher properly. Samba versions v4.13 and 
 higher deprecate support for much of SMBv1.0.
 
