@@ -21,8 +21,19 @@ instructions should work for other Seagate Central configurations and
 firmware versions.
 
 ## Prequisites 
+### Have a cross compilation suite
+You can follow the instructions at
 
-THIS IS ONLY FOR MANUAL INSTALLATION
+https://github.com/bertofurth/Seagate-Central-Toolchain
+
+to generate a cross compilation suite that will generate binaries
+suitable for the Seagate Central.
+
+Note that an alternative approach would be to install gcc and other
+build tools on the Seagate Central itself however the Seagate Central
+is orders of magnitude slower than most modern PCs. It would mean 
+that compiling something like this project on a Seagate Central could
+take in the order of an entire day.
 
 ### Know how to copy files between your build host and the Seagate Central. 
 Ideally you'll know how to transfer files between the build host and the
@@ -68,14 +79,15 @@ Archive : https://archive.ph/rg39t
 
 BERTO : CREATE A SCRIPT TO DO THIS AUTOMATICALLY
 
-### Do not perform this procedure as the root user
-Some of the libraries being used in this procedure have flaws
-that cause the "make install" component of the build process
-try to overwrite parts of the building system's library
-directories regardless of how they are configured.
+### Do not perform this procedure as the root user on the build machine
+Some versions of the libraries being used in this procedure have flaws
+that cause the "make install" component of the build process try to 
+overwrite parts of the building system's library directories regardless
+of how they are configured.
 
 For this reason it is **imperative** that you are not performing
-this procedure as root.
+this procedure as root on the build machine otherwise important 
+components of your build system machine may be overwritten.
 
 The only time during this procedure you should be acting as the 
 root user on the build system is if you are deliberately installing 
@@ -84,16 +96,17 @@ See the next pre-requisite for details.
 
 ### Build host 
 As you perform the steps in this guide you will have to make sure that
-your build host has appropriate software installed. You may encounter
-error messages during the process complaining about missing commands 
-or tools. Hopefully it won't be too onerous to figure out how to work
-your package management system in order to install them.
+your build host has appropriate software installed. 
 
 OpenSUSE Tumbleweed
-
+zypper install -t pattern devel_basis
+gcc-c++
+BERTO THERES MORE
 
 Debian 
-BERTO BERTO
+build-essential
+BERTO THERES MORE
+
 
 
 
