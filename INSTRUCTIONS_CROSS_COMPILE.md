@@ -95,26 +95,34 @@ See the next pre-requisite for details.
 
 ### Required software on build host
 As you perform the steps in this guide you will have to make sure that
-your build host has appropriate software packages installed. I found that
-I had to install the following packages and their preequisites on a basic
-system to get the build working.
+your build host has appropriate software packages installed. 
+
+The following packages or their equivalents need to be installed on
+a "fresh" system.
 
 #### OpenSUSE Tumbleweed (Aug 2021)
-zypper install -t pattern devel_basis
-gcc-c++
-lzip
-libgnutls-devel
-perl
-perl-Parse-Yapp
-rpcgen
+* zypper install -t pattern devel_basis
+* gcc-c++
+* lzip
+* libgnutls-devel
+* perl
+* perl-Parse-Yapp
+* rpcgen
 
 
 
 BERTO THERES MORE
 
 #### Debian 10 (Buster)
-build-essential
-BERTO THERES MORE
+    build-essential 
+    lunzip
+    m4
+    pkg-config
+    python3-distutils
+    zlib1g-dev
+    flex
+    libgnutls28-dev
+    libparse-yapp-perl
 
 
 ## Procedure
@@ -223,13 +231,12 @@ not used in the compilation process.
 ### Customize the scripts
 Change back to the base working directory and edit the ....
 BERTO Edit build-samba-common to setup parameters
+BERTO
 
 
 ### Run the build scripts in order
 The build scripts are named in the numerical order that they need to be
-executed.
-
-Here is the current order.
+executed. 
 
     ./build-samba-01-gmp.sh
     ./build-samba-02-nettle.sh
@@ -240,8 +247,10 @@ Here is the current order.
     ./build-samba-07-samba-host-tools.sh
     ./build-samba-08-samba.sh
 
-My suggestion is to not blindly execute all the scripts. You need to check 
-to ensure that each script reports success before executing the next script.
+My suggestion is to not blindly execute all the scripts at once or from 
+another script unless you're confident that the build will work. You need
+to check to ensure that each script reports success before executing the
+next script.
 
 Assuming everything works correctly the scripts will take about 
 
@@ -322,6 +331,11 @@ If you encounter problems compiling the samba component then make sure to
 always have a clean source tree at the start of each build. This means
 deleting the samba source directory and then re-expanding the samba tar 
 archive to generate a fresh new samba source directory.
+
+It's worth mentioning that some of the libraries, especially gnutls, will
+generate a very large volume of warning messages during compilation.
+These are nothing to worry about. As long as the success message is printed
+at the end of each script there should be no problems.
 
 Cross compiling samba is difficult and there are a lot of articles and posts
 that detail the trouble people have had with this process so hopefully by 
