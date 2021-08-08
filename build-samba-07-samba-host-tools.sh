@@ -17,8 +17,10 @@ change_into_obj_directory
 configure_it --without-systemd \
 	     --disable-python --without-ad-dc \
 	     --with-shared-modules='!vfs_snapper' \
-	     --without-pam
-
+	     --without-pam \
+	     --without-libarchive \
+	     --without-json \
+	     --without-acl-support
 make asn1_compile
 if [ $? -ne 0 ]; then
     echo
