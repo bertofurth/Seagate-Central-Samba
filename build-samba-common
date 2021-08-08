@@ -1,0 +1,154 @@
+#
+# This file should not be executed, instead it should be
+# "source"ed by each of the build scripts.
+
+# Please check each variable definition to make sure it aligns
+# with your needs.
+
+#
+# The location of the root of the cross compiling tool suite
+# on the compiling host (CROSS), and the location of the
+# binaries (usually $CROSS/tools/bin).
+#
+# Make sure to use an absolute path and not the ~ or . symbols.
+#
+CROSS=$HOME/SC-cross-inuse/cross
+# BERTO
+TOOLS=$CROSS/tools/bin
+
+#
+# Set the number of threads to use when compiling.
+#
+# Generally set equal to or less than the number of CPU
+# cores on the building machine. Set to 1 when
+# troubleshooting.
+#
+J=6
+
+#
+# Set the prefix name of the cross compiling toolkit. This
+# will likely be something like arm-vz-linux-gnueabi- 
+#
+export CROSS_COMPILE=arm-vz-linux-gnueabi-
+
+#
+# It's not likely that any of the values below need to
+# be changed
+#
+
+#
+# The directory on the compiling host where binaries and
+# other generated files will be temporarily installed
+# before being copied to the Seagate Central.
+#
+# This is different to DEST which is where the generated
+# files need to be copied to on the Seagate Central.
+#
+BUILDHOST_DEST=$(pwd)/binaries
+
+#
+# The directory where the final product will be installed on
+# the target device (i.e. on the Seagate Central). This should
+# probably be left as /usr/local
+#
+# Note 1 : This is NOT the place where the resultant binaries
+# and libraries will be temporarily copied to on the compiling
+# host (see BUILDHOST_DEST).
+#
+# Note 2: The main purpose of this variable is to set the
+# elf attribute DT_RPATH (set to $DEST/lib) in generated binaries.
+# This attribute lets the generated binary know where to access
+# the other generated shared libraries that we produce in this
+# project.
+#
+DEST=/usr/local
+
+#
+# Specify a directory containing the native library files as
+# copied from the Seagate Central.
+#
+# From the Seagate central copy /lib/* and /usr/lib/* to this
+# directory. Also copy /usr/include/* along with subdirectories.
+#
+# Make sure to edit usr/lib/libc.so and usr/lib/libpthread.so to
+# remove the absolute path names. 
+#
+SEAGATE_LIBS_BASE=$(pwd)/sc-libs
+
+#
+# Sets the name of the individual cross compiling tools. 
+#
+export CC=$CROSS_COMPILE"gcc"
+export CPP=$CROSS_COMPILE"cpp"
+export LD=$CROSS_COMPILE"ld"
+export CXX=$CROSS_COMPILE"g++"
+export RANLIB=$CROSS_COMPILE"ranlib"
+export AR=$CROSS_COMPILE"ar"
+
+#
+# Nothing below this point should normally need to be edited.
+#
+
+#
+# Ensure that the cross compiler tools being used are
+# in the PATH and get executed before any native tools.
+
+export PATH=$TOOLS:$PATH
+
+# LDFLAGS sets parameters for the linker program. -L parameters tell
+# the linker where to find libraries while linking and the
+# -rpath-link parameters tells the linker where to search for
+# libraries that are needed by the other libraries that are linked
+# to.
+#
+export LDFLAGS="-L$BUILDHOST_DEST/$DEST/lib -L$SEAGATE_LIBS_BASE/lib \
+       -L$SEAGATE_LIBS_BASE/usr/lib \
+       -Wl,-rpath-link=$BUILDHOST_DEST/$DEST/lib \
+       -Wl,-rpath-link=$SEAGATE_LIBS_BASE/lib  \
+       -Wl,-rpath-link=$SEAGATE_LIBS_BASE/usr/lib"
+
+#
+# Append the verbose flag to LDFLAGS if linker debugging is required.
+#
+#export LDFLAGS="$LDFLAGS -Wl,--verbose"
+
+# 
+# We can add an option to the linker flags in order to
+# specify a location for the crt*.o files needed by the
+# linker, namely
+# crt1.o, crti.o, crtbegin.o, crtend.o and crtn.o
+#
+# See https://dev.gentoo.org/~vapier/crt.txt for the
+# significance of these files
+#
+# It's not likely that this is needed.
+#
+#export LDFLAGS=$LDFLAGS" -B$SEAGATE_LIBS_BASE/usr/lib"
+
+#
+# The Seagate Central uses a 64K (0x10000) page size which
+# differs from the typical case of 4K pages. Specifying the
+# following linker flags helps to optimize in this case.
+#
+# https://stackoverflow.com/questions/19651735/linux-application-get-killed
+#
+export LDFLAGS="$LDFLAGS -Wl,-z,max-page-size=0x10000 -Wl,-z,common-page-size=0x10000 -Wl,-Ttext-segment=0x10000"
+
+#
+# Locations of header files defining functions and other
+# parameters.
+#
+# Make sure to rename or delete
+# $SEAGATE_LIBS_BASE/usr/include/md5
+#
+export NOSTDINC_FLAGS="-I$BUILDHOST_DEST/$DEST/include \
+       -I$SEAGATE_LIBS_BASE/usr/include"
+
+
+#
+# The Seagate Central Cavium CNS3420 CPU uses the armv6k
+# architecture
+#
+export CFLAGS="$NOSTDINC_FLAGS -march=armv6k"
+export CPPFLAGS=$CFLAGS
+export ARCH=arm-linux

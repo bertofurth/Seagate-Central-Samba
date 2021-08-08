@@ -1,0 +1,89 @@
+#
+# This file should not be executed, instead it should be
+# "source"d by each of the build scripts.
+#
+# Make sure that the file containing all the common variable
+# definitions have been sourced
+#
+export TOP=$(pwd)
+export OBJ=obj/
+
+check_source_dir()
+{
+	# Automatically try to find a source directory
+	# that matches the 
+        if [ -z $LIB_NAME ]; then
+	   LIB_NAME=$(ls -1drv $1*/ | cut -f1 -d'/' | head -1)
+        fi 
+	
+	if [ -z $LIB_NAME ]; then	
+	   echo
+	   echo Unable to find source directory for $1
+	   echo Has the source code been decompressed?
+	   exit -1
+	fi
+
+        echo Using $LIB_NAME as source directory.
+	echo
+	if [ ! -d $LIB_NAME ]; then
+	   echo Can\'t find $LIB_NAME source directory.
+	   echo Make sure that the source code is decompressed
+	   exit -1
+	fi
+}
+
+change_into_obj_directory()
+{
+        mkdir -p $OBJ$LIB_NAME
+	cd $OBJ$LIB_NAME
+	if [ $? -ne 0 ]; then
+	   echo
+	   echo Can\'t change to $OBJ/$LIB_NAME directory
+	   echo to compile library.
+	   exit -1
+	fi	
+}
+
+configure_it()
+{
+	$TOP/$LIB_NAME/configure "$@"
+	if [ $? -ne 0 ]; then
+    	   echo   
+           echo configure for $LIB_NAME failed. Exiting
+	   exit -1
+	fi	
+}
+
+make_it()
+{
+#
+# Add -d V=1 -j1 to make options for debugging
+#
+	make -j$J
+	if [ $? -ne 0 ]; then
+    	   echo
+           echo make for $LIB_NAME failed. Exiting
+	   exit -1
+	fi	
+}
+
+install_it()
+{
+	make DESTDIR=$BUILDHOST_DEST install
+	if [ $? -ne 0 ]; then
+    	   echo   
+           echo make install of $LIB_NAME to $BUILDHOST_DEST Failed. Exiting
+	   exit -1
+	fi	
+}
+
+finish_it()
+{
+        echo
+	echo "****************************************"
+	echo 
+	echo "Success! Finished installing $LIB_NAME to $BUILDHOST_DEST"
+	echo
+	echo "****************************************"
+	echo
+}
