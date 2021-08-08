@@ -5,17 +5,22 @@ Instructions for cross compiling samba v4.14.6 for the Seagate Central NAS
 This is a guide that describes how to cross compile replacement samba
 software suitable for installation on a Seagate Central NAS device.
 
-Installation of the cross compiled software is covered in both
+Installation of the cross compiled software is covered by
 
-INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md
+**INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md**
 
 and
 
-INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md
+**INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md**
 
-in this directory.
+This procedure has been tested to work on the following building
+platforms
 
-These instructions were tested with a Seagate Central Single Drive NAS 
+* OpenSUSE Tumbleweed (Aug 2021) on x86  gcc v11.1 make 4.3
+* OpenSUSE Tumbleweed (Aug 2021) on Raspberry Pi 4B  gcc v11.1 make 4.3
+* Debian 10 (Buster) on x86  gcc 8.3.0 make 4.2.1
+
+The target platform tested was a Seagate Central Single Drive NAS 
 running firmware version 2015.0916.0008-F however I believe these
 instructions should work for other Seagate Central configurations and
 firmware versions.
@@ -27,8 +32,8 @@ space during the build process and will generate about 85MiB of finished
 product. 
 
 ### Time
-The build components take a total of about 10 minutes to complete on an 
-8 core i7 PC. It takes about 1 hour on a Raspberry Pi 4B.
+The build takes a total of about 7 minutes to complete on an 
+8 core i7 PC. The build takes about 1 hour on a Raspberry Pi 4B.
 
 ### A cross compilation suite on a build host
 You can follow the instructions at
@@ -39,8 +44,8 @@ to generate a cross compilation suite that will generate binaries,
 headers and other data suitable for the Seagate Central.
 
 Note that an alternative approach would be to install gcc and other
-build tools on the Seagate Central itself and perform the process on
-the Seagate Central however the Seagate Central is an order of magnitude
+build tools on the Seagate Central itself and perform the build process 
+on the Seagate Central however the Seagate Central is an order of magnitude
 slower than most modern PCs. It would mean that compiling something like 
 this project on a Seagate Central could take many hours to complete.
 
@@ -49,6 +54,8 @@ Not only should you know how to transfer files to and from your Seagate
 Central NAS and the build host, ideally you'll know how to transfer files 
 **even if the samba service is not working**. I would suggest
 that if samba is not working to use FTP or SCP which should both still work.
+
+BERTO THIS IS ONLY FOR INSTALLATION 
 
 ### Have ssh access to the Seagate Central.
 You'll need ssh access to issue commands on the Seagate Central command 
