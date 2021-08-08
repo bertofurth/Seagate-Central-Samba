@@ -360,7 +360,8 @@ The vast majority of problems will be due to
 
  * A needed build system component has not been installed.
  * The "Special library and header customizations" step was skipped.
- * Weird issues with the samba in-tree build system
+ * A previous build step was not completed succesfully.
+ * Weird issues with the samba in-tree build system.
 
 If you encounter problems compiling the samba component then make sure to 
 always have a clean source tree at the start of each build. This means
@@ -371,6 +372,10 @@ It's worth mentioning that some of the libraries, especially gnutls, will
 generate a very large volume of warning messages during compilation.
 These are nothing to worry about. As long as the success message is printed
 at the end of each script there should be no problems.
+
+The "configure" stages of the build are where things will most likely go
+wrong. In this case it is useful to view the configure log which will be 
+located at obj/<src-dir>/config.log or for samba <src-dir>/bin/config.log
 
 Cross compiling samba is difficult and there are a lot of articles and posts
 that detail the trouble people have had with this process so hopefully by 
