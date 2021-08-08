@@ -48,7 +48,7 @@ J=6
 # This is different to DEST which is where the generated
 # files need to be copied to on the Seagate Central.
 #
-BUILDHOST_DEST=$(pwd)/binaries
+BUILDHOST_DEST=$(pwd)/cross
 
 #
 # The directory where the final product will be installed on
