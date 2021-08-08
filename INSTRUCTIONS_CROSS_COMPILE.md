@@ -21,13 +21,22 @@ instructions should work for other Seagate Central configurations and
 firmware versions.
 
 ## Prequisites 
+### Disk space
+This procedure will take up to a maximum of just under 850MiB of disk
+space during the build process and will generate about 85MiB of finished
+product. 
+
+### Time
+The build components take a total of about 10 minutes to complete on an 
+8 core i7 PC. It takes about 1 hour on a Raspberry Pi 4B.
+
 ### A cross compilation suite on a build host
 You can follow the instructions at
 
 https://github.com/bertofurth/Seagate-Central-Toolchain
 
-to generate a cross compilation suite that will generate binaries
-suitable for the Seagate Central.
+to generate a cross compilation suite that will generate binaries,
+headers and other data suitable for the Seagate Central.
 
 Note that an alternative approach would be to install gcc and other
 build tools on the Seagate Central itself and perform the process on
@@ -100,29 +109,25 @@ your build host has appropriate software packages installed.
 The following packages or their equivalents need to be installed on
 a "fresh" system.
 
-#### OpenSUSE Tumbleweed (Aug 2021)
-* zypper install -t pattern devel_basis
-* gcc-c++
-* lzip
-* libgnutls-devel
-* perl
-* perl-Parse-Yapp
-* rpcgen
-
-
-
-BERTO THERES MORE
-
-#### Debian 10 (Buster)
+#### OpenSUSE Tumbleweed - Aug 2021 (zypper add ...)
+    zypper install -t pattern devel_basis
+    gcc-c++
+    lzip
+    libgnutls-devel
+    perl
+    perl-Parse-Yapp
+    rpcgen
+    
+#### Debian 10 - Buster (apt-get install ...)
     build-essential 
     lunzip
+    libgnutls28-dev
+    libparse-yapp-perl
     m4
     pkg-config
     python3-distutils
     zlib1g-dev
     flex
-    libgnutls28-dev
-    libparse-yapp-perl
 
 
 ## Procedure
@@ -137,9 +142,10 @@ for each component and installing it into the working base directory.
 Here we show the versions of software used when generating this guide. 
 Download these using **wget**, **curl -O** or a similar tool. I've 
 used the latest versions of these libraries available as of the writing 
-of this guide unless a specific older version needs to be used in which 
-case I've made a note.
+of this guide, however where a specific older version needs to be used
+I've made a note.
 
+BERTO BETTER DOWNLOAD MIRRORS? http://mirrors.kernel.org/gnu/gcc/gcc-11.2.0/gcc-11.2.0.tar.xz
 * gmp-6.2.1  
 https://gmplib.org/download/gmp/gmp-6.2.1.tar.lz
 
@@ -195,20 +201,15 @@ the required lib, usr/lib, and usr/include sub directories.
     cd sc-libs
     mkdir -p lib usr/lib usr/include 
     
-Copy over the binaries from the Seagate Central /lib directoryusing the
-name of a valid user on your Segate Central. In these examples we use the
-"admin" user. Note that after execution of this command you'll be prompted 
-for the user's password.
+In these example we use the "admin" user to copy files from the Seagate
+Central. After executing each scp command you'll be prompted for the
+password for that username on teh Seagate Central. 
+
+Note that when copying the include files the "-r" option is used to
+copy the sub directories as well.
 
     scp admin@NAS-1.lan:/lib/* ./lib/
-   
-Next copy over the libraries in the /usr/lib directory
-
     scp admin@NAS-1.lan:/usr/lib/* ./usr/lib
-
-Finally copy over the header include files. Note the -r parameter in scp to
-copy subdirectories as well.
-    
     scp -r admin@NAS-1.lan:/usr/include/* usr/include/
    
 ### Special library and header customizations   
@@ -229,10 +230,35 @@ not used in the compilation process.
     mv -f usr/include/md5.h usr/include/md5.h.orig
 
 ### Customize the scripts
-Change back to the base working directory and edit the ....
-BERTO Edit build-samba-common to setup parameters
-BERTO
+Change back to the base working directory and edit the variables
+at the top of the **build-samba-common** file to suit your build
+environment.
 
+    #
+    # Set the prefix name of the cross compiling toolkit. This
+    # will likely be something like arm-XXX-linux-gnueabi-
+    # Normally this will have a dash at the end.
+    #
+    export CROSS_COMPILE=arm-sc-linux-gnueabi-
+    
+    #
+    # The location of the root of the cross compiling tool suite
+    # on the compiling host (CROSS), and the location of the
+    # binaries (TOOLS).
+    #
+    # Make sure to use an absolute path and not the ~ or . symbols.
+    #
+    CROSS=$HOME/Seagate-Central-Toolchain/cross
+    TOOLS=$CROSS/tools/bin
+    
+    #
+    # Set the number of threads to use when compiling.
+    #
+    # Generally set equal to or less than the number of CPU
+    # cores on the building machine. Set to 1 when
+    # troubleshooting.
+    #
+    J=6
 
 ### Run the build scripts in order
 The build scripts are named in the numerical order that they need to be
@@ -249,13 +275,15 @@ executed.
 
 My suggestion is to not blindly execute all the scripts at once or from 
 another script unless you're confident that the build will work. You need
-to check to ensure that each script reports success before executing the
-next script.
-
-Assuming everything works correctly the scripts will take about 
+to check to ensure that each script reports success as per the example
+below before executing the next script.
 
 
-PC 5 mins for first 7 components Another 5 for the last samba build
+    ****************************************
+    
+    Success! Finished installing gmp-6.2.1 to /home/berto/Seagate-Central-Samba/cross
+    
+    ****************************************
 
 
 
