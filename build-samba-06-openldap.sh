@@ -6,7 +6,7 @@ check_source_dir "openldap"
 # Copy ldap header files available in the source code
 # to the target directory
 #
-cp $LIB_NAME/include/lber.h \
+cp -n $LIB_NAME/include/lber.h \
    $LIB_NAME/include/ldap.h \
    $LIB_NAME/include/ldap_cdefs.h \
    $LIB_NAME/include/ldap_schema.h \
@@ -21,6 +21,7 @@ fi
 
 change_into_obj_directory
 configure_it --prefix=$DEST --host=$ARCH \
+	     --build=arm-unknown-linux \
 	     --with-yielding_select=no \
 	     --disable-slapd \
 	     --disable-syncprov \
@@ -38,7 +39,7 @@ if [ $? -ne 0 ]; then
     echo make depend for $LIB_NAME failed. Exiting
     exit -1
 fi
-cp include/lber_types.h \
+cp -n include/lber_types.h \
    include/ldap_config.h \
    include/ldap_features.h \
    $BUILDHOST_DEST/$DEST/include
