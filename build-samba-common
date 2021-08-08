@@ -6,9 +6,16 @@
 # with your needs.
 
 #
+# Set the prefix name of the cross compiling toolkit. This
+# will likely be something like arm-XXX-linux-gnueabi-
+# Normally this will have a dash at the end.
+#
+export CROSS_COMPILE=arm-sc-linux-gnueabi-
+
+#
 # The location of the root of the cross compiling tool suite
 # on the compiling host (CROSS), and the location of the
-# binaries (usually $CROSS/tools/bin).
+# binaries (TOOLS).
 #
 # Make sure to use an absolute path and not the ~ or . symbols.
 #
@@ -24,12 +31,6 @@ TOOLS=$CROSS/tools/bin
 #
 J=6
 
-#
-# Set the prefix name of the cross compiling toolkit. This
-# will likely be something like arm-XXX-linux-gnueabi-
-# Normally this will have a dash at the end.
-#
-export CROSS_COMPILE=arm-sc-linux-gnueabi-
 
 
 # *****************************************************
