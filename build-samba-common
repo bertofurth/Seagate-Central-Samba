@@ -1,6 +1,6 @@
 #
 # This file should not be executed, instead it should be
-# "source"ed by each of the build scripts.
+# sourceed by each of the build scripts.
 
 # Please check each variable definition to make sure it aligns
 # with your needs.
@@ -12,8 +12,7 @@
 #
 # Make sure to use an absolute path and not the ~ or . symbols.
 #
-CROSS=$HOME/SC-cross-inuse/cross
-# BERTO
+CROSS=$HOME/Seagate-Central-Toolchain/cross
 TOOLS=$CROSS/tools/bin
 
 #
@@ -27,14 +26,18 @@ J=6
 
 #
 # Set the prefix name of the cross compiling toolkit. This
-# will likely be something like arm-vz-linux-gnueabi- 
+# will likely be something like arm-XXX-linux-gnueabi-
+# Normally this will have a dash at the end.
 #
-export CROSS_COMPILE=arm-vz-linux-gnueabi-
+export CROSS_COMPILE=arm-sc-linux-gnueabi-
 
-#
+
+# *****************************************************
+# *****************************************************
 # It's not likely that any of the values below need to
 # be changed
-#
+# *****************************************************
+# *****************************************************
 
 #
 # The directory on the compiling host where binaries and
