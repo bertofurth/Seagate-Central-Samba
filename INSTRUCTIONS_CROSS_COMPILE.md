@@ -95,14 +95,24 @@ See the next pre-requisite for details.
 
 ### Required software on build host
 As you perform the steps in this guide you will have to make sure that
-your build host has appropriate software packages installed. 
+your build host has appropriate software packages installed. I found that
+I had to install the following packages and their preequisites on a basic
+system to get the build working.
 
-#### OpenSUSE Tumbleweed
+#### OpenSUSE Tumbleweed (Aug 2021)
 zypper install -t pattern devel_basis
 gcc-c++
+lzip
+libgnutls-devel
+perl
+perl-Parse-Yapp
+rpcgen
+
+
+
 BERTO THERES MORE
 
-#### Debian 
+#### Debian 10 (Buster)
 build-essential
 BERTO THERES MORE
 
@@ -114,16 +124,13 @@ build machine. This will be referred to as the base working
 directory going forward.
 
 The next part of the procedure involves gathering the source code 
-for each component and installing it into the src subdirectory of
-our workspace. First, ensure that this directory exists.
-
-    mkdir -p src
+for each component and installing it into the working base directory.
 
 Here we show the versions of software used when generating this guide. 
-Download these to the src directory using **wget**, **curl -O** or
-a similar tool. I've used the latest versions available as of the
-writing of this guide unless a specific older version needs to be
-used in which case I've made a note.
+Download these using **wget**, **curl -O** or a similar tool. I've 
+used the latest versions of these libraries available as of the writing 
+of this guide unless a specific older version needs to be used in which 
+case I've made a note.
 
 * gmp-6.2.1  
 https://gmplib.org/download/gmp/gmp-6.2.1.tar.lz
@@ -151,7 +158,6 @@ Extract each file with the **tar -xf** command.
 Here is an example of the commands used to download and extract these
 source code archives
 
-    cd src
     wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.lz
     tar -xf gmp-6.2.1.tar.lz
     wget https://ftp.gnu.org/gnu/nettle/nettle-3.3.tar.gz
@@ -181,15 +187,16 @@ the required lib, usr/lib, and usr/include sub directories.
     cd sc-libs
     mkdir -p lib usr/lib usr/include 
     
-Copy over the binaries from the Seagate Central /lib directory. In these
-examples we use the "admin" user but any user should suffice. Note that 
-after execution of this command you'll be prompted for the user's password.
+Copy over the binaries from the Seagate Central /lib directoryusing the
+name of a valid user on your Segate Central. In these examples we use the
+"admin" user. Note that after execution of this command you'll be prompted 
+for the user's password.
 
     scp admin@NAS-1.lan:/lib/* ./lib/
    
 Next copy over the libraries in the /usr/lib directory
 
-    scp admin@NAS-1.lan:/usr/lib/* ./lib/usr/
+    scp admin@NAS-1.lan:/usr/lib/* ./usr/lib
 
 Finally copy over the header include files. Note the -r parameter in scp to
 copy subdirectories as well.
@@ -201,7 +208,7 @@ After the libraries and headers are copied over we need to make a slight
 modification to **usr/lib/libc.so** and **usr/lib/libpthread.so**. These
 files contain the names of other libraries but they contain absolute
 paths that will not work in our build environment. To remove these
-absolute paths run the following commands.
+absolute paths run the following commands in the sc-libs directory.
 
     sed -i.orig -e 's/\(\/lib\/\|\/usr\/lib\/\)//g' usr/lib/libc.so
     sed -i.orig -e 's/\(\/lib\/\|\/usr\/lib\/\)//g' usr/lib/libpthread.so
@@ -212,6 +219,11 @@ We also need to rename the **usr/include/md5.h** header file so that it is
 not used in the compilation process.
 
     mv -f usr/include/md5.h usr/include/md5.h.orig
+
+### Customize the scripts
+Change back to the base working directory and edit the ....
+BERTO Edit build-samba-common to setup parameters
+
 
 ### Run the build scripts in order
 The build scripts are named in the numerical order that they need to be
@@ -234,7 +246,8 @@ to ensure that each script reports success before executing the next script.
 Assuming everything works correctly the scripts will take about 
 
 
-5 mins for first 7 components 
+PC 5 mins for first 7 components Another 5 for the last samba build
+
 
 
 #### tar and copy over 
@@ -311,5 +324,6 @@ deleting the samba source directory and then re-expanding the samba tar
 archive to generate a fresh new samba source directory.
 
 Cross compiling samba is difficult and there are a lot of articles and posts
-that detail the trouble people have had with this process. 
+that detail the trouble people have had with this process so hopefully by 
+following this guide you will avoid most of those problems.
 
