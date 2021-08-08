@@ -20,7 +20,9 @@ configure_it --without-systemd \
 	     --without-pam \
 	     --without-libarchive \
 	     --without-json \
-	     --without-acl-support
+	     --without-acl-support \
+	     --without-ldap \
+	     --without-ads
 make asn1_compile
 if [ $? -ne 0 ]; then
     echo
