@@ -147,51 +147,36 @@ The next part of the procedure involves gathering the source code
 for each component and installing it into the working base directory.
 
 Here we show the versions of software used when generating this guide. 
-Download these using **wget**, **curl -O** or a similar tool. I've 
-used the latest versions of these libraries available as of the writing 
-of this guide, however where a specific older version needs to be used
-I've made a note.
 
-BERTO BETTER DOWNLOAD MIRRORS? http://mirrors.kernel.org/gnu/gcc/gcc-11.2.0/gcc-11.2.0.tar.xz
-* gmp-6.2.1  
-https://gmplib.org/download/gmp/gmp-6.2.1.tar.lz
+* gmp-6.2.1
+* nettle-3.3 (Unable to get later versions working)
+* acl-2.3.1
+* libtasn1-4.17.0
+* gntls-3.4.17 (3.4.x is currently recommended by samba documentation)
+* openldap-2.3.39 (Must be the same version as Seagate Central)
+* samba-4.14.6
 
-* nettle-3.3  (Couldn't get later versions working)     
-https://ftp.gnu.org/gnu/nettle/nettle-3.3.tar.gz
+Download these using **wget**, **curl -O** or a similar tool as follows.
+Note that these source archives are available from a wide variety of sources
+so if one of the URLs used below does not work try to search for another.
 
-* acl-2.3.1     
-http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
-
-* libtasn1-4.17.0       
-https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz
-
-* gnutls-3.4.17  (v3.4.x is the version referred to in samba documentation)   
-https://www.gnupg.org/ftp/gcrypt/gnutls/v3.4/gnutls-3.4.17.tar.xz
-
-* openldap-2.3.39  (Must be the same as version on Seagate Central)     
-https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.3.39.tgz
-
-* samba-4.14.6     
-https://download.samba.org/pub/samba/samba-4.14.6.tar.gz
-
-Extract each file with the **tar -xf** command.
-
-Here is an example of the commands used to download and extract these
-source code archives
-
-    wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.lz
-    tar -xf gmp-6.2.1.tar.lz
-    wget https://ftp.gnu.org/gnu/nettle/nettle-3.3.tar.gz
-    tar -xf nettle-3.3.tar.gz
+    wget http://mirrors.kernel.org/gnu/gmp/gmp-6.2.1.tar.xz
+    wget http://mirrors.kernel.org/gnu/nettle/nettle-3.3.tar.gz
     wget http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
-    tar -xf acl-2.3.1.tar.xz
     wget https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz
-    tar -xf libtasn1-4.17.0.tar.gz
     wget https://www.gnupg.org/ftp/gcrypt/gnutls/v3.4/gnutls-3.4.17.tar.xz
-    tar -xf gnutls-3.4.17.tar.xz
     wget https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.3.39.tgz
-    tar -xf openldap-2.3.39.tgz
     wget https://download.samba.org/pub/samba/samba-4.14.6.tar.gz
+
+Extract each file with the **tar -xf** command. Make sure that you have
+the appropriate decompression tools installed (e.g. lzip)
+
+    tar -xf gmp-6.2.1.tar.lz
+    tar -xf nettle-3.3.tar.gz
+    tar -xf acl-2.3.1.tar.xz
+    tar -xf libtasn1-4.17.0.tar.gz
+    tar -xf gnutls-3.4.17.tar.xz
+    tar -xf openldap-2.3.39.tgz
     tar -xf samba-4.14.6.tar.gz
 
 ### Seagate Central libraries and headers
@@ -266,6 +251,21 @@ environment.
     # troubleshooting.
     #
     J=6
+
+If you decide to build a significantly different version of 
+samba than the one used in this guide (v4.4.16) then then you may need 
+to alter the included cross-answers file which has a name similar to
+
+**samba-X.X.X-cross-answers-seagate-central.txt**
+
+This file contains information that allows samba to be cross
+compiled for the arm platform. If you create a new cross-answers
+file you will need to modify the **build-samba-08-samba.sh**
+script to point at the new cross answers file.
+
+For more details on the cross-answers file see 
+
+https://wiki.samba.org/index.php/Waf#Using_--cross-answers 
 
 ### Run the build scripts in order
 The build scripts are named in the numerical order that they need to be
