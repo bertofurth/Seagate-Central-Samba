@@ -10,6 +10,7 @@ export OBJ=obj/
 
 check_source_dir()
 {
+        SECONDS=0
 	# Automatically try to find a source directory
 	# that matches the 
         if [ -z $LIB_NAME ]; then
@@ -82,7 +83,7 @@ finish_it()
         echo
 	echo "****************************************"
 	echo 
-	echo "Success! Finished installing $LIB_NAME to $BUILDHOST_DEST"
+	echo "Success! Finished installing $LIB_NAME to $BUILDHOST_DEST ($SECONDS seconds)"
 	echo
 	echo "****************************************"
 	echo

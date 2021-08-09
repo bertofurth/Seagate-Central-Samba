@@ -44,7 +44,7 @@ cp bin/compile_et ./compile_et.local
 echo
 echo "****************************************"
 echo
-echo "Success! Finished building $LIB_NAME host tools"
+echo "Success! Finished building $LIB_NAME host tools ($SECONDS seconds)"
 echo
 echo "****************************************"
 echo
