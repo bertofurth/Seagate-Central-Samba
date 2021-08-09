@@ -250,6 +250,14 @@ below before executing the next script.
     
     ****************************************
 
+### Create an archive of the finished product
+The finished product is now in the **cross** subdirectory. I would suggest
+renaming that directory to something meaningful and then creating an archive
+of the directory. For example
+
+     mv cross seagate-central-samba
+     tar -caf seagate-central-samba.tar.gz seagate-central-samba
+     
 ### Troubleshooting
 The vast majority of problems will be due to
 
