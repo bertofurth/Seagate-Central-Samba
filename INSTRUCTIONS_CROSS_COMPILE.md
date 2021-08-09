@@ -47,7 +47,7 @@ of magnitude slower than most modern PCs. This would mean that compiling
 something like this project on a Seagate Central could take hours to 
 complete.
 
-### Know how to copy files between your build host and the Seagate Central. 
+### Know how to copy files between your host and the Seagate Central. 
 Not only should you know how to transfer files to and from your Seagate
 Central NAS and the build host, ideally you'll know how to transfer files 
 **even if the samba service is not working**. I would suggest
