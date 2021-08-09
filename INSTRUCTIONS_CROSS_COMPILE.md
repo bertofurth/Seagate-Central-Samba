@@ -171,13 +171,14 @@ but they contain absolute paths that will not work in our build
 environment. Edit these files to remove these paths or run the following
 commands in the sc-libs directory.
 
-    sed -i.orig -e 's/\(\/lib\/\|\/usr\/lib\/\)//g' usr/lib/libc.so
-    sed -i.orig -e 's/\(\/lib\/\|\/usr\/lib\/\)//g' usr/lib/libpthread.so
+    sed -i.orig -e 's#\(/usr\|/lib/\)##g' usr/lib/libc.so
+    sed -i.orig -e 's#\(/usr\|/lib/\)##g' usr/lib/libpthread.so
 
 The original versions of the files will be kept with a .orig suffix.
 
-We also need to rename the **usr/include/md5.h** header file so that it is
-not used in the compilation process.
+We also need to rename the **usr/include/md5.h** header file so that
+it is not used in the compilation process, otherwise errors related to 
+md5 functions will appear when compiling samba.
 
     mv -f usr/include/md5.h usr/include/md5.h.orig
 
@@ -220,10 +221,10 @@ to alter the included cross-answers file which has a name similar to
 
 This file contains information that allows samba to be cross
 compiled for the arm platform. If you create a new cross-answers
-file you will need to modify the **build-samba-08-samba.sh**
-script to point at the new cross answers file.
+file you will need to modify the main samba build script
+**build-samba-08-samba.sh** to point at the new cross answers file.
 
-For more details on the cross-answers file see 
+For more details about the samba cross-answers file see 
 
 https://wiki.samba.org/index.php/Waf#Using_--cross-answers 
 
@@ -251,17 +252,6 @@ below before executing the next script.
     
     ****************************************
 
-#### Optional : Strip the binaries
-By default when binaries are compiled they have extra debugging 
-information embedded in them. You can slightly decrease the size of the
-binaries by removing this information with the "strip" command. The
-following command executed from the **cross** subdirectory will search 
-the subdirectories where it is executed and strip any binaries below.
-Note that the version of strip in the cross compilation tool suite needs
-to be specified. 
-
-    find -type f -perm -u+x -exec <path-to-cross-tools>/arm-sc-linux-gnueabi-strip {} +
-
 ### Troubleshooting
 The vast majority of problems will be due to
 
@@ -280,11 +270,13 @@ will generate a very large volume of warning messages during
 compilation. These are nothing to worry about as long as the success 
 message is printed at the end of each script.
 
-The "configure" stages of the build are where things will most likely go
-wrong. In this case it is useful to view the configure log which will be 
-located at obj/<src-dir>/config.log or for samba <src-dir>/bin/config.log
+The "configure" stages of the build are where things will most likely
+go wrong. In this case it is useful to view the configure log which 
+will be located at obj/<src-dir>/config.log or for samba 
+<samba-src-dir>/bin/config.log
 
-Cross compiling samba is difficult and there are a lot of articles and 
-posts that detail the trouble people have had with this process so 
-hopefully by following this guide you will avoid most of those problems.
+Cross compiling samba is difficult and there are a lot of articles
+and posts that detail the trouble people have had with this process. 
+Hopefully by following this guide you will avoid most of those 
+problems.
 
