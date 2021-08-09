@@ -150,16 +150,16 @@ sub directories.
     mkdir -p lib usr/lib usr/include 
     
 In this example we use the "admin" user to copy files from the Seagate
-Central with IP address 192.168.1.50. You will need to substitute your
-own username and NAS IP address. After executing each scp command you'll
-be prompted for the password for that username on the Seagate Central. 
+Central. You will need to substitute your own username and NAS IP 
+address. After executing each scp command you'll be prompted for the 
+password for that username on the Seagate Central. 
 
 Note that when copying the include files the "-r" option is used to
 copy the sub directories as well.
 
-    scp admin@192.168.1.50:/lib/* ./lib/
-    scp admin@192.168.1.50:/usr/lib/* ./usr/lib
-    scp -r admin@192.168.1.50:/usr/include/* usr/include/
+    scp admin@<NAS-ip-address>:/lib/* ./lib/
+    scp admin@<NAS-ip-address>:/usr/lib/* ./usr/lib
+    scp -r admin@<NAS-ip-address>:/usr/include/* usr/include/
    
 ### Special library and header customizations   
 After the libraries and headers are copied over we need to make a 
