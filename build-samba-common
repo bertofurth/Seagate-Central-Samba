@@ -113,7 +113,7 @@ export LDFLAGS="-L$BUILDHOST_DEST/$DEST/lib -L$SEAGATE_LIBS_BASE/lib \
 
 # Ensure that rpath is set. This might be superflous for some
 # software but others don't automatically add it.
-export LDFLAGS=$LDFLAGS" -Wl,-rpath=$DEST"
+export LDFLAGS=$LDFLAGS" -Wl,-rpath=$DEST/lib"
 
 #
 # Append the verbose flag to LDFLAGS if linker debugging is required.
