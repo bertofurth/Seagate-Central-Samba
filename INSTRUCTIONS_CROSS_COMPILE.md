@@ -1,16 +1,13 @@
 # INSTRUCTIONS_CROSS_COMPILE.md
-Instructions for cross compiling samba v4.14.6 for the Seagate Central NAS
-
 ## Summary
 This is a guide that describes how to cross compile replacement samba
 software suitable for installation on a Seagate Central NAS device.
 
-Installation of the cross compiled software is covered by
-
+Manual installation of the cross compiled software is covered by
 **INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md**
 
-and
-
+Installation of the cross compiled software using the easier but less
+flexible firmware upgrade method is covered by
 **INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md**
 
 This procedure has been tested to work on the following building
@@ -32,68 +29,29 @@ space during the build process and will generate about 85MiB of finished
 product. 
 
 ### Time
-The build takes a total of about 7 minutes to complete on an 
-8 core i7 PC. The build takes about 1 hour on a Raspberry Pi 4B.
+The build takes a total of about 8 minutes to complete on an 
+8 core i7 PC. The build takes about 50 minutes on a Raspberry Pi 4B.
 
 ### A cross compilation suite on a build host
 You can follow the instructions at
 
 https://github.com/bertofurth/Seagate-Central-Toolchain
 
-to generate a cross compilation suite that will generate binaries,
+to generate a cross compilation toolset that will generate binaries,
 headers and other data suitable for the Seagate Central.
 
 Note that an alternative approach would be to install gcc and other
 build tools on the Seagate Central itself and perform the build process 
-on the Seagate Central however the Seagate Central is an order of magnitude
-slower than most modern PCs. It would mean that compiling something like 
-this project on a Seagate Central could take many hours to complete.
+on the Seagate Central, however the Seagate Central is an order
+of magnitude slower than most modern PCs. This would mean that compiling
+something like this project on a Seagate Central could take hours to 
+complete.
 
 ### Know how to copy files between your build host and the Seagate Central. 
 Not only should you know how to transfer files to and from your Seagate
 Central NAS and the build host, ideally you'll know how to transfer files 
 **even if the samba service is not working**. I would suggest
 that if samba is not working to use FTP or SCP which should both still work.
-
-BERTO THIS IS ONLY FOR INSTALLATION 
-
-### Have ssh access to the Seagate Central.
-You'll need ssh access to issue commands on the Seagate Central command 
-line. 
-
-If you are especially adept with a soldering iron and have the right 
-equipment then you could get serial console access but this quite difficult 
-and is **not required**. There are some very brief details of the 
-connections required at
-
-http://seagate-central.blogspot.com/2014/01/blog-post.html
-Archive : https://archive.ph/ONi4l
-
-### Have su/root access to the Seagate Central.
-Make sure that you can establish an ssh session to the Seagate Central
-and that you can succesfully issue the **su** command to gain root
-priviledges.
-
-Some later versions of Seagate Central firmware deliberately disable
-su access however there are a number of guides on how to restore su
-access on the Seagate Central. The following guide suggests either 
-temporarily reverting back to an older firmware version that allows
-su or creating then upgrading to a new modified Seagate Central 
-firmware image that re-enables su access.
-
-https://seagatecentralenhancementclub.blogspot.com/2015/11/root-su-recovery-for-seagate-central.html
-Archive : https://archive.ph/sEoOx
-
-Note that the instructions in the above link try to perform the process 
-of creating the new firmware image on the Seagate Central itself. It's 
-much easier to do it on an external system instead.
-
-There are is also a useful script available at another project that 
-automatically modifies a stock firmware image in such a way that it
-upgrading to it will re-allow su access.
-
-https://github.com/detain/seagate_central_sudo_firmware
-Archive : https://archive.ph/rg39t
 
 ### Do not perform this procedure as the root user on the build machine
 Some versions of the libraries being used in this procedure have flaws
@@ -113,8 +71,7 @@ See the next pre-requisite for details.
 As you perform the steps in this guide you will have to make sure that
 your build host has appropriate software packages installed. 
 
-The following packages or their equivalents need to be installed on
-a "fresh" system.
+The following packages or their equivalents may need to be installed.
 
 #### OpenSUSE Tumbleweed - Aug 2021 (zypper add ...)
     zypper install -t pattern devel_basis
@@ -136,7 +93,6 @@ a "fresh" system.
     zlib1g-dev
     flex
 
-
 ## Procedure
 ### Source code download and extraction
 Download the files in this project to a new directory on your
@@ -157,8 +113,9 @@ Here we show the versions of software used when generating this guide.
 * samba-4.14.6
 
 Download these using **wget**, **curl -O** or a similar tool as follows.
-Note that these source archives are available from a wide variety of sources
-so if one of the URLs used below does not work try to search for another.
+Note that these source archives are available from a wide variety of 
+sources so if one of the URLs used below does not work try to search 
+for another.
 
     wget http://mirrors.kernel.org/gnu/gmp/gmp-6.2.1.tar.xz
     wget http://mirrors.kernel.org/gnu/nettle/nettle-3.3.tar.gz
@@ -180,14 +137,16 @@ the appropriate decompression tools installed (e.g. lzip)
     tar -xf samba-4.14.6.tar.gz
 
 ### Seagate Central libraries and headers
-We need to copy the binary libraries and header files on the Seagate Central
-to the build host so that they can be linked against during the build process.
+We need to copy the binary libraries and header files on the Seagate 
+Central to the build host so that they can be linked to during the
+build process.
 
-There are many methods of copying information from the Seagate Central but 
-in this example we use the secure copy program - scp.
+There are many methods of copying information from the Seagate Central 
+but in this example we use the secure copy program - scp.
 
-First change into the sc-libs from the build workspace root and create
-the required lib, usr/lib, and usr/include sub directories.
+First change into the sc-libs subdirectory from the base working 
+directory and create the required lib, usr/lib, and usr/include 
+sub directories.
 
     mkdir -p sc-libs
     cd sc-libs
@@ -205,11 +164,12 @@ copy the sub directories as well.
     scp -r admin@NAS-1.lan:/usr/include/* usr/include/
    
 ### Special library and header customizations   
-After the libraries and headers are copied over we need to make a slight
-modification to **usr/lib/libc.so** and **usr/lib/libpthread.so**. These
-files contain the names of other libraries but they contain absolute
-paths that will not work in our build environment. To remove these
-absolute paths run the following commands in the sc-libs directory.
+After the libraries and headers are copied over we need to make a 
+slight modification to **usr/lib/libc.so** and **usr/lib/libpthread.so**. 
+These files are text files that contain the names of other libraries 
+but they contain absolute paths that will not work in our build 
+environment. Edit these files to remove these paths or run the following
+commands in the sc-libs directory.
 
     sed -i.orig -e 's/\(\/lib\/\|\/usr\/lib\/\)//g' usr/lib/libc.so
     sed -i.orig -e 's/\(\/lib\/\|\/usr\/lib\/\)//g' usr/lib/libpthread.so
@@ -285,77 +245,24 @@ another script unless you're confident that the build will work. You need
 to check to ensure that each script reports success as per the example
 below before executing the next script.
 
-
     ****************************************
     
-    Success! Finished installing gmp-6.2.1 to /home/berto/Seagate-Central-Samba/cross
+    Success! Finished installing gmp-6.2.1 to /home/user/Seagate-Central-Samba/cross
     
     ****************************************
 
+#### Optional : Strip the binaries
+By default when binaries are compiled they have extra debugging 
+information embedded in them. You can slightly decrease the size of the
+binaries by removing this information with the "strip" command. The
+following command executed from the **cross** subdirectory will search 
+the subdirectories where it is executed and strip any binaries below.
+Note that the version of strip in the cross compilation tool suite needs
+to be specified. 
 
-
-#### tar and copy over 
-
-There are two methods of copying files from the Seagate Central
-
-
-
-Gather the source code for samba and the component libraries. 
-
-Actions
-
-Copy the libraries off the Seagate Central to a directory on your building host
-
-Download the libraries  (script)
-
-Run the scripts to compile the libraries
-
-Should end up with a directory containing the binaries.
-
-
-Modify 
-
-./usr/lib/libc.so.orig
-./usr/lib/libpthread.so.orig
-
-
-
-
-Compile libraries in the following order as later libraries may require 
-resources from earlier ones.
-
-Here we show the versions used when generating this guide. I've used the 
-latest versions available as of the writing of this guide so it may be
-that you can use other even more recent versions. In some cases I found that
-an older specific version needs to be used in which case I've made a note.
-
-* gmp-6.2.1  
-https://gmplib.org/download/gmp/gmp-6.2.1.tar.lz
-
-* nettle-3.3  (Couldn't get later versions working)     
-https://ftp.gnu.org/gnu/nettle/nettle-3.3.tar.gz
-
-* acl-2.3.1     
-http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
-
-* libtasn1-4.17.0       
-https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz
-
-* gnutls-3.4.17  (v3.4.x is the version referred to in samba documentation)   
-https://www.gnupg.org/ftp/gcrypt/gnutls/v3.4/gnutls-3.4.17.tar.xz
-
-* openldap-2.3.39  (Must be the same as version on Seagate Central)     
-https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.3.39.tgz
-
-* samba-4.14.6     
-https://download.samba.org/pub/samba/samba-4.14.6.tar.gz
-
-
-
-
+    find -type f -perm -u+x -exec <path-to-cross-tools>/arm-sc-linux-gnueabi-strip {} +
 
 ### Troubleshooting
-
 The vast majority of problems will be due to
 
  * A needed build system component has not been installed.
@@ -363,21 +270,21 @@ The vast majority of problems will be due to
  * A previous build step was not completed succesfully.
  * Weird issues with the samba in-tree build system.
 
-If you encounter problems compiling the samba component then make sure to 
-always have a clean source tree at the start of each build. This means
-deleting the samba source directory and then re-expanding the samba tar 
-archive to generate a fresh new samba source directory.
+If you encounter problems compiling the samba component then make sure
+to always have a clean source tree at the start of each build. This 
+means deleting the samba source directory and then re-expanding the 
+samba tar archive to generate a fresh samba source directory.
 
-It's worth mentioning that some of the libraries, especially gnutls, will
-generate a very large volume of warning messages during compilation.
-These are nothing to worry about. As long as the success message is printed
-at the end of each script there should be no problems.
+It's worth mentioning that some of the libraries, especially gnutls,
+will generate a very large volume of warning messages during 
+compilation. These are nothing to worry about as long as the success 
+message is printed at the end of each script.
 
 The "configure" stages of the build are where things will most likely go
 wrong. In this case it is useful to view the configure log which will be 
 located at obj/<src-dir>/config.log or for samba <src-dir>/bin/config.log
 
-Cross compiling samba is difficult and there are a lot of articles and posts
-that detail the trouble people have had with this process so hopefully by 
-following this guide you will avoid most of those problems.
+Cross compiling samba is difficult and there are a lot of articles and 
+posts that detail the trouble people have had with this process so 
+hopefully by following this guide you will avoid most of those problems.
 
