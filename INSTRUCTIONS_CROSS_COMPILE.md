@@ -76,7 +76,6 @@ The following packages or their equivalents may need to be installed.
 #### OpenSUSE Tumbleweed - Aug 2021 (zypper add ...)
     zypper install -t pattern devel_basis
     gcc-c++
-    lzip
     libgnutls-devel
     perl
     perl-Parse-Yapp
@@ -84,7 +83,6 @@ The following packages or their equivalents may need to be installed.
     
 #### Debian 10 - Buster (apt-get install ...)
     build-essential 
-    lunzip
     libgnutls28-dev
     libparse-yapp-perl
     m4
@@ -125,10 +123,9 @@ for another.
     wget https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.3.39.tgz
     wget https://download.samba.org/pub/samba/samba-4.14.6.tar.gz
 
-Extract each file with the **tar -xf** command. Make sure that you have
-the appropriate decompression tools installed (e.g. lzip)
+Extract each file with the **tar -xf** command.
 
-    tar -xf gmp-6.2.1.tar.lz
+    tar -xf gmp-6.2.1.tar.xz
     tar -xf nettle-3.3.tar.gz
     tar -xf acl-2.3.1.tar.xz
     tar -xf libtasn1-4.17.0.tar.gz
