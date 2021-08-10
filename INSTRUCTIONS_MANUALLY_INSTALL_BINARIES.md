@@ -45,12 +45,13 @@ Make sure that you can establish an ssh session to the Seagate Central
 and that you can succesfully issue the **su** command to gain root
 priviledges.
 
+Note that the alternative procedure detailed in
+**INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md** does not require su access
+and will in fact automatically re-enable su access as part of the
+procedure.
+
 Some later versions of Seagate Central firmware deliberately disable
 su access however there are a number of guides on how to restore su.
-
-Note that the procedure in **INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md**
-does not require su access and will automatically re-enable su access
-as part of the procedure.
 
 The following guide suggests either temporarily reverting back to 
 an older firmware version that allows su or creating then upgrading
@@ -78,11 +79,16 @@ should both still work.
 You should have a self generated or downloaded archive of the
 samba binaries you'd like to install.
 
-We must transfer the archive to the Seagate Central. In this 
-example we use the scp command with the "admin" user. You will 
-need to substitute your own username and NAS IP address. After
-executing the scp command you'll be prompted for a password
-for that username on the Seagate Central.
+We must transfer the archive to the Seagate Central. This can be 
+copied to the NAS in the same way that other files are normally 
+copied to the NAS. 
+
+An alternative method of copying data to the Seagate Central is scp.
+In this example we use the scp command with the "admin" user to
+copy the archive to the user's home directory. You will need to
+substitute your own username and NAS IP address. After
+executing the scp command you'll be prompted for the user's
+password.
 
     scp seagate-central-samba.tar.gz admin@<NAS-ip-address>:
 
@@ -91,7 +97,7 @@ Establish an ssh session to the seagate central with the same
 username who's directory now contains the samba archive.
 
 Change to the directory where the archive has been copied to and
-extract the archive
+extract it.
 
     tar -xvf seagate-central-samba.tar.gz
      
@@ -101,7 +107,8 @@ are safe to ignore.
     tar: warning: skipping header 'x'
      
 A new directory containing the expanded archive will be created.
-We will call this the base directory. Change into this directory.
+We will call this the base working directory. Change into this
+directory.
 
     cd seagate-central-samba
     
@@ -159,62 +166,92 @@ samba that has been installed.
  
 The command should report the expected new version and not the 
 old version (3.5.16).
+
+The archive contains other files including man pages and other
+documentation, however the Seagate Central does not natively support
+these therefore there is probably no need to install these files.
      
-### Customize samba and startup configuration files
-The samba configuation file needs to be slightly modfied in order to work
-with the new version of samba.
+### Customize samba  configuration files
+The main samba configuation file /etc/samba/smb.conf needs to be
+modfied in order to work with modern versions of samba.
 
-startup script needs to be slightly modified in order to support
-the new version of samba. 
+First make a backup of the original file just in case you wish to
+revert to the original version of samba.
 
-GET RID OF MK DIR?????? 
+    cp /etc/samba/smb.conf /etc/samba/smb.conf.old
+    
+Next, edit the configuration file and remove or comment out with a #
+the following lines of configuration which is no longer needed.
 
---with-sockets-dir=/var/run
+     . . .
+     # auth methods = guest, sam_ignoredomain
+     . . .
 
+Also comment out or delete this line which enables apple talk style
+connection
 
-
-
-### Test the new software
-
-
-When the service is started a harmless error message similar to the
-following will be generated.
-
-     /etc/init.d/samba: line 138: can't create /proc/cvm_nas/max_jobs_to_process: nonexistent directory
-     /etc/init.d/samba: line 138: can't create /proc/cvm_nas/max_jobs_to_submit: nonexistent directory
-
-This message is related to the proprietary CPU sharing scheme that the
-original Seagate Central version of samba used. It is not relevant to
-the new version of samba which uses the standard linux SMP system to
-share cpu resources.
-
-If this cosmetic error message bothers you then you can edit 
-/etc/init.d/samba to remove the offending line however if you chose
-to revert back to the original version of samba make sure to put this
-line back in.
-
-
-### Optional : Revert to the original samba software
-If for some reason the upgrade does not perform to your satisfaction
-it is easy to revert back to the original samba software because backups
-have been made along the way.
-
-If all the above instructions have been followed then restoring the old
-samba service should be accomplished by the following commands issued
-as root
-
-
-     copy it all back
+     . . .
+     # vfs object = netatalk
+     . . .
      
-
-
-
-
-install
-
-
-
+and with the up to date appletalk configuration equivalents as follows.
+    
+     . . .
+     vfs objects = catia fruit streams_xattr
+     fruit:model = RackMac
+     fruit:time machine = yes
+     multicast dns register = yes
+     . . .
      
+The new configuration needs to be saved and then copied to a special
+folder that stores backups of the system configuration. If this step
+is not completed then any changes made to the smb.conf file will be 
+overwritten each time the system boots up. (See the 
+/etc/init.d/firmware-init-1bay startup script for details.)
+
+     cp /etc/samba/smb.conf /usr/config/backupconfig/etc/samba/smb.conf
+
+At this point you can take the opportunity to enable other samba
+features that are available in samba 4. See the following link for
+details on other samba parameters that can be configured
+
+https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html
+
+### Test the newly installed server
+At this point the server should be fully installed and can be 
+reactivated with the following command
+
+     /etc/init.d/samba start
+
+Check to see if the smbd process is running by running the 
+following command. Multiple instances of smbd should be
+active.
+
+     ps -w | grep smbd
+
+Also confirm that you can once again transfer files between the
+Seagate Central and your clients.
+
+Further test that you are able to disable legacy SMBv1.0 support
+on any clients and that you are still able to transfer data to and 
+from the Seagate Central.
+
+### Optional : Revert back to the old samba software
+If the new version of samba is not performing as desired then there
+is always the option of reinstating the original version.
+
+If the procedure above has been followed then the following sequence
+of commands issued with root priviledges will restore the original
+samba software.
+
+     /etc/init.d/samba stop
+     cp /etc/samba/smb.conf.old /etc/samba/smb.conf
+     cp /etc/samba/smb.conf /usr/config/backupconfig/etc/samba/smb.conf
+     cp /usr/sbin/old.samba/* /usr/sbin/
+     cp /usr/bin/old.samba/* /usr/bin/
+     /etc/init.d/samba start
+
+
 ### Troubleshooting
 If executing the "smbd -V" command shows an error message similar to
 
