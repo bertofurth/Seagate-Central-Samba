@@ -22,7 +22,7 @@ running firmware version 2015.0916.0008-F however I believe these
 instructions should work for other Seagate Central configurations and
 firmware versions.
 
-## Prequisites 
+## Prerequisites 
 ### Disk space
 This procedure will take up to a maximum of just under 850MiB of disk
 space during the build process and will generate about 85MiB of finished
@@ -100,7 +100,9 @@ directory going forward.
 The next part of the procedure involves gathering the source code 
 for each component and installing it into the working base directory.
 
-Here we show the versions of software used when generating this guide. 
+Here we show the versions of software used when generating this guide.
+Unless otherwise noted these are the latest stable releases at the
+time of writing.
 
 * gmp-6.2.1
 * nettle-3.3 (Unable to get later versions working)
@@ -263,7 +265,7 @@ The vast majority of problems will be due to
 
  * A needed build system component has not been installed.
  * The "Special library and header customizations" step was skipped.
- * A previous build step was not completed succesfully.
+ * A previous build step was not completed successfully.
  * Weird issues with the samba in-tree build system.
 
 If you encounter problems compiling the samba component then make sure
