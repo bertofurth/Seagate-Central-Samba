@@ -86,8 +86,11 @@ configure_it --prefix=$DEST --cross-compile \
 	     --bundled-libraries=!asn1_compile,!compile_et \
 	     --enable-fhs --sysconfdir=/etc --localstatedir=/var \
 	     --with-configdir=/etc/samba --with-logfilebase=/var/log \
-	     --with-lockdir=/var/lock --with-statedir=/var/lock --with-cachedir=/var/lock \
-	     --with-piddir=/var/run --with-privatedir=/etc/samba/private \
+	     --with-lockdir=/var/lock --with-statedir=/var/lock \
+	     --with-cachedir=/var/lock \
+	     --with-piddir=/var/run \
+	     --with-privatedir=/etc/samba/private \
+	     --with-sockets-dir=/var/run \
 	     --without-systemd \
 	     --disable-python --without-ad-dc \
 	     --without-json \
@@ -134,7 +137,7 @@ fi
 #
 # These settings are required to take advantage of the
 # host executable asn1_compile and compile_et tools built
-# in the previous step
+# in the previous step.
 #
 export USING_SYSTEM_ASN1_COMPILE=1
 export ASN1_COMPILE=./asn1_compile
