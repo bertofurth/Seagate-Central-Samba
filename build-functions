@@ -8,11 +8,17 @@
 export TOP=$(pwd)
 export OBJ=obj/
 
+#
+# check_source_dir <source-name>
+#
+# Find the directory with the "latest" version of the
+# given project name in the current directory.
+# 
 check_source_dir()
 {
         SECONDS=0
 	# Automatically try to find a source directory
-	# that matches the 
+	# that matches the parameter given
         if [ -z $LIB_NAME ]; then
 	   LIB_NAME=$(ls -1drv $1*/ | cut -f1 -d'/' | head -1)
         fi 
@@ -20,19 +26,19 @@ check_source_dir()
 	if [ -z $LIB_NAME ]; then	
 	   echo
 	   echo Unable to find source directory for $1
-	   echo Has the source code been decompressed?
+	   echo Has the source code been extracted (tar -xf) ?
 	   exit -1
 	fi
 
         echo Using $LIB_NAME as source directory.
-	echo
-	if [ ! -d $LIB_NAME ]; then
-	   echo Can\'t find $LIB_NAME source directory.
-	   echo Make sure that the source code is decompressed
-	   exit -1
-	fi
 }
 
+#
+# change_into_obj_directory 
+#
+# Create and change into the directory $OBJ$LIB_NAME
+# where the project will be built.
+#
 change_into_obj_directory()
 {
         mkdir -p $OBJ$LIB_NAME
@@ -45,6 +51,12 @@ change_into_obj_directory()
 	fi	
 }
 
+#
+# configure_it [configure-params]
+#
+# Run the configure step with the given parameters
+# and report on the status. Exit on fail.
+#
 configure_it()
 {
 	$TOP/$LIB_NAME/configure "$@"
@@ -54,12 +66,16 @@ configure_it()
 	   exit -1
 	fi	
 }
-
+#
+# make_it [make-params]
+#
+# Make the project with the given parameters and
+# report on the status. Exit on fail.
+#
+# Call with "-d V=1 -j1" for debugging.
+#
 make_it()
 {
-#
-# Add -d V=1 -j1 to make options for debugging
-#
 	make -j$J $@
 	if [ $? -ne 0 ]; then
     	   echo
@@ -68,6 +84,12 @@ make_it()
 	fi	
 }
 
+#
+# install_it()
+#
+# Call make install for the project and report on
+# the status. Exit on fail.
+#
 install_it()
 {
 	make DESTDIR=$BUILDHOST_DEST install
@@ -78,6 +100,12 @@ install_it()
 	fi	
 }
 
+#
+# finish_it()
+#
+# Generate a banner message reporting that the build
+# has finished.
+#
 finish_it()
 {
         echo
