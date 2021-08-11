@@ -60,7 +60,7 @@ make_it()
 #
 # Add -d V=1 -j1 to make options for debugging
 #
-	make -j$J
+	make -j$J $@
 	if [ $? -ne 0 ]; then
     	   echo
            echo make for $LIB_NAME failed. Exiting
