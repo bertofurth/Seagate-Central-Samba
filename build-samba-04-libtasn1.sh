@@ -1,6 +1,6 @@
 #!/bin/bash
-source build-samba-common
-source build-samba-functions
+source build-common
+source build-functions
 check_source_dir "libtasn1"
 change_into_obj_directory
 configure_it --prefix=$DEST --host=$ARCH \

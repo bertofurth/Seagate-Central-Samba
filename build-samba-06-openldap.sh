@@ -1,6 +1,6 @@
 #!/bin/bash
-source build-samba-common
-source build-samba-functions
+source build-common
+source build-functions
 check_source_dir "openldap"
 #
 # Copy ldap header files available in the source code

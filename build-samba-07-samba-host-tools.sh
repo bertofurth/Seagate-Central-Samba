@@ -1,10 +1,10 @@
 #!/bin/bash
 #
-# Don't source build-samba-common here as we want this
+# Don't source build-common here as we want this
 # build step to build executables for the host building
 # system, not the target Seagate Central.
 #
-source build-samba-functions
+source build-functions
 check_source_dir "samba"
 
 #

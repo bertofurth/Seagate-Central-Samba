@@ -4,8 +4,8 @@
 #
 CROSS_ANSWERS=samba-4.14.6-cross-answers-seagate-central.txt
 
-source build-samba-common
-source build-samba-functions
+source build-common
+source build-functions
 check_source_dir "samba"
 
 if [ ! -r $CROSS_ANSWERS ]; then
