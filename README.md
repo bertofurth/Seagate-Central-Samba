@@ -28,10 +28,9 @@ available at
 BERTO-INSERT_LINK_HERE
 
 ### INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md
-This method uses the binaries built in the first set of instructions, 
-or a set of pre-built binaries. It describes how to manually install
-the samba software and alter the Seagate Central configuration 
-accordingly.
+These instructions describe how to manually install the samba software
+created by the first set of instructions and alter the Seagate Central
+configuration accordingly.
 
 This is the method of installation you should probably chose if you
 have already installed custom software or modified the settings on the
@@ -40,9 +39,11 @@ interface.
 
 ### INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md
 This option involves running an automated script that takes an existing 
-official Seagate Central firmware image and the samba binaries as it's 
-input. The script modifies the supplied Seagate Central firmware image 
-to include the samba binaries, appropriate configuration, and other 
+official Seagate Central firmware image and the samba binaries generated
+in the first set of instructions as it's input. 
+
+The script modifies the supplied Seagate Central firmware image to
+include the samba binaries, appropriate configuration, and other
 information. The resultant image can be used to upgrade the Seagate 
 Central via the web management interface.
 
@@ -78,14 +79,14 @@ does not, by default, support SMBv1.0.
 **NOTE : Performing modifications of this kind on the Seagate Central is 
 not without risk. Making the changes suggested in these instructions will 
 likely void any warranty and may potentially lead to the device becoming 
-unuseable or damaged.**
+unusable or damaged.**
 
 That being said I doubt that as I write this note in 2021 that any
 Seagate Centrals are currently under any kind of warranty due to their
-age. In addition I've peformed this upgrade on two seperate single 
-bay Seagate Central systems and they are both working fine. It is also
-not too difficult to roll back the changes should they prove to be
-inneffective or have undesirable side effects.
+age. In addition I've performed this upgrade on two separate single 
+bay Seagate Central systems and they are both working fine. In most cases
+it is also not difficult to roll back the changes should they prove to be
+ineffective or have undesirable side effects.
 
 I encourage anyone who is adventurous enough to attempt to this kind
 of modification to their Seagate Central to try to understand each step 
@@ -93,7 +94,7 @@ before they apply it in order to reduce the chances of accidentally
 rendering their Seagate Central NAS device useless.
 
 Hopefully these instructions can also serve as a template for upgrading
-old samba software on other linux based embedded equipment. It should not 
+old samba software on other Linux based embedded equipment. It should not 
 take much tuning of these instructions to be able to apply them to other
 similar ARM based devices running outdated samba software.
 
@@ -124,9 +125,9 @@ such as **net view** an error message similar to the following may be generated
 
     The network path was not found.
 
-The same problem can occur for modern Linux based client systems as well.
-When trying to mount a Seagate Central NAS drive an error message similar to 
-the following may appear
+When trying to mount a Seagate Central NAS drive using a modern version of
+Linux or other Unix based operating system an error message similar to the
+following may appear
 
     # mount -t cifs //NAS-X/user1 /mnt/user1 -o user=user1,password=pass1
     mount error: Server abruptly closed the connection.
@@ -140,7 +141,7 @@ linux systems to connect to samba NAS devices, do not by default use the SMBv1.0
 protocol.
 
 The version of samba software on the Seagate Central, v3.5.16, does in theory 
-suport manually disabling SMBv1.0 and using only SMBv2.1 however in practise 
+support manually disabling SMBv1.0 and using only SMBv2.1 however in practise 
 it doesn't work well. Versions of samba software v4.x and later are generally 
 considered to support SMBv2.1 and higher properly. Samba versions v4.13 and 
 higher deprecate support for much of SMBv1.0.
@@ -168,14 +169,14 @@ Confirm the change by selecting "OK" at the bottom of the window.
 After the changes are made you may be asked to reboot the system to enable
 the SMBv1.0 client feature.
 
-Be aware that in some cases an IT department administed Windows 10 system 
-will be administratively prohibited from changing the device's settings 
-to allow it to use less secure SMB v1.0.
+Be aware that in some cases an IT department administered Windows 10 system 
+will be administratively prohibited from changing this setting because of
+the security issues associated with SMBv1.0.
 
 ## SMBv1.0 Workaround for Linux clients
-On a linux client the problem can be rectified by simply adding the 
-"vers=1.0" parameter to the existing mount options list as per the helpful
-error message shown when attempting to mount the NAS volume.
+On a linux or other unix client the problem can be rectified by simply
+adding the "vers=1.0" parameter to the existing mount options list as per
+the helpful error message shown when attempting to mount the NAS volume.
 
 For example on the command line using the mount command
 
@@ -188,7 +189,7 @@ or in the /etc/fstab file
 ## Advantages of installing the new samba server
 ### Modern Windows 10 and Linux will connect properly
 As per the notes above, by upgrading to an SMBv2 and later capable file 
-server the Seagate Central will still be able to serve modern security 
+server the Seagate Central will be able to serve modern security 
 conscious operating systems without the need for any security compromising 
 workarounds on the client systems.
 
@@ -202,7 +203,7 @@ than SMBv1.0 in some circumstances because of increased efficiency.
 ### Support for new features 
 The samba server created using these instructions is not crippled in 
 the same way that the one provided in the original firmware is. This
-means that the full array of features availabe in samba server software 
+means that the full array of features available in samba server software 
 may be configured, albeit via the command line and configuration file 
 rather than the web interface.
 
@@ -213,7 +214,7 @@ cores. In stock Seagate Central firmware, the first CPU core is available
 for normal linux processes and the second is reserved exclusively for the 
 samba file server. In other words, the second CPU cannot be used by any 
 "normal" linux processes. In Seagate Central software this scheme is
-reffered to as the "Cavium SMP Offloading Procession" (SOP), or in
+referred to as the "Cavium SMP Offloading Procession" (SOP), or in
 general terms "Asymmetric Multi Processing" (AMP).
 
 The original samba software on the Seagate Central has custom 
@@ -226,7 +227,8 @@ second CPU.
 Unfortunately, standard samba software as used by this installation guide 
 does not make use of AMP mode. This is because AMP is rarely implemented 
 in modern linux systems. Most modern linux systems use "Symmetrical Multi 
-Processing" (SMP) which allows all processes to make use of any CPU.
+Processing" (SMP) which allows **all** processes to make use of **any**
+CPU.
 
 Given that the Seagate Central doesn't normally do anything except serve 
 files, in my judgement this disadvantage won't make much of a practical
@@ -235,14 +237,14 @@ where a Seagate Central would typically be deployed.
 
 Note that I have another project in the works that deals with upgrading 
 the Linux Kernel on the Seagate Central. This will overcome second CPU
-problem by making both CPUs in the Seagate Central available for _all_ 
+problem by making both CPUs in the Seagate Central available for **all** 
 linux processes. That is, SMP (Symmetrical Multi Processing) will be 
 implemented in this updated Linux Kernel. 
 
-If this new updgraded linux kernel is installed and running then the new
+If this new upgraded linux kernel is installed and running then the new
 version of samba can take advantage of both the SMP based CPU cores on the
-system and then, in theory, the new samba software can be even more 
-efficient than the original Seagate AMP based samba software.
+system and then, in theory, the new samba software will be able to 
+perform even better than the original Seagate AMP based samba software.
 
 ### Memory
 My tests reveal that the updated samba v4.14.6 software seems to consume 
@@ -252,8 +254,8 @@ something unique to this project.
 
 As per the CPU issue, in practical terms this does not seem to 
 significantly impact system performance. This is thanks to the Seagate 
-Central having sufficent swap space to cater for any temporary excessive 
-memry usage.
+Central having sufficient swap space to cater for any temporary excessive 
+memory usage.
 
 ### No support for extremely old clients that depend on SMBv1.0
 Very old client operating systems, such as Windows XP, Windows 95 or Windows 
@@ -262,8 +264,7 @@ new samba server is installed on the Seagate Central then these types of
 very old clients will not be able to connect to the Seagate Central.
 
 SMBv2.1 support was introduced with Windows 7 in 2007 so any clients 
-originating after that time should be fine. 
-
+from after that era should be fine. 
 
 ## Motivation for this project
 My work supplied laptop currently runs Windows 10. After one particular IT
@@ -276,33 +277,34 @@ My work IT department administratively disabled the ability to re-enable
 SMBv1.0. This was presumably done for valid security reasons, however it meant 
 that I had no easy way of accessing my home Seagate Central file server.
 
-I was still able to temporarily perform file transfers via FTP, which the 
-Seagate Central supports, however this was a less convinient option than I was 
-used to.
+I was still able to temporarily perform file transfers via FTP and SCP, 
+which the Seagate Central natively supports, however this was a less
+convenient option than I was used to.
 
 After doing some research I was able to put together this guide to modifying 
 the offending component of the Seagate Central, namely the outdated samba 
 software. I realise that this information is probably years too late to be of
 real help however I am uploading this information in conjunction with some
-other related projects centered on the Seagate Central which have taken me a
+other related projects centred on the Seagate Central which have taken me a
 long time to develop.
 
 Another motivation was that I didn't feel like I should have to go out and 
 purchase a new file server device when I know that the Seagate Central 
-hardware is perfectly capable of serving my needs. I have a philosphical 
-opposition to the modern culture of buying new gadets every few years to 
+hardware is perfectly capable of serving my needs. I have a philosophical
+opposition to the modern culture of buying new gadgets every few years to 
 replace ones that are still adequate for the job they perform. It is both
 environmentally and financially wasteful.
 
 While one might be inclined to blame the NAS manufacturer, Seagate, and say 
 that they should still be providing support and updates for a device that is 
 only about 7 years old, to their credit they have provided enough information 
-and GPL source code to make the Seagate Central relatively modifyable and 
+and GPL source code to make the Seagate Central relatively modifiable and 
 serviceable by third parties. For this reason I am grateful to Seagate and if 
 someone from the company is reading this note then I would be thrilled for them 
 to take this work and use it as the basis for an official update for the Seagate 
 Central product.
 
-Finally I learned a great deal about Linux, samba and cross-compilation in the
-process of writing this guide. Hopefully the instructions I've developed will
-help others to learn as well.
+Finally I learned a great deal about Linux, samba and cross-compilation 
+while writing this guide. Please read these instructions with the 
+understanding that I am still in the process of learning. Hopefully this 
+project will help others to learn as well.
