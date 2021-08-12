@@ -40,6 +40,7 @@ and is **not required**. There are some very brief details of the
 connections required at
 
 http://seagate-central.blogspot.com/2014/01/blog-post.html
+
 Archive : https://archive.ph/ONi4l
 
 ### su/root access on the Seagate Central.
@@ -60,6 +61,7 @@ an older firmware version that allows su or creating then upgrading
 to a new modified Seagate Central firmware image that re-enables su access.
 
 https://seagatecentralenhancementclub.blogspot.com/2015/11/root-su-recovery-for-seagate-central.html
+
 Archive : https://archive.ph/sEoOx
 
 There are is also a useful script available at another project that 
@@ -67,6 +69,7 @@ automatically modifies a stock firmware image in such a way that it
 upgrading to it will re-allow su access.
 
 https://github.com/detain/seagate_central_sudo_firmware
+
 Archive : https://archive.ph/rg39t
 
 ### Know how to copy files between your host and the Seagate Central. 
