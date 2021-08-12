@@ -13,9 +13,9 @@ flexible firmware upgrade method is covered by
 This procedure has been tested to work on the following building
 platforms
 
-* OpenSUSE Tumbleweed (Aug 2021) on x86  gcc v11.1 make 4.3
-* OpenSUSE Tumbleweed (Aug 2021) on Raspberry Pi 4B  gcc v11.1 make 4.3
-* Debian 10 (Buster) on x86  gcc 8.3.0 make 4.2.1
+* OpenSUSE Tumbleweed (Aug 2021) on x86  gcc-11.2.0 make-4.3
+* OpenSUSE Tumbleweed (Aug 2021) on Raspberry Pi 4B  gcc-11.2.0 make-4.3
+* Debian 10 (Buster) on x86  gcc-11.2.0 make-4.2.1
 
 The target platform tested was a Seagate Central Single Drive NAS 
 running firmware version 2015.0916.0008-F however I believe these
@@ -68,10 +68,22 @@ new components on your build system to facilitate the building process.
 See the next pre-requisite for details.
 
 ### Required software on build host
-As you perform the steps in this guide you will have to make sure that
-your build host has appropriate software packages installed. 
+The most important software used by this procedure is the
+cross compiler and associated toolset. This will most likely need to
+be manually generated before commencing this procedure as there is
+unlikely to be a pre-built cross compiler tool set for Seagate Central
+readily available.
 
-The following packages or their equivalents may need to be installed.
+There is a guide to generate a cross compilation toolset suitable
+for the Seagate Central at the link below.
+
+https://github.com/bertofurth/Seagate-Central-Toolchain
+
+It is suggested to build the latest versions of gcc and binutils
+available.
+
+The following packages or their equivalents may also need to be
+installed on the building system.
 
 #### OpenSUSE Tumbleweed - Aug 2021 (zypper add ...)
     zypper install -t pattern devel_basis
@@ -167,9 +179,10 @@ copy the sub directories as well.
 After the libraries and headers are copied over we need to make a 
 slight modification to **usr/lib/libc.so** and **usr/lib/libpthread.so**. 
 These files are text files that contain the names of other libraries 
-but they contain absolute paths that will not work in our build 
-environment. Edit these files to remove these paths or run the following
-commands in the sc-libs directory.
+but they contain references to the absolute paths /lib and /usr/lib
+that will not work in our build environment. Manually edit these
+files to remove these paths or run the following commands in the 
+sc-libs directory to automatically remove them.
 
     sed -i.orig -e 's#\(/usr\|/lib/\)##g' usr/lib/libc.so
     sed -i.orig -e 's#\(/usr\|/lib/\)##g' usr/lib/libpthread.so
@@ -184,7 +197,7 @@ md5 functions will appear when compiling samba.
 
 ### Customize the scripts
 Change back to the base working directory and edit the variables
-at the top of the **build-samba-common** file to suit your build
+at the top of the **build-common** file to suit your build
 environment.
 
     #
