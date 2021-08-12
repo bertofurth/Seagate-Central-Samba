@@ -19,7 +19,7 @@ export CROSS_COMPILE=arm-sc-linux-gnueabi-
 #
 # Make sure to use an absolute path and not the ~ or . symbols.
 #
-CROSS=$HOME/Seagate-Central-Toolchain/cross-5.5.0
+CROSS=$HOME/Seagate-Central-Toolchain/cross
 TOOLS=$CROSS/tools/bin
 
 #
@@ -29,7 +29,7 @@ TOOLS=$CROSS/tools/bin
 # cores on the building machine. Set to 1 when
 # troubleshooting.
 #
-J=4
+J=6
 
 
 # *****************************************************
@@ -98,6 +98,7 @@ export AR=$CROSS_COMPILE"ar"
 #
 # Ensure that the cross compiler tools being used are
 # in the PATH and get executed before any native tools.
+#
 export PATH=$TOOLS:$PATH
 
 # LDFLAGS sets parameters for the linker program. -L parameters tell
