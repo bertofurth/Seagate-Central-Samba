@@ -1,9 +1,9 @@
 #
 # This file should not be executed, instead it should be
-# sourceed by each of the build scripts.
+# sourced by each of the build scripts.
 
 # Please check each variable definition to make sure it aligns
-# with your needs.
+# with your needs. 
 
 #
 # Set the prefix name of the cross compiling toolkit. This
@@ -113,8 +113,9 @@ export LDFLAGS="-L$BUILDHOST_DEST/$DEST/lib -L$SEAGATE_LIBS_BASE/lib \
        -Wl,-rpath-link=$SEAGATE_LIBS_BASE/lib  \
        -Wl,-rpath-link=$SEAGATE_LIBS_BASE/usr/lib"
 
-# Ensure that rpath is set. This might be superflous for some
-# software but others don't automatically add it.
+# Ensure that rpath is explicitly set. This might be superflous
+# for some software but others don't automatically add it.
+#
 export LDFLAGS=$LDFLAGS" -Wl,-rpath=$DEST/lib"
 
 #
@@ -148,7 +149,7 @@ export LDFLAGS="$LDFLAGS -Wl,-z,max-page-size=0x10000 -Wl,-z,common-page-size=0x
 # Locations of header files defining functions and other
 # parameters.
 #
-# Make sure to rename or delete
+# Seagate Central specific : Make sure to rename or delete
 # $SEAGATE_LIBS_BASE/usr/include/md5
 #
 export NOSTDINC_FLAGS="-I$BUILDHOST_DEST/$DEST/include \
@@ -157,6 +158,7 @@ export NOSTDINC_FLAGS="-I$BUILDHOST_DEST/$DEST/include \
 #
 # For some configure scripts it's important to have access
 # to the pkg-config information for libraries
+#
 export PKG_CONFIG_PATH="$BUILDHOST_DEST/$DEST/lib/pkgconfig"
 
 #
