@@ -17,6 +17,8 @@ instructions should work for other Seagate Central configurations and
 firmware versions as long as care is taken to account for any minor
 differences.
 
+The build environments tested were using the cross compilation suite
+based on gcc versions 11.2.0 and  
 These instructions should not be followed "blindly". If you have already
 made other custom changes to your Seagate Central software via the
 command line, such as installing other cross compled software, then
@@ -24,8 +26,8 @@ make sure that none of the steps below interfere with those changes.
 
 ## Prequisites 
 ### Disk space on the Seagate Central
-About 170MiB of space on the Seagate Central will be required to 
-preform this procedure. The procedure will add about 85MiB worth of
+About 170MiB of disk space on the Seagate Central will be required
+to perform this procedure. The procedure will add about 90MiB worth of
 newly installed files to the Seagate Central.
 
 ### ssh access to the Seagate Central.
@@ -171,7 +173,7 @@ The archive contains other files including man pages and other
 documentation, however the Seagate Central does not natively support
 these therefore there is probably no need to install these files.
      
-### Customize samba  configuration files
+### Customize samba configuration files
 The main samba configuation file /etc/samba/smb.conf needs to be
 modfied in order to work with modern versions of samba.
 
@@ -251,7 +253,6 @@ samba software.
      cp /usr/bin/old.samba/* /usr/bin/
      /etc/init.d/samba start
 
-
 ### Troubleshooting
 If executing the "smbd -V" command shows an error message similar to
 
@@ -261,34 +262,18 @@ Then it may be that the libraries have not been installed properly.
 Check to make sure that /usr/local/lib and /usr/local/lib/samba have
 been correctly created and have .so library files present.
 
+If the samba services do not start after bootup or after manually 
+starting the service then check the logs in
 
-/var/log/log.smbd
+     /var/log/log.smbd
+     /var/log/log.nmbd
+     
+ Note that the following log message may appear in the smbd log
+ 
+      Address family not supported by protocol
+      
+ This is merely an indication that the samba service is trying to use
+ IPv6 however the native linux kernel on a Seagate Central does not
+ support IPv6. These messages can be ignored.
 
-
-
-
-
-
-copying the archive to a user directory
-
-
-downloaded a pre-compiled version of the samba binaries 
-then start at this point.
-.
-
-I suggest extracting the archive on your build host rather
-than on the Seagate Central itself simply because the process will
-be faster using your build device.
-
-If you've compiled the samba binaries then change to the base
-directory of the compiled 
-
-
-
-
-
-
-Download the files in this project to a new directory on your
-build machine. This will be referred to as the base working 
-directory going forward.
-
+ 
