@@ -78,8 +78,15 @@ DEST=/usr/local
 #
 SEAGATE_LIBS_BASE=$(pwd)/sc-libs
 
+
+# *****************************************************
+# *****************************************************
+# Nothing below this point should normally need to be edited.
+# *****************************************************
+# *****************************************************
+
 #
-# Sets the name of the individual cross compiling tools. 
+# Set the name of the individual cross compiling tools. 
 #
 export CC=$CROSS_COMPILE"gcc"
 export CPP=$CROSS_COMPILE"cpp"
@@ -87,13 +94,6 @@ export LD=$CROSS_COMPILE"ld"
 export CXX=$CROSS_COMPILE"g++"
 export RANLIB=$CROSS_COMPILE"ranlib"
 export AR=$CROSS_COMPILE"ar"
-
-
-# *****************************************************
-# *****************************************************
-# Nothing below this point should normally need to be edited.
-# *****************************************************
-# *****************************************************
 
 #
 # Ensure that the cross compiler tools being used are
