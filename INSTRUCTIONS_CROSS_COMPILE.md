@@ -169,7 +169,8 @@ sub directories.
 In this example we use the "admin" user to copy files from the Seagate
 Central. You will need to substitute your own username and NAS IP 
 address. After executing each scp command you'll be prompted for the 
-password for that username on the Seagate Central. 
+password for that username on the Seagate Central. Ignore any warning
+messages about "not a regular file".
 
 Note that when copying the include files the "-r" option is used to
 copy the sub directories as well.
