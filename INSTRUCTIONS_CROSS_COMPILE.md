@@ -182,10 +182,10 @@ copy the sub directories as well.
 ### Special library and header customizations   
 After the libraries and headers are copied over we need to make a 
 slight modification to **usr/lib/libc.so** and **usr/lib/libpthread.so**. 
-These files are text files that contain the names of other libraries 
-but they contain references to the absolute paths /lib and /usr/lib
-that will not work in our build environment. Manually edit these
-files to remove these paths or run the following commands in the 
+These are text files that contain the names of other libraries to
+load but they contain references to the absolute paths /lib and
+/usr/lib that will not work in our build environment. Manually edit
+these files to remove these paths or run the following commands in the 
 sc-libs directory to automatically remove them.
 
     sed -i.orig -e 's#\(/usr\|/lib/\)##g' usr/lib/libc.so
@@ -204,34 +204,66 @@ Change back to the base working directory and edit the variables
 at the top of the **build-common** file to suit your build
 environment.
 
-    #
-    # Set the prefix name of the cross compiling toolkit. This
-    # will likely be something like arm-XXX-linux-gnueabi-
-    # Normally this will have a dash at the end.
-    #
+These parameters are arranged roughly in order of their likelihood
+of needing to be changed. The first three are the most important
+to get right.
+
+#### CROSS_COMPILE 
+This parameter sets the prefix name of the cross compiling toolkit.
+This will likely be something like "arm-XXX-linux-gnueabi-" . 
+Normally this will have a dash (-) at the end.
+
     export CROSS_COMPILE=arm-sc-linux-gnueabi-
     
-    #
-    # The location of the root of the cross compiling tool suite
-    # on the compiling host (CROSS), and the location of the
-    # binaries (TOOLS).
-    #
-    # Make sure to use an absolute path and not the ~ or . symbols.
-    #
+#### CROSS and TOOLS    
+The location of the root of the cross compiling tool suite on the 
+compiling host (CROSS), and the location of the cross compiling 
+binary executables such as gcc (TOOLS).
+
+Make sure to use an absolute path and not the ~ or . symbols.
+
     CROSS=$HOME/Seagate-Central-Toolchain/cross
     TOOLS=$CROSS/tools/bin
+
+#### J (Number of CPU threads)
+Set the number of threads to use when compiling. Generally set 
+equal to or less than the number of CPU cores on the building machine. 
+Set to 1 when troubleshooting.
     
-    #
-    # Set the number of threads to use when compiling.
-    #
-    # Generally set equal to or less than the number of CPU
-    # cores on the building machine. Set to 1 when
-    # troubleshooting.
-    #
     J=6
 
+#### BUILDHOST_DEST
+The directory on the compiling host where binaries and other 
+generated files will be temporarily installed before being copied 
+to the Seagate Central.
+
+This is different to DEST (see below) which is where the generated
+files need to be copied to on the Seagate Central itself
+
+     BUILDHOST_DEST=$(pwd)/cross
+
+#### DEST
+The directory where the final product will be installed on the
+target device (i.e. on the Seagate Central). This should probably 
+be left as /usr/local .
+
+Note that is NOT the place where the resultant binaries and libraries 
+will be temporarily copied to on the compiling host (see 
+BUILDHOST_DEST).
+
+     DEST=/usr/local
+
+#### SEAGATE_LIBS_BASE
+Specify a directory containing the native library files as copied
+from the Seagate Central. If this directory is changed then make
+sure the step that downloads libraries from the Seagate Central
+to the build host is modified accordingly.
+
+     SEAGATE_LIBS_BASE=$(pwd)/sc-libs
+
+### Samba cross answers file
 If you decide to build a significantly different version of 
-samba than the one used in this guide (v4.4.16) then then you may need 
+samba than the one used in this guide then then you may need 
 to alter the included cross-answers file which has a name similar to
 
 **samba-X.X.X-cross-answers-seagate-central.txt**
@@ -260,8 +292,8 @@ executed.
 
 My suggestion is to not blindly execute all the scripts at once or from 
 another script unless you're confident that the build will work. You need
-to check to ensure that each script reports success as per the example
-below before executing the next script.
+ensure that each script reports success as per the example below before 
+executing the next script.
 
     ****************************************
     
@@ -270,9 +302,10 @@ below before executing the next script.
     ****************************************
 
 ### Create an archive of the finished product
-The finished product is now in the **cross** subdirectory. I would suggest
-renaming that directory to something meaningful and then creating an archive
-of the directory. For example
+The finished product is now in the **cross** subdirectory (or whatever
+BULILDHOST_DEST is set to). I would suggest renaming that directory to
+a descriptive name and then creating an archive of the directory. For
+example
 
      mv cross seagate-central-samba
      tar -caf seagate-central-samba.tar.gz seagate-central-samba
