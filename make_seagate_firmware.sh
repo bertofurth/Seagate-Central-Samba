@@ -137,8 +137,8 @@ tar -zxpf $SEAGATE_FIRMWARE &> log_01_extract_firmware.log
 checkerr $? "untar Seagate Firmware" log_01_extract_firmware.log
 
 rm -rf squashfs-root
-unsquashfs rfs.squashfs &> log_02_unsquashfs.log
-checkerr $? "unsquashfs" log_02_unsquashfs.log
+unsquashfs -n rfs.squashfs &> log_02_unsquashfs.log
+checkerr 0 "unsquashfs" log_02_unsquashfs.log
 
 if ! [ -z $SAMBA_DIRECTORY ]; then
     new_stage "Insert Samba software"
@@ -235,7 +235,7 @@ rm rfs.squashfs
 # powerful and will take a long time to decompress
 # a heavily compressed file.
 #
-mksquashfs squashfs-root rfs.squashfs -all-root -noappend -Xcompression-level 1 &> log_05_mksquashfs.log
+mksquashfs squashfs-root rfs.squashfs -n -all-root -noappend -Xcompression-level 1 &> log_05_mksquashfs.log
 checkerr $? "mksquashfs squashfs-root" log_05_mksquashfs.log
 new_md5="$(md5sum rfs.squashfs  | cut -d" " -f1)" 
 cp config.ser config.ser.orig
