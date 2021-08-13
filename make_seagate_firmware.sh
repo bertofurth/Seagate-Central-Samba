@@ -235,7 +235,7 @@ rm rfs.squashfs
 # powerful and will take a long time to decompress
 # a heavily compressed file.
 #
-mksquashfs squashfs-root rfs.squashfs -n -all-root -noappend -Xcompression-level 1 &> log_05_mksquashfs.log
+mksquashfs squashfs-root rfs.squashfs -all-root -noappend -Xcompression-level 1 &> log_05_mksquashfs.log
 checkerr $? "mksquashfs squashfs-root" log_05_mksquashfs.log
 new_md5="$(md5sum rfs.squashfs  | cut -d" " -f1)" 
 cp config.ser config.ser.orig
