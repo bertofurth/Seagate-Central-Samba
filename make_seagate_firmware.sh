@@ -106,7 +106,13 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
     if [ ! -d $SAMBA_DIRECTORY ]; then	
 	echo "Unable to find samba directory $SAMBA_DIRECTORY"
 	exit 1  
-    fi     
+    fi
+    # Sanity check
+    if [ ! -r $SAMBA_DIRECTORY/usr/local/sbin/smbd ]; then
+	echo "Unable to find $SAMBA_DIRECTORY/usr/local/sbin/smbd"
+	echo "Are you sure this is a Samba directory?"
+	exit 1
+    fi
 fi
 
 new_version=$(date +%Y.%m%d.%H%M-S)
