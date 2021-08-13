@@ -166,7 +166,5 @@ export PKG_CONFIG_PATH="$BUILDHOST_DEST/$DEST/lib/pkgconfig"
 # architecture
 #
 export CFLAGS="$NOSTDINC_FLAGS -march=armv6k"
-
-# BERTO. IS THIS REALLY NECESSARY? MIGH TTHIS REALLY NEED TO BE CXXFLAGS?
 export CPPFLAGS=$CFLAGS
 export ARCH=arm-linux
