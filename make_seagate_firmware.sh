@@ -179,10 +179,10 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
     sed -i '/auth methods/d' squashfs-root/etc/samba/smb.conf.v4
 
     # Replace and update old appletalk configuration
-    sed -i '/netatalk/a multicast dns register = yes' squashfs-root/etc/samba/smb.conf.v4
-    sed -i '/netatalk/a fruit:time machine = yes' squashfs-root/etc/samba/smb.conf.v4
-    sed -i '/netatalk/a fruit:model = RackMac' squashfs-root/etc/samba/smb.conf.v4
-    sed -i '/netatalk/a vfs objects = catia fruit streams_xattr' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/netatalk/a \ \ \ \ \ \ \ \ multicast dns register = yes' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/netatalk/a \ \ \ \ \ \ \ \ fruit:time machine = yes' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/netatalk/a \ \ \ \ \ \ \ \ fruit:model = RackMac' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/netatalk/a \ \ \ \ \ \ \ \ vfs objects = catia fruit streams_xattr' squashfs-root/etc/samba/smb.conf.v4
     sed -i '/netatalk/d' squashfs-root/etc/samba/smb.conf.v4
 
     # Add a startup script that checks samba version
