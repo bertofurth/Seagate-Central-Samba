@@ -184,19 +184,19 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
     #
     # min receivefile size = 1 ## disabled due to SOP receive file bug
     #
-    # This needs to be removed to work with samba v4.
-    # We replace it with
-    #
+    # This doesn't work with samba v4 and needs to be
+    # removed. We replace it with
+    # 
     # min receivefile size 16384
     #
-    sed -i '/SOP receive file bug/a \         min receivefile size 16384' squashfs-root/etc/samba/smb.conf.v4
-    sed -d '/SOP receive file bug/d' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/SOP receive file bug/a \        min receivefile size 16384' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/SOP receive file bug/d' squashfs-root/etc/samba/smb.conf.v4
     
     # Replace and update old appletalk configuration
-    sed -i '/netatalk/a \ \ \ \ \ \ \ \ multicast dns register = yes' squashfs-root/etc/samba/smb.conf.v4
-    sed -i '/netatalk/a \ \ \ \ \ \ \ \ fruit:time machine = yes' squashfs-root/etc/samba/smb.conf.v4
-    sed -i '/netatalk/a \ \ \ \ \ \ \ \ fruit:model = RackMac' squashfs-root/etc/samba/smb.conf.v4
-    sed -i '/netatalk/a \ \ \ \ \ \ \ \ vfs objects = catia fruit streams_xattr' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/netatalk/a \        multicast dns register = yes' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/netatalk/a \        fruit:time machine = yes' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/netatalk/a \        fruit:model = RackMac' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/netatalk/a \        vfs objects = catia fruit streams_xattr' squashfs-root/etc/samba/smb.conf.v4
     sed -i '/netatalk/d' squashfs-root/etc/samba/smb.conf.v4
 
     # Add a startup script that checks samba version
