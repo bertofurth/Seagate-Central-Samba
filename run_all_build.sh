@@ -1,6 +1,10 @@
 #!/bin/bash
 #
-# Don't run this. 
+# Run all the samba cross compiling scripts in order.
+#
+# Only run this if you're confident that the
+# scripts will work. Run them individually on
+# the first attempt.
 #
 checkerr()
 {
