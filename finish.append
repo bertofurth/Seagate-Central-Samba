@@ -1,0 +1,15 @@
+
+#
+# finish.append
+# Appended to the end of /etc/init.d/finish on
+# a Seagate Central to generate a default
+# password for root/su when the password is set
+# to blank.
+
+if grep -q "^root:x:" /etc/passwd
+then
+      echo "root:XXXXXXXXXX" | chpasswd
+      # Make sure the changes are in the Central's backup config folder.
+      rsync -Rva /etc/passwd /usr/config/backupconfig
+fi
+	

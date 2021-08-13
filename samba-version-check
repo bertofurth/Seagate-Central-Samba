@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# This script should be executed on startup before
+# the samba service is started. It checks to see if
+# the original version 3.x.x samba is running.
+#
+# If not it tries to copy an alternate smb.conf
+# samba configuration file into place.
+#
+SAMBA_VERSION=$(smbstatus -V | grep "ersion 3")
+if [ -z $SAMBA_VERSION ]; then
+   echo "$SAMBA_VERSION running. Using new samba configuration"
+   cp /etc/samba/smb.conf.v4 /etc/samba/smb.conf
+fi
