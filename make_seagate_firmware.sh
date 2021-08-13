@@ -175,9 +175,23 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
     # Remove no longer supported or needed options
     cp squashfs-root/etc/samba/smb.conf squashfs-root/etc/samba/smb.conf.v4 &> log_04_smb_conf.log
     checkerr $? "smb.conf modification" log_04_smb_conf.log
-    sed -i '/min receivefile size/d' squashfs-root/etc/samba/smb.conf.v4
     sed -i '/auth methods/d' squashfs-root/etc/samba/smb.conf.v4
-
+    sed -i '/encrypt passwords/d' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/null passwords/d' squashfs-root/etc/samba/smb.conf.v4
+    
+    # There is a poorly formatted line in the default
+    # smb.conf file
+    #
+    # min receivefile size = 1 ## disabled due to SOP receive file bug
+    #
+    # This needs to be removed to work with samba v4.
+    # We replace it with
+    #
+    # min receivefile size 16384
+    #
+    sed -i '/SOP receive file bug/a \         min receivefile size 16384' squashfs-root/etc/samba/smb.conf.v4
+    sed -d '/SOP receive file bug/d' squashfs-root/etc/samba/smb.conf.v4
+    
     # Replace and update old appletalk configuration
     sed -i '/netatalk/a \ \ \ \ \ \ \ \ multicast dns register = yes' squashfs-root/etc/samba/smb.conf.v4
     sed -i '/netatalk/a \ \ \ \ \ \ \ \ fruit:time machine = yes' squashfs-root/etc/samba/smb.conf.v4
