@@ -187,9 +187,9 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
     # This doesn't work with samba v4 and needs to be
     # removed. We replace it with
     # 
-    # min receivefile size 16384
+    # min receivefile size = 16384
     #
-    sed -i '/SOP receive file bug/a \        min receivefile size 16384' squashfs-root/etc/samba/smb.conf.v4
+    sed -i '/SOP receive file bug/a \        min receivefile size = 16384' squashfs-root/etc/samba/smb.conf.v4
     sed -i '/SOP receive file bug/d' squashfs-root/etc/samba/smb.conf.v4
     
     # Replace and update old appletalk configuration
