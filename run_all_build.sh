@@ -14,9 +14,11 @@ checkerr()
     fi
 }
 
-foreach script_name ( $(ls build-samba*.sh) )
-./$script_name
-checkerr
-end
+for script_name in build-samba*.sh
+do
+    echo Running $script_name
+    ./$script_name
+done
+
 
 
