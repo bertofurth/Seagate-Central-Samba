@@ -52,13 +52,14 @@ usage()
     echo "    structure where important binaries and libraries are "
     echo "    under the usr/local subdirectory."
     echo
-    echo "  Other parameters that may need to be modified within "
+    echo "  Other parameters that may be manually modified within the "
     echo "  the $0 script"
     echo 
     echo "  DEFAULT_ROOT_PASSWORD : Enable su access and set the"
-    echo "    default root password."
+    echo "    default root password (default : on)"
     echo 
     echo "  DISABLE_TAPPIN : Remove defunct Tappin software"
+    echo "    (default : on)"
     echo    
 }   
 
@@ -101,8 +102,8 @@ if [ ! -r $SEAGATE_FIRMWARE ]; then
     exit 1
 fi
 
-if [ -n $SAMBA_DIRECTORY ]; then
-    if [ ! -d $SAMBA_ARCHIVE ]; then	
+if ! [ -z $SAMBA_DIRECTORY ]; then
+    if [ ! -d $SAMBA_DIRECTORY ]; then	
 	echo "Unable to find samba directory $SAMBA_DIRECTORY"
 	exit 1  
     fi     
@@ -114,7 +115,7 @@ SEAGATE_NEW_FIRMWARE=Seagate-Samba-Update-$new_version.img
 echo
 echo "Creating new firmware image $SEAGATE_NEW_FIRMWARE"
 echo "Using base firmware $SEAGATE_FIRMWARE"
-if [ -n $SAMBA_DIRECTORY ]; then
+if ! [ -z $SAMBA_DIRECTORY ]; then
     echo "Using samba directory $SAMBA_DIRECTORY"
 fi
 if [ -n $DEFAULT_ROOT_PASSWORD ]; then
@@ -135,10 +136,11 @@ new_stage "Extract Seagate Firmware"
 tar -zxpf $SEAGATE_FIRMWARE &> log_01_extract_firmware.log
 checkerr $? "untar Seagate Firmware" log_01_extract_firmware.log
 
+rm -rf squashfs-root
 unsquashfs rfs.squashfs &> log_02_unsquashfs.log
 checkerr $? "unsquashfs" log_02_unsquashfs.log
 
-if [ -n $SAMBA_DIRECTORY ]; then
+if ! [ -z $SAMBA_DIRECTORY ]; then
     new_stage "Insert Samba software"
 
     # Install libraries
@@ -247,7 +249,6 @@ checkerr $? "tar up firmware" log_06_tar_firmware.log
 #SKIP_CLEANUP=1
 if [ -z $SKIP_CLEANUP ]; then
     new_stage "Cleanup"
-    rm -rf $SAMBA_DIRECTORY
     rm -rf squashfs-root
     rm -rf uImage config.ser config.ser.orig
     rm -rf rfs.squashfs
