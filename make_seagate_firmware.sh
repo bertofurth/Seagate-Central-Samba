@@ -279,5 +279,7 @@ echo -e "$GRN Success!! $NOCOLOR"
 echo -e "$GRN Created $NOCOLOR $SEAGATE_NEW_FIRMWARE"
 if [ -n $DEFAULT_ROOT_PASSWORD ]; then
     echo -e "$GRN Default Root Password :$NOCOLOR $DEFAULT_ROOT_PASSWORD"
+    echo $DEFAULT_ROOT_PASSWORD > $SEAGATE_NEW_FIRMWARE.root-password
+    echo -e "$GRN Generated text file :$NOCOLOR $SEAGATE_NEW_FIRMWARE.root-password"
 fi
 
