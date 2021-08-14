@@ -82,14 +82,20 @@ should both still work.
 ## Procedure
 ### Transfer cross compiled samba binaries to the Seagate Central
 You should have a self generated or downloaded archive of the
-samba binaries you'd like to install.
+samba binaries you'd like to install. If you have just completed
+cross compiling the samba software you can generate an archive 
+with the following commands executed from the base working
+directory.
+
+     mv cross seagate-central-samba
+     tar -caf seagate-central-samba.tar.gz seagate-central-samba
 
 We must transfer the archive to the Seagate Central. This can be 
 copied to the NAS in the same way that other files are normally 
 copied to the NAS. 
 
-An alternative method of copying data to the Seagate Central is scp.
-In this example we use the scp command with the "admin" user to
+An alternative method of copying data to the Seagate Central is 
+scp. In this example we use the scp command with the "admin" user to
 copy the archive to the user's home directory. You will need to
 substitute your own username and NAS IP address. After
 executing the scp command you'll be prompted for the user's
@@ -225,12 +231,17 @@ overwritten each time the system boots up. (See the
      cp /etc/samba/smb.conf /usr/config/backupconfig/etc/samba/smb.conf
 
 ### Test the newly installed server
-At this point the server should be fully installed and can be 
-reactivated with the following command
+At this point the server should be fully installed. Run the 
+**testparm** command to check that the new samba configuration
+is correct and compatible with the new version of samba.
+
+     testparm
+
+The server may be reactivated with the following command
 
      /etc/init.d/samba start
 
-Check to see if the smbd process is running by running the 
+Check to see if the smbd process is running by using the 
 following command. Multiple instances of smbd should be
 active.
 
