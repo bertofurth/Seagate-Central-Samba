@@ -32,8 +32,8 @@ space during the build process and will generate about 85MiB of finished
 product. 
 
 ### Time
-The build takes a total of about 8 minutes to complete on an 
-8 core i7 PC. The build takes about 50 minutes on a Raspberry Pi 4B.
+The build component takes a total of about 10 minutes to complete on an 
+8 core i7 PC. The build takes about 1 hour on a Raspberry Pi 4B.
 
 ### A cross compilation suite on a build host
 You can follow the instructions at
@@ -238,21 +238,24 @@ The directory on the compiling host where binaries and other
 generated files will be temporarily installed before being copied 
 to the Seagate Central.
 
-This is different to DEST (see below) which is where the generated
-files need to be copied to on the Seagate Central itself
+This is different to PREFIX and EXEC_PREFIX (see below) which is where 
+the generated files need to be located on the Seagate Central itself.
 
      BUILDHOST_DEST=$(pwd)/cross
 
-#### DEST
-The directory where the final product will be installed on the
-target device (i.e. on the Seagate Central). This should probably 
-be left as /usr/local .
+#### PREFIX, EXEC_PREFIX
+The directories where the libraries (PREFIX) and executables
+(EXEC_PREFIX) will be installed on the target device (i.e. on
+the Seagate Central). This should probably be left as /usr/local 
+and /usr.
 
 Note that is NOT the place where the resultant binaries and libraries 
 will be temporarily copied to on the compiling host (see 
 BUILDHOST_DEST).
 
-     DEST=/usr/local
+     PREFIX=/usr/local
+     
+     EXEC_PREFIX=/usr
 
 #### SEAGATE_LIBS_BASE
 Specify a directory containing the native library files as copied
