@@ -185,29 +185,37 @@ revert to the original version of samba.
 
     cp /etc/samba/smb.conf /etc/samba/smb.conf.old
     
-Next, edit the configuration file and remove or comment out with a #
-the following lines of configuration which is no longer needed.
+Next, edit the /etc/samba/smb.conf file with vi or nano and remove
+or comment out with a #, the following configuration lines which
+are no longer supported in samba v4.
 
      . . .
-     # auth methods = guest, sam_ignoredomain
+     min receivefile size = 1 ## disabled due to SOP receive file bug
      . . .
-
-Also comment out or delete this line which enables apple talk style
-connection
-
+     auth methods = guest, sam_ignoredomain
+     encrypt passwords = yes
      . . .
-     # vfs object = netatalk
+     null passwords = yes
+     . . .
+     vfs object = netatalk
      . . .
      
-and with the up to date appletalk configuration equivalents as follows.
-    
-     . . .
+Replace these lines with the following. Make sure these lines
+are after the "[global]" directive and before the "include"
+directive at the end of the file
+
+     min receivefile size = 16384
      vfs objects = catia fruit streams_xattr
      fruit:model = RackMac
      fruit:time machine = yes
      multicast dns register = yes
-     . . .
-     
+
+At this point you can take the opportunity to enable other samba
+features that are available in samba 4. See the following link for
+details on other samba parameters that can be configured.
+
+https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html
+
 The new configuration needs to be saved and then copied to a special
 folder that stores backups of the system configuration. If this step
 is not completed then any changes made to the smb.conf file will be 
@@ -215,12 +223,6 @@ overwritten each time the system boots up. (See the
 /etc/init.d/firmware-init-1bay startup script for details.)
 
      cp /etc/samba/smb.conf /usr/config/backupconfig/etc/samba/smb.conf
-
-At this point you can take the opportunity to enable other samba
-features that are available in samba 4. See the following link for
-details on other samba parameters that can be configured
-
-https://www.samba.org/samba/docs/current/man-html/smb.conf.5.html
 
 ### Test the newly installed server
 At this point the server should be fully installed and can be 
