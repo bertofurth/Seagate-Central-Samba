@@ -246,6 +246,22 @@ if [ -n $DISABLE_TAPPIN ]; then
     find  squashfs-root/etc/ -name *tappinAgent* -exec rm {} +
 fi
 
+#
+# Generate the small descriptor file associated
+# with the firmware update
+#
+new_md5="$(md5sum rfs.squashfs  | cut -d" " -f1)" 
+cp config.ser config.ser.orig
+sed -i "/version/c version=${new_version}" config.ser
+sed -i "/release_date/c release_date=${new_release_date}" config.ser
+sed -i "/rfs/c rfs=${new_md5}" config.ser
+
+#
+# Modify the file that identifies the firmware
+# version.
+sed -i "/version/c version=${new_version}" squashfs-root/etc/config.ser
+sed -i "/release_date/c release_date=${new_release_date}" squashfs-root/etc/config.ser
+
 
 new_stage "Creating new firmware archive"
 rm rfs.squashfs
@@ -258,11 +274,7 @@ rm rfs.squashfs
 #
 mksquashfs squashfs-root rfs.squashfs -all-root -noappend -Xcompression-level 1 &> log_05_mksquashfs.log
 checkerr $? "mksquashfs squashfs-root" log_05_mksquashfs.log
-new_md5="$(md5sum rfs.squashfs  | cut -d" " -f1)" 
-cp config.ser config.ser.orig
-sed -i "/version/c version=${new_version}" config.ser
-sed -i "/release_date/c release_date=${new_release_date}" config.ser
-sed -i "/rfs/c rfs=${new_md5}" config.ser
+
 
 tar -czvf $SEAGATE_NEW_FIRMWARE rfs.squashfs uImage config.ser &> log_06_tar_firmware.log
 checkerr $? "tar up firmware" log_06_tar_firmware.log
