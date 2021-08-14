@@ -50,7 +50,7 @@ installed on the building system.
 ## Procedure
 ### Workspace preparation
 Download the files in this project to a new directory. This 
-directory will be known as the base workspace.
+will be known as the base working directory.
 
 ### Obtain Seagate Central Firmware
 As of the writing of this document a Seagate Central firmware zip
@@ -69,7 +69,7 @@ The serial number should be in a format similar to "NA6SXXXX".
 The latest firmware zip file available as of the writing of this 
 document is Seagate-HS-update-201509160008F.zip
 
-Copy this file to the base work directory and unzip it as
+Copy this file to the base working directory and unzip it as
 follows.
 
      unzip Seagate-HS-update-201509160008F.zip
@@ -140,13 +140,15 @@ cross compiled samba software
      ./make_seagate_firmware.sh ./Seagate-HS-update-201509160008F.img ./cross
      
 The script should generate output indicating the status of the process.
-Finally it should display the name of the new firmware image and what 
-the randomly generated default root password is set to.
+Finally it should display the name of the new generated firmware image,
+the new randomly generated default root password, and the name of a text
+file containing the password.
 
        Success!!
        Created  Seagate-Samba-Update-2021.0813.1710-S.img
-       Default Root Password : SeagateCentral-XXXXX-XXXXXXXXX
-
+       Default Root Password : XXXXXXXXXXXXXXX
+       Generated text file : Seagate-Samba-Update-2021.0814.1348-S.img.root-password
+       
 ### Upgrade the Seagate Central
 Login to the target Seagate Central web management page.
 
