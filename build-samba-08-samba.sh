@@ -2,7 +2,7 @@
 #
 # Set this to the name of the cross-answers file.
 #
-CROSS_ANSWERS=samba-4.14.6-cross-answers-seagate-central.txt
+CROSS_ANSWERS=cross-answers-seagate-central-samba-4.14.6.txt
 
 source build-common
 source build-functions

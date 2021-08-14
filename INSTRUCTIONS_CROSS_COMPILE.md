@@ -267,7 +267,7 @@ If you decide to build a significantly different version of
 samba than the one used in this guide then then you may need 
 to alter the included cross-answers file which has a name similar to
 
-**samba-X.X.X-cross-answers-seagate-central.txt**
+**cross-answers-seagate-central-samba-X.X.X.txt**
 
 This file contains information that allows samba to be cross
 compiled for the arm platform. If you create a new cross-answers
