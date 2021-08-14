@@ -12,7 +12,7 @@ cp -n $LIB_NAME/include/lber.h \
    $LIB_NAME/include/ldap_schema.h \
    $LIB_NAME/include/ldap_utf8.h \
    $LIB_NAME/include/slapi-plugin.h  \
-   $BUILDHOST_DEST/$DEST/include
+   $BUILDHOST_DEST/$PREFIX/include
 if [ $? -ne 0 ]; then
     echo
     echo Copying source based header files for $LIB_NAME failed. Exiting
@@ -43,7 +43,7 @@ fi
 cp -n include/lber_types.h \
    include/ldap_config.h \
    include/ldap_features.h \
-   $BUILDHOST_DEST/$DEST/include
+   $BUILDHOST_DEST/$PREFIX/include
 if [ $? -ne 0 ]; then
     echo
     echo Copying generated header files for $LIB_NAME failed. Exiting
@@ -62,9 +62,9 @@ fi
 # used on the Seagate Central are not in a standard
 # format.
 
-ln -s /usr/lib/libldap-2.3.so.0 $BUILDHOST_DEST/$DEST/lib/libldap.so
+ln -s /usr/lib/libldap-2.3.so.0 $BUILDHOST_DEST/$PREFIX/lib/libldap.so
 ln -s libldap-2.3.so.0 $SEAGATE_LIBS_BASE/usr/lib/libldap.so
-ln -s /usr/lib/liblber-2.3.so.0 $BUILDHOST_DEST/$DEST/lib/liblber.so
+ln -s /usr/lib/liblber-2.3.so.0 $BUILDHOST_DEST/$PREFIX/lib/liblber.so
 ln -s liblber-2.3.so.0 $SEAGATE_LIBS_BASE/usr/lib/liblber.so
 
 finish_it

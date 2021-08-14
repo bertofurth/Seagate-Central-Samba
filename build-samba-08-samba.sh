@@ -67,7 +67,7 @@ fi
 #                 issue where we need to use locally compiled versions
 #                 of these tools rather than versions compiled for
 #                 the target.
-# enable-fhs : This is necessary when we're using $DEST of /usr/local
+# enable-fhs : This is necessary when we're using $PREFIX of /usr/local
 #              It tells SAMBA to use the standard style of file hierachy.
 # *dir : Configuration and state file folders set up as per the original
 #        Seagate Central SAMBA daemon. This could be left out on a
