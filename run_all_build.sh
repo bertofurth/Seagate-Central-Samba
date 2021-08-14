@@ -34,6 +34,6 @@ do
 	checkerr
     fi
 done
-echo Finished. Total build took  seconds
+echo Finished. Total build took $SECONDS seconds
 
 
