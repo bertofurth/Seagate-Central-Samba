@@ -40,3 +40,5 @@ Checking uname version type: "#1 Wed Sep 16 15:47:59 PDT 2015"
 Checking whether POSIX capabilities are available: OK
 checking for clnt_create(): OK
 Checking whether fcntl supports flags to send direct I/O availability signals: OK
+Checking value of GNUTLS_CIPHER_AES_128_CFB8: 29
+Checking value of GNUTLS_MAC_AES_CMAC_128: 203
