@@ -125,7 +125,7 @@ the same major version numbers, will still work with this guide.
 * acl-2.3.1
 * libtasn1-4.17.0
 * gntls-3.6.16
-* openldap-2.3.39 (Must be the same version as Seagate Central)
+* openldap-2.3.39 (Should be the same version as Seagate Central)
 * samba-4.14.6
 
 Download these using **wget**, **curl -O** or a similar tool as
@@ -214,7 +214,7 @@ This parameter sets the prefix name of the cross compiling toolkit.
 This will likely be something like "arm-XXX-linux-gnueabi-" . 
 Normally this will have a dash (-) at the end.
 
-    export CROSS_COMPILE=arm-sc-linux-gnueabi-
+    CROSS_COMPILE=arm-sc-linux-gnueabi-
     
 #### CROSS and TOOLS    
 The location of the root of the cross compiling tool suite on the 
