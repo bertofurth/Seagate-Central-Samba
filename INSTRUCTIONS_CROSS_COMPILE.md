@@ -209,14 +209,14 @@ These parameters are arranged roughly in order of their likelihood
 of needing to be changed. The first three are the most important
 to get right.
 
-#### CROSS_COMPILE 
+#### CROSS_COMPILE (Important)
 This parameter sets the prefix name of the cross compiling toolkit.
 This will likely be something like "arm-XXX-linux-gnueabi-" . 
 Normally this will have a dash (-) at the end.
 
     CROSS_COMPILE=arm-sc-linux-gnueabi-
     
-#### CROSS and TOOLS    
+#### CROSS and TOOLS (Important)
 The location of the root of the cross compiling tool suite on the 
 compiling host (CROSS), and the location of the cross compiling 
 binary executables such as gcc (TOOLS).
@@ -226,14 +226,14 @@ Make sure to use an absolute path and not the ~ or . symbols.
     CROSS=$HOME/Seagate-Central-Toolchain/cross
     TOOLS=$CROSS/tools/bin
 
-#### J (Number of CPU threads)
+#### J (Number of CPU threads) (Important)
 Set the number of threads to use when compiling. Generally set 
 equal to or less than the number of CPU cores on the building machine. 
 Set to 1 when troubleshooting.
     
     J=6
 
-#### BUILDHOST_DEST
+#### BUILDHOST_DEST (Unlikely to need changing)
 The directory on the compiling host where binaries and other 
 generated files will be temporarily installed before being copied 
 to the Seagate Central.
@@ -243,7 +243,7 @@ the generated files need to be located on the Seagate Central itself.
 
      BUILDHOST_DEST=$(pwd)/cross
 
-#### PREFIX, EXEC_PREFIX
+#### PREFIX, EXEC_PREFIX (Unlikely to need changing)
 The directories where the libraries (PREFIX) and executables
 (EXEC_PREFIX) will be installed on the target device (i.e. on
 the Seagate Central). This should probably be left as /usr/local 
@@ -257,7 +257,7 @@ BUILDHOST_DEST).
      
      EXEC_PREFIX=/usr
 
-#### SEAGATE_LIBS_BASE
+#### SEAGATE_LIBS_BASE (Unlikely to need changing)
 Specify a directory containing the native library files as copied
 from the Seagate Central. If this directory is changed then make
 sure the step that downloads libraries from the Seagate Central
@@ -265,7 +265,7 @@ to the build host is modified accordingly.
 
      SEAGATE_LIBS_BASE=$(pwd)/sc-libs
 
-### Samba cross answers file
+### Samba cross answers file 
 If you decide to build a significantly different version of 
 samba than the one used in this guide then then you may need 
 to alter the included cross-answers file which has a name similar to
