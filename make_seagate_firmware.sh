@@ -111,7 +111,8 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
     # Sanity check
     if [ ! -r $SAMBA_DIRECTORY/usr/local/sbin/smbd ]; then
 	echo "Unable to find $SAMBA_DIRECTORY/usr/local/sbin/smbd"
-	echo "Are you sure this is a Samba directory?"
+	echo "Are you sure this is a directory that contains"
+	echo "cross compiled samba binaries?"
 	exit 1
     fi
 fi
