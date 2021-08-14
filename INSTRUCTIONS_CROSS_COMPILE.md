@@ -117,36 +117,37 @@ for each component and installing it into the working base directory.
 
 Here we show the versions of software used when generating this guide.
 Unless otherwise noted these are the latest stable releases at the
-time of writing.
+time of writing. Hopefully later versions, or at least those with
+the same major version numbers, will still work with this guide.
 
 * gmp-6.2.1
-* nettle-3.3 (Unable to get later versions working)
+* nettle-3.7.3
 * acl-2.3.1
 * libtasn1-4.17.0
-* gntls-3.4.17 (3.4.x is currently recommended by samba documentation)
-* openldap-2.3.39 (Must be the same version as Seagate Central)
+* gntls-3.6.16
+* openldap-2.3.39 (Should be the same version as Seagate Central)
 * samba-4.14.6
 
-Download these using **wget**, **curl -O** or a similar tool as follows.
-Note that these source archives are available from a wide variety of 
-sources so if one of the URLs used below does not work try to search 
-for another.
+Download these using **wget**, **curl -O** or a similar tool as
+follows. Note that these archives are available from a wide variety 
+of sources so if one of the URLs used below does not work try to 
+search for another.
 
     wget http://mirrors.kernel.org/gnu/gmp/gmp-6.2.1.tar.xz
-    wget http://mirrors.kernel.org/gnu/nettle/nettle-3.3.tar.gz
+    wget http://mirrors.kernel.org/gnu/nettle/nettle-3.7.3.tar.gz
     wget http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
-    wget https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz
-    wget https://www.gnupg.org/ftp/gcrypt/gnutls/v3.4/gnutls-3.4.17.tar.xz
+    wget http://mirrors.kernel.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz   
+    wget https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.16.tar.xz
     wget https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.3.39.tgz
     wget https://download.samba.org/pub/samba/samba-4.14.6.tar.gz
 
 Extract each file with the **tar -xf** command.
 
-    tar -xf gmp-6.2.1.tar.xz
-    tar -xf nettle-3.3.tar.gz
+    tar -xf gmp-6.2.1.tar.xz 
+    tar -xf nettle-3.7.3.tar.gz  
     tar -xf acl-2.3.1.tar.xz
     tar -xf libtasn1-4.17.0.tar.gz
-    tar -xf gnutls-3.4.17.tar.xz
+    tar -xf gnutls-3.6.16.tar.xz
     tar -xf openldap-2.3.39.tgz
     tar -xf samba-4.14.6.tar.gz
 
@@ -213,7 +214,7 @@ This parameter sets the prefix name of the cross compiling toolkit.
 This will likely be something like "arm-XXX-linux-gnueabi-" . 
 Normally this will have a dash (-) at the end.
 
-    export CROSS_COMPILE=arm-sc-linux-gnueabi-
+    CROSS_COMPILE=arm-sc-linux-gnueabi-
     
 #### CROSS and TOOLS    
 The location of the root of the cross compiling tool suite on the 
@@ -279,7 +280,8 @@ https://wiki.samba.org/index.php/Waf#Using_--cross-answers
 
 ### Run the build scripts in order
 The build scripts are named in the numerical order that they need to be
-executed. 
+executed. On the first run we suggest executing them individually to make
+sure each one works.
 
     ./build-samba-01-gmp.sh
     ./build-samba-02-nettle.sh
@@ -290,22 +292,16 @@ executed.
     ./build-samba-07-samba-host-tools.sh
     ./build-samba-08-samba.sh
 
-My suggestion is to not blindly execute all the scripts at once or from 
-another script unless you're confident that the build will work. You need
-ensure that each script reports success as per the example below before 
-executing the next script.
+There is a script called **run_all_build.sh** that will execute all 
+the individual build scripts in order however this is only recommended
+once you are confident that the build will run without issue.
 
-    ****************************************
-    
-    Success! Finished installing gmp-6.2.1 to /home/user/Seagate-Central-Samba/cross
-    
-    ****************************************
-
-### Create an archive of the finished product
+### Optional : Create an archive of the finished product
 The finished product is now in the **cross** subdirectory (or whatever
-BULILDHOST_DEST is set to). I would suggest renaming that directory to
-a descriptive name and then creating an archive of the directory. For
-example
+BULILDHOST_DEST is set to). If this data needs to be transferred to 
+the Seagate Central as part of the manual installation procedure then
+rename that directory to descriptive name and then create an archive.
+For example
 
      mv cross seagate-central-samba
      tar -caf seagate-central-samba.tar.gz seagate-central-samba
@@ -324,8 +320,12 @@ means deleting the samba source directory and then re-expanding the
 samba tar archive to generate a fresh samba source directory.
 
 It's worth mentioning that some of the libraries, especially gnutls,
-will generate a very large volume of warning messages during 
-compilation. These are nothing to worry about as long as the success 
+may generate a very large volume of warning messages during 
+compilation. Particularly 
+
+    warning: 'ASN1_TYPE' macro is deprecated, use 'asn1_node' instead.
+    
+These are nothing to worry about as long as the success 
 message is printed at the end of each script.
 
 The "configure" stages of the build are where things will most likely
