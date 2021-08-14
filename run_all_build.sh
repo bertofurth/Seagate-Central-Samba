@@ -1,24 +1,37 @@
 #!/bin/bash
 #
+# run_all_builds.sh <start-stage-num>
+# 
 # Run all the samba cross compiling scripts in order.
+#
+# Optionally specify a starting stage number.
 #
 # Only run this if you're confident that the
 # scripts will work. Run them individually on
 # the first attempt.
 #
+
+start_stage=$1
+SECONDS=0
+current_stage=0
+
 checkerr()
 {
     if [ $? -ne 0 ]; then
-	echo "Failure. Aborting "
+	echo "Failure at stage $stage_num : $script_name  Exiting "
 	exit 1
     fi
 }
 
 for script_name in build-samba*.sh
 do
-    echo Running $script_name
-    ./$script_name
+    let current_stage++
+    if [[ $current_stage -ge $start_stage ]]; then	   
+	echo Running stage $current_stage : $script_name
+	./$script_name
+	checkerr
+    fi
 done
-
+echo Finished. Total build took  seconds
 
 
