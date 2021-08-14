@@ -20,7 +20,8 @@ if [ $? -ne 0 ]; then
 fi
 
 change_into_obj_directory
-configure_it --prefix=$DEST --host=$ARCH \
+configure_it --prefix=$PREFIX --exec-prefix=$EXEC_PREFIX \
+	     --host=$ARCH \
 	     --build=arm-unknown-linux \
 	     --with-yielding_select=no \
 	     --disable-slapd \

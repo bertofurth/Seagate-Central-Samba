@@ -1,9 +1,16 @@
 #!/bin/bash
 #
-# Don't source build-common here as we want this
-# build step to build executables for the host building
-# system, not the target Seagate Central.
+# This build script differs from the others as
+# we want this build step to build executables
+# for the host building system, not the target Seagate Central.
 #
+# In this script we are building local versions
+# of the "asn1_compile" and "compile_et" tools
+# which are needed to compile the complete
+# project.
+#
+# N.B. Don't "source build-common" here
+
 source build-functions
 check_source_dir "samba"
 
@@ -36,8 +43,9 @@ if [ $? -ne 0 ]; then
     exit -1
 fi
 #
-# Save the host versions of the tools to the root of
-# the source tree.
+# Save copies of the host versions of the tools to the
+# root of the source tree. These will be used in the next
+# build step where we compile samba for the target.
 cp bin/asn1_compile ./asn1_compile.local
 cp bin/compile_et ./compile_et.local
 

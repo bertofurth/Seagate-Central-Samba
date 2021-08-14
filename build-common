@@ -35,7 +35,7 @@ J=6
 # *****************************************************
 # *****************************************************
 # It's not likely that any of the values below need to
-# be changed but they can be.
+# be changed.
 # *****************************************************
 # *****************************************************
 
@@ -44,31 +44,39 @@ J=6
 # other generated files will be temporarily installed
 # before being copied to the Seagate Central.
 #
-# This is different to DEST which is where the generated
-# files need to be copied to on the Seagate Central.
+# This is different to PREFIX and EXEC_PREFIX which is
+# where the generated files need to be copied to on the
+# Seagate Central.
 #
 BUILDHOST_DEST=$(pwd)/cross
 
 #
-# The directory where the final product will be installed on
-# the target device (i.e. on the Seagate Central). This should
-# probably be left as /usr/local
+# The directory where the libraries and associated files
+# will be installed on the target device (i.e. on the
+# Seagate Central). We select /usr/local so as to not
+# overwrite any native libaries on the Seagate Central.
 #
 # Note 1 : This is NOT the place where the resultant binaries
 # and libraries will be temporarily copied to on the compiling
 # host (see BUILDHOST_DEST).
 #
 # Note 2: The main purpose of this variable is to set the
-# elf attribute DT_RPATH (set to $DEST/lib) in generated binaries.
-# This attribute lets the generated binary know where to access
-# the other generated shared libraries that we produce in this
+# elf attribute DT_RPATH (set to $PREFIX/lib) in generated
+# binaries. This attribute lets the generated binaries know
+# where to access theshared libraries that we produce in this
 # project.
 #
-DEST=/usr/local
+PREFIX=/usr/local
 
 #
-# Specify a directory containing the native library files as
-# copied from the Seagate Central.
+# The directory where executables will be installed on the
+# target device. On the Seagate Central these are installed
+# in /usr.
+EXEC_PREFIX=/usr
+
+#
+# Specify a directory on the building host containing the
+# native library files as copied from the Seagate Central.
 #
 # From the Seagate central copy /lib/* and /usr/lib/* to this
 # directory. Also copy /usr/include/* along with subdirectories.
@@ -107,16 +115,16 @@ export PATH=$TOOLS:$PATH
 # libraries that are needed by the other libraries that are linked
 # to.
 #
-export LDFLAGS="-L$BUILDHOST_DEST/$DEST/lib -L$SEAGATE_LIBS_BASE/lib \
+export LDFLAGS="-L$BUILDHOST_DEST/$PREFIX/lib -L$SEAGATE_LIBS_BASE/lib \
        -L$SEAGATE_LIBS_BASE/usr/lib \
-       -Wl,-rpath-link=$BUILDHOST_DEST/$DEST/lib \
+       -Wl,-rpath-link=$BUILDHOST_DEST/$PREFIX/lib \
        -Wl,-rpath-link=$SEAGATE_LIBS_BASE/lib  \
        -Wl,-rpath-link=$SEAGATE_LIBS_BASE/usr/lib"
 
 # Ensure that rpath is explicitly set. This might be superflous
 # for some software but others don't automatically add it.
 #
-export LDFLAGS=$LDFLAGS" -Wl,-rpath=$DEST/lib"
+export LDFLAGS=$LDFLAGS" -Wl,-rpath=$PREFIX/lib"
 
 #
 # Append the verbose flag to LDFLAGS if linker debugging is required.
@@ -152,14 +160,14 @@ export LDFLAGS="$LDFLAGS -Wl,-z,max-page-size=0x10000 -Wl,-z,common-page-size=0x
 # Seagate Central specific : Make sure to rename or delete
 # $SEAGATE_LIBS_BASE/usr/include/md5
 #
-export NOSTDINC_FLAGS="-I$BUILDHOST_DEST/$DEST/include \
+export NOSTDINC_FLAGS="-I$BUILDHOST_DEST/$PREFIX/include \
        -I$SEAGATE_LIBS_BASE/usr/include"
 
 #
 # For some configure scripts it's important to have access
 # to the pkg-config information for libraries
 #
-export PKG_CONFIG_PATH="$BUILDHOST_DEST/$DEST/lib/pkgconfig"
+export PKG_CONFIG_PATH="$BUILDHOST_DEST/$PREFIX/lib/pkgconfig"
 
 #
 # The Seagate Central Cavium CNS3420 CPU uses the armv6k
