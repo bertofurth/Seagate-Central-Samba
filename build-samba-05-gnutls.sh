@@ -13,6 +13,7 @@ configure_it --prefix=$DEST --host=$ARCH \
 	     --without-zlib \
 	     --without-p11-kit \
 	     --with-included-unistring \
+	     --without-idn \
 	     --enable-openssl-compatibility
 did_configure_work
 make_it
