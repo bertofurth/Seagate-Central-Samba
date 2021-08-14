@@ -10,7 +10,7 @@
 # will likely be something like arm-XXX-linux-gnueabi-
 # Normally this will have a dash at the end.
 #
-export CROSS_COMPILE=arm-sc-linux-gnueabi-
+CROSS_COMPILE=arm-sc-linux-gnueabi-
 
 #
 # The location of the root of the cross compiling tool suite
