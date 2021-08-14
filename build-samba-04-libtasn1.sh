@@ -4,8 +4,8 @@ source build-functions
 check_source_dir "libtasn1"
 change_into_obj_directory
 configure_it --prefix=$PREFIX \
-	     --bindir=$EXEC_PREFIX \
-	     --sbindir=$EXEC_PREFIX \
+	     --bindir=$EXEC_PREFIX/bin \
+	     --sbindir=$EXEC_PREFIX/sbin \
 	     --host=$ARCH \
 	     --disable-doc \
 	     --enable-cross-guesses=conservative

@@ -21,8 +21,8 @@ fi
 
 change_into_obj_directory
 configure_it --prefix=$PREFIX \
-	     --bindir=$EXEC_PREFIX \
-	     --sbindir=$EXEC_PREFIX \
+	     --bindir=$EXEC_PREFIX/bin \
+	     --sbindir=$EXEC_PREFIX/sbin \
 	     --host=$ARCH \
 	     --build=arm-unknown-linux \
 	     --with-yielding_select=no \

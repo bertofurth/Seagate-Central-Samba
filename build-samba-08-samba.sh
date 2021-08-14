@@ -84,8 +84,8 @@ fi
 #
 
 configure_it --prefix=$PREFIX \
-	     --bindir=$EXEC_PREFIX \
-	     --sbindir=$EXEC_PREFIX \
+	     --bindir=$EXEC_PREFIX/bin \
+	     --sbindir=$EXEC_PREFIX/sbin \
 	     --cross-compile \
 	     --cross-answers=../$CROSS_ANSWERS \
 	     --bundled-libraries=!asn1_compile,!compile_et \
