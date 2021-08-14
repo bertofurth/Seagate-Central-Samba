@@ -222,7 +222,10 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
     # simply overwrite the old English language Tappin
     # message.
 
-    sed -i 's#Seagate Remote Access powered by Tappin#Samba v4.14.6 - samba.org#g' squashfs-root/cirrus/application/language/en/cirrus_lang.php
+    if [ -r squashfs-root/usr/local/include/samba-4.0/samba/version.h ]; then
+	SAMBA_VERSION=$(cat usr/local/include/samba-4.0/samba/version.h | grep SAMBA_VERSION_STRING= | cut -d= -f2)
+	sed -i 's#Seagate Remote Access powered by Tappin#Samba ${SAMBA_VERSION} - samba.org#g' squashfs-root/cirrus/application/language/en/cirrus_lang.php
+    fi
 fi 
   
 if [ -n $DEFAULT_ROOT_PASSWORD ]; then
