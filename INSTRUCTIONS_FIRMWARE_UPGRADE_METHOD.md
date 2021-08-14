@@ -33,6 +33,11 @@ Up to about 1GB of disk space will be required on the building
 host while performing this procedure. The generated firmware image
 will be about 120MB in size.
 
+### Time
+While the fimware creation process only takes about 1 minute the
+upgrade process on the Seagate Central can take as long as 30
+minutes depending on how many user files are on the device.
+
 ### Required software on build host
 The following packages or their equivalents may need to be
 installed on the building system.
@@ -77,6 +82,11 @@ follows.
 There should now be a .img file in the base working directory.
 This is the firmware image that will be used in the coming steps.
 
+Note : If Seagate ever stop supplying firmware downloads then it
+would be possible to generate a new fimrware image based on the
+contents of a working Seagate Central. That, however, is beyond
+the scope of this project.
+
 ### Obtain cross compiled samba software
 Make sure that there is a subdirectory under the base working 
 directory containing the cross compiled samba software.
@@ -96,11 +106,12 @@ example.
 #### su access
 By default the script will make sure that su access is enabled 
 on the upgraded Seagate Central. It will also set a default
-password for the root user if one has not already been set.
+password for the root user that is applied if one is **not**
+already set.
 
 The password will be set psuedo randomly each time the
 script is run but you can modify this by changing the
-DEFAULT_ROOT_PASSWORD parameter.
+DEFAULT_ROOT_PASSWORD parameter within the script.
 
 If you **do not** want to allow su access then edit the
 make_seagate_firmware.sh file and comment out the 
@@ -112,24 +123,27 @@ front of it as follows
 #### TappIn
 By default the script will disable and remove the TappIn remote
 access service on the Seagate Central. This service has been non 
-operational for some time as per the notice on Seagate's webiste.
+operational for some time as per the notice on Seagate's website.
 
 https://www.seagate.com/au/en/support/kb/seagate-central-tappin-update-007647en/
 
 By disabling the service we are not spending cpu resources on
 something that serves no purpose. In addition about 25MB of disk
-space is saved.
+space is saved be removing it.
 
-If you **do not** want to disable the TappIn service then edit the
+If you **do not** want to remove the TappIn service then edit the
 make_seagate_firmware.sh file and comment out the DISABLE_TAPPIN 
 setting by placing a # symbol in front of it as follows
 
      #DISABLE_TAPPIN=1
      
+Note that the Tappin icon will still appear in the Seagate Central
+web management interface but it will not be able to be activated.
+     
 #### TODO : Add other options?? 
-If anyone else has any suggestions about quick settings that could
-be optimized using this procedure then please raise an issue and 
-we can look into it.
+If anyone else has any suggestions about quick settings on the 
+Seagate Central that could be optimized using this procedure then
+please raise an issue and we can look into it.
 
 ### Run the script
 Execute the script as per the following example. The first argument is
@@ -153,27 +167,70 @@ file containing the password.
 Login to the target Seagate Central web management page.
 
 Make sure that the newly created firmware image is accesible
-from the machine logging into the web management page. If
-you built the firmware on a different machine then it will
-need to be transfered over.
+locally from the machine logging into the web management page. 
 
 On the web management page go into "Settings" Tab. Under the
 "Advanced" folder select the "Firmware Update" option.
 
-At this point I would suggest disabling the "Update Automatically"
-check box as Seagate is no longer providing Automatic Updates.
+At this point I would suggest making sure that the 
+"Update Automatically" check box in deselected as Seagate is
+no longer providing automatic updates.
 
 In the "Install from file" field click on "Choose File". 
 
-Select the newly built firmware image in the dialog box that
-appears.
+A file selection dialog box should appear where you can select
+the newly built firmware image.
 
+Once the firmware upgrade image has been chosen click on the
+"Install" button.
 
+A dialog box will appear saying
+
+     Your Seagate Central must be on for the duration 
+     of the update. This can take from 5 to 10 minutes.
+     Do you want to continue?
+
+Click on OK
  
+A display entited "Update progress" showing a progress meter should
+appear.
+
+After about 3 minute mark the progress meter seems to pause at 86%.
+
+I believe at this point the upgrade process is trying to catalog
+user data files so if you have a lot of user data files stored on
+the Seagate Central then this might influence the time it takes to 
+upgrade. In my case it took about 15 minutes to get past the 86% 
+point.
+
+Once the upgrade is complete a new page should appear displaying 
+the message
  
+    Rebooting in progress
+    The device is rebooting after completing system updates and 
+    changes. Wait until the page refreshes and the Seagate Central 
+    application appears.
+
+Hopefully the unit will quickly reboot and you are able to access
+the web management page again.
+
+Don't panic if you go to the "Home" page and see that the
+pie chart indicates that there's no user data. It can take up to
+24 hours after an upgrade for the Seagate Central to properly take
+stock of the user data and update it's internal statistics. 
+
+If you navigate to the Settings tab then look at the
+Settings -> About page then you should see a new version number
+in the "Firmware version" field reflecting the new firmware just
+applied.
+
+Furthermore for English language users the "Technology Partners"
+section should contain a new note indicating the new version of
+samba software the unit is running.
+
 ### Post upgrade
 #### ssh into the Seagate Central and change the root password
-If the root password has not already been set then it will be
+If the root password **has not already been set** then it will be
 set to the default as generated by the script. For this reason
 it is very important to change the root password from the default
 to a new one.
@@ -185,21 +242,24 @@ Next change the root password with the passwd command. Here is
 a sample session.
 
      Seagate-NAS:~$ su
-     Password: SeagateCentral-XXXXX-XXXXXXXXX
+     Password: XXXXXXXXXXXXXXX
      Seagate-NAS:/Data/admin# passwd
      Enter new UNIX password: NewPassword123
      Retype new UNIX password: NewPassword123
      passwd: password updated successfully
      
-After changing the password the following commands must be run to
-ensure that the Seagate Central does not reset the root password
-back to the defaults on the next system boot. 
+After changing the root password the following commands must be
+run to ensure that the Seagate Central does not reset the root
+password back to the defaults on the next system boot. 
 
      cp /etc/passwd /usr/config/backupconfig/etc/
      cp /etc/shadow /usr/config/backupconfig/etc/
      
+Note that this needs to be done at anytime when the root
+password is changed.
+
 #### Confirm that Samba is working as expected
-Check to see if the smbd process is running by running the 
+Check to see if the smbd process is running by executing the 
 following command. Multiple instances of smbd should be
 active.
 
@@ -213,19 +273,37 @@ on any clients and that you are still able to transfer data to and
 from the Seagate Central.
 
 #### Optional : Reverting firmware
-If the new version of firmware or samba is not performing as desired 
-then there is always the option of reverting to the previous version.
+If the new version of firmware or samba is not performing as 
+desired then there is always the option of reverting to the previous 
+version.
 
-There is a guide to reverting Seagate Central firmware versions at
+There is a simple guide to reverting to the previously running version
+of Seagate Central firmware at
 
 http://seagatecentralenhancementclub.blogspot.com/2015/08/revert-to-previous-firmware-on-seagate.html
 
 Archive : https://archive.ph/3eOX0
 
-### Troubleshooting
+### Troubleshooting 
+#### Check samba logs (cat /var/log/smbd.log)
+These logs will show error messages associated with the samba service
+and will be useful if the service is not starting.
 
-Check logs
+#### Check startup logs (dmesg)    
+The **dmesg** command will show errors associated with the system startup
+process in general.
 
+#### Check samba parameters (testparm)
+The testparm command checks the samba configuration file to make sure
+that all the settings are compatible with the current version of
+samba.
+
+    root@NAS-X:~# testparm
+    Load smb config files from /etc/samba/smb.conf
+    Loaded services file OK.
+    Weak crypto is allowed
+
+    Server role: ROLE_STANDALONE
 
 
 
