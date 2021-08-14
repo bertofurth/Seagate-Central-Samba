@@ -85,18 +85,15 @@ That being said I doubt that as I write this note in 2021 that any
 Seagate Centrals are currently under any kind of warranty due to their
 age. In addition I've performed this upgrade on two separate single 
 bay Seagate Central systems and they are both working fine. In most cases
-it is also not difficult to roll back the changes should they prove to be
+it is not difficult to roll back any changes should they prove to be
 ineffective or have undesirable side effects.
 
-I encourage anyone who is adventurous enough to attempt to this kind
-of modification to their Seagate Central to try to understand each step 
-before they apply it in order to reduce the chances of accidentally 
-rendering their Seagate Central NAS device useless.
-
-Hopefully these instructions can also serve as a template for upgrading
-old samba software on other Linux based embedded equipment. It should not 
-take much tuning of these instructions to be able to apply them to other
-similar ARM based devices running outdated samba software.
+In the absolute worst case where a Seagate Central is "bricked", which
+never came close to happening during the course of developing these
+procedures, there is always the option of physically opening the
+Seagate Central, removing the hard drive and mounting it on a
+different machine in order to resurrect it and obtain any user
+data.
 
 Finally, note that the Seagate Central has not received an official 
 firmware update since 2015 so the manufacturer will probably not be
@@ -304,7 +301,12 @@ someone from the company is reading this note then I would be thrilled for them
 to take this work and use it as the basis for an official update for the Seagate 
 Central product.
 
+Hopefully these instructions can serve as a template for upgrading
+old samba software on other Linux based embedded equipment. It should not 
+take much tuning of these instructions to be able to apply them to other
+similar ARM based devices running outdated samba software.
+
 Finally I learned a great deal about Linux, samba and cross-compilation 
 while writing this guide. Please read these instructions with the 
-understanding that I am still in the process of learning. Hopefully this 
-project will help others to learn as well.
+understanding that I am still in the process of learning. I trust that
+this project will help others to learn as well.
