@@ -83,7 +83,9 @@ fi
 # is functionality beyond what's offered on the Seagate Central natively.
 #
 
-configure_it --prefix=$PREFIX --exec-prefix=$EXEC_PREFIX \
+configure_it --prefix=$PREFIX \
+	     --bindir=$EXEC_PREFIX \
+	     --sbindir=$EXEC_PREFIX \
 	     --cross-compile \
 	     --cross-answers=../$CROSS_ANSWERS \
 	     --bundled-libraries=!asn1_compile,!compile_et \
