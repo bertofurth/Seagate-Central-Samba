@@ -15,7 +15,6 @@ configure_it --prefix=$DEST --host=$ARCH \
 	     --with-included-unistring \
 	     --without-idn \
 	     --enable-openssl-compatibility
-did_configure_work
 make_it
 install_it
 finish_it
