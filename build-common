@@ -8,7 +8,7 @@
 #
 # Set the prefix name of the cross compiling toolkit. This
 # will likely be something like arm-XXX-linux-gnueabi-
-# Normally this will have a dash at the end.
+# Normally this will have a dash (-) at the end.
 #
 CROSS_COMPILE=arm-sc-linux-gnueabi-
 
@@ -44,7 +44,7 @@ J=6
 # other generated files will be temporarily installed
 # before being copied to the Seagate Central.
 #
-# This is different to PREFIX and EXEC_PREFIX which is
+# This is different to PREFIX and EXEC_PREFIX which are
 # where the generated files need to be copied to on the
 # Seagate Central.
 #
@@ -63,7 +63,7 @@ BUILDHOST_DEST=$(pwd)/cross
 # Note 2: The main purpose of this variable is to set the
 # elf attribute DT_RPATH (set to $PREFIX/lib) in generated
 # binaries. This attribute lets the generated binaries know
-# where to access theshared libraries that we produce in this
+# where to access the shared libraries that we produce in this
 # project.
 #
 PREFIX=/usr/local
