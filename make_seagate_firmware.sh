@@ -14,11 +14,12 @@
 #
 
 
-# Set the default root password. If this option is
-# commented out then the generated firmware image will
-# NOT enable su access on the Seagate Central.
+# Set the default root password to a random
+# string. If this option is commented out then
+# the generated firmware image will NOT enable
+# su access on the Seagate Central.
 #
-DEFAULT_ROOT_PASSWORD=SeagateCentral-$RANDOM-$(date +%N)
+DEFAULT_ROOT_PASSWORD=$(cat /dev/urandom | base64 | cut -c1-15 | head -n1)
 
 # Disable the defunct TappIn service. If this option
 # is commented out then the TappIn service will NOT
