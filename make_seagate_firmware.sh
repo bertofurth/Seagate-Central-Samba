@@ -214,6 +214,14 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
     cp samba-version-check squashfs-root/etc/init.d/
     chmod a+x squashfs-root/etc/init.d/samba-version-check
     ln -s ../init.d/samba-version-check squashfs-root/etc/rcS.d/S60samba-version-check
+
+    #
+    # Put a message on the About page indicating
+    # that we have installed a new version of Samba. We
+    # simply overwrite the old English language Tappin
+    # message.
+
+    sed -i 's#Seagate Remote Access powered by Tappin#Samba v4.14.6 - samba.org#g' cirrus/application/language/en/cirrus_lang.php
 fi 
   
 if [ -n $DEFAULT_ROOT_PASSWORD ]; then
@@ -227,15 +235,17 @@ if [ -n $DEFAULT_ROOT_PASSWORD ]; then
     if [ "$(grep "usermod -a -G users,wheel" squashfs-root/usr/sbin/ba-upgrade-finish)" = "" ]; then
 	sed s#"usermod -a -G nogroup"#"usermod -a -G users,wheel,nogroup"#g -i squashfs-root/usr/sbin/ba-upgrade-finish;
     fi;
-    if [ ! -r finish.append ]; then
-	echo "Unable to find finish.append"
+    if [ ! -r set_default_root_pw ]; then
+	echo "Unable to find set_default_root_pw"
 	echo "Needed to set default root password"
 	exit 1
     fi
-    sed s#XXXXXXXXXX#$DEFAULT_ROOT_PASSWORD#g finish.append > finish.append.modified
-    if [ "$(grep "finish.append" squashfs-root/etc/init.d/finish)" = "" ]; then
-	cat finish.append.modified >> squashfs-root/etc/init.d/finish
-    fi
+
+    sed s#XXXXXXXXXX#$DEFAULT_ROOT_PASSWORD#g set_default_root_pw > set_default_root_pw.modified
+    cp set_default_root_pw.modified squashfs-root/etc/init.d/set_default_root_pw
+    chmod a+x squashfs-root/etc/init.d/set_default_root_pw
+    ln -s ../init.d/set_default_root_pw squashfs-root/etc/rcS.d/S98set_default_root_pw
+
     chmod 4555 squashfs-root/usr/bin/sudo
     chmod 4555 squashfs-root/usr/bin/su
 fi
@@ -285,7 +295,7 @@ if [ -z $SKIP_CLEANUP ]; then
     rm -rf squashfs-root
     rm -rf uImage config.ser config.ser.orig
     rm -rf rfs.squashfs
-    rm -rf finish.append.modified
+    rm -rf set_default_root_pw.modified
 fi
 echo
 echo -e "$GRN Success!! $NOCOLOR"
