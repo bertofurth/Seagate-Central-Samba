@@ -11,8 +11,10 @@
 # samba configuration file into place that works
 # properly with more recent versions of samba.
 #
-SAMBA_VERSION=$(testparm -V | grep "ersion 3")
-if [ -z $SAMBA_VERSION ]; then
-   echo "$SAMBA_VERSION running. Using new samba configuration"
-   cp /etc/samba/smb.conf.v4 /etc/samba/smb.conf
+SAMBA_VERSION=$(testparm -V)
+SAMBA_VERSION_3=$(echo $SAMBA_VERSION | grep "ersion 3")
+if [ -z $SAMBA_VERSION_3 ]; then
+    echo "Samba $SAMBA_VERSION running. Using new samba configuration"
+    cp /etc/samba/smb.conf.v4 /etc/samba/smb.conf
 fi
+
