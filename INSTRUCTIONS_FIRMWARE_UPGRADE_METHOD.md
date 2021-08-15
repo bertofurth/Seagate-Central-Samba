@@ -164,9 +164,9 @@ the new randomly generated default root password, and the name of a text
 file containing the password.
 
        Success!!
-       Created  Seagate-Samba-Update-2021.0813.1710-S.img
+       Created  Seagate-Samba-Update-2021.0808.0605-S.img
        Default Root Password : XxXxXxXxXxXxX
-       Generated text file : Seagate-Samba-Update-2021.0814.1348-S.img.root-password
+       Generated text file : Seagate-Samba-Update-2021.0808.0605-S.img.root-password
        
 ### Upgrade the Seagate Central
 Login to the target Seagate Central web management page.
