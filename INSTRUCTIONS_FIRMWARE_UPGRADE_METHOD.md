@@ -7,6 +7,7 @@ version of samba.
 It is partially based on the work at
 
 https://github.com/detain/seagate_central_sudo_firmware
+
 http://seagatecentralenhancementclub.blogspot.com/2015/11/root-su-recovery-for-seagate-central.html
 
 Refer to the README.md file for the location of a set of 
