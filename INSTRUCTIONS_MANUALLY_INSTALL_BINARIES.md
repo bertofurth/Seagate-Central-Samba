@@ -234,6 +234,9 @@ If appropriate, further test that you are able to disable legacy
 SMBv1.0 support on any clients and that you are still able to
 transfer data to and from the Seagate Central.
 
+Finally test that the new software and configuration survive a
+reboot of the Seagate Central. 
+
 ### Optional : Revert back to the old samba software
 If the new version of samba is not performing as desired then there
 is always the option of reinstating the original version.
@@ -250,11 +253,20 @@ samba software.
      /etc/init.d/samba start
 
 ### Troubleshooting
-If executing the "testparm -V" command shows an error message similar to
+After the upgrade it may take a few minutes for the changes to the
+NAS configuration to propagate and be recognized throughout your local
+network. 
+
+If any individual clients are having difficulty connecting to the NAS 
+after the upgrade then consider rebooting them or forcing them to
+disconnect then reauthenticate to the Seagate Central NAS. 
+
+If executing the "testparm -V" command on the Seagate Central shows an
+error message similar to
 
      testparm: error while loading shared libraries: libsamba-util.so.0: cannot open shared object file: No such file or directory
 
-Then it may be that the libraries have not been installed properly.
+then it may be that the libraries have not been installed properly.
 Check to make sure that /usr/local/lib and /usr/local/lib/samba have
 been correctly created and have .so library files present.
 
@@ -264,12 +276,13 @@ starting the service then check the logs in
      /var/log/log.smbd
      /var/log/log.nmbd
      
- Note that the following log message may appear in the smbd log
+Note that the following log message may appear in the 
+/var/log/log.smbd log
  
       Address family not supported by protocol
       
- This is merely a warning that the samba service is trying to use
- IPv6 however the native linux kernel on a Seagate Central does not
- support IPv6. These messages can be ignored.
+This is merely a warning that the samba service is trying to use 
+IPv6 however the native linux kernel on a Seagate Central does not 
+support IPv6. These messages can be ignored.
 
  
