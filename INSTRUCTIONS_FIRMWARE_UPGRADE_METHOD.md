@@ -146,7 +146,7 @@ Note that the Tappin icon will still appear in the Seagate Central
 web management interface but it will not be able to be activated.
      
 #### TODO : Add other options?? 
-If anyone else has any suggestions about quick settings on the 
+If anyone has any suggestions about quick settings on the 
 Seagate Central that could be modified and optimized using this
 procedure then please raise an issue and we can look into it.
 
