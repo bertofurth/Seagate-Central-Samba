@@ -59,8 +59,8 @@ installed on the building system.
 
 ## Procedure
 ### Workspace preparation
-Download the files in this project to a new directory. This 
-will be known as the base working directory.
+Download the files in this project to a new directory on the
+building host. This will be known as the base working directory.
 
 ### Obtain Seagate Central Firmware
 As of the writing of this document a Seagate Central firmware zip
