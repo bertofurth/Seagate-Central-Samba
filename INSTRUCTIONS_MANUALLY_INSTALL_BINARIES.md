@@ -24,7 +24,7 @@ made other custom changes to your Seagate Central software via the
 command line, such as installing other cross compled software, then
 make sure that none of the steps below interfere with those changes.
 
-## Prequisites 
+## Prerequisites 
 ### Disk space on the Seagate Central
 About 170MiB of disk space on the Seagate Central will be required
 to perform this procedure. The procedure will add about 90MiB worth of
