@@ -159,7 +159,7 @@ the directory containing the cross compiled samba software.
      ./make_seagate_firmware.sh ./Seagate-HS-update-201509160008F.img ./seagate-central-samba
      
 The script should generate output indicating the status of the process.
-Finally it should display the name of the new generated firmware image,
+Finally it should display the name of the newly generated firmware image,
 the new randomly generated default root password, and the name of a text
 file containing the password.
 
@@ -171,8 +171,8 @@ file containing the password.
 ### Upgrade the Seagate Central
 Login to the target Seagate Central web management page.
 
-Make sure that the newly created firmware image is accessible
-locally from the machine logging into the web management page. 
+Make sure that the newly created firmware image is locally
+accessible from the machine logging into the web management page. 
 
 On the web management page go into "Settings" Tab. Under the
 "Advanced" folder select the "Firmware Update" option.
