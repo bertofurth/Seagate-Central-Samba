@@ -132,9 +132,9 @@ operational for some time as per the notice on Seagate's website.
 
 https://www.seagate.com/au/en/support/kb/seagate-central-tappin-update-007647en/
 
-By disabling the service we are not spending cpu resources on
-something that serves no purpose. In addition about 25MB of disk
-space is saved by removing it.
+By disabling the service we stop the Seagate Central from spending
+cpu and memory resources on something that serves no purpose. In
+addition about 25MB of disk space is saved by removing it.
 
 If you **do not** want to remove the TappIn service then edit the
 make_seagate_firmware.sh file and comment out the DISABLE_TAPPIN 
