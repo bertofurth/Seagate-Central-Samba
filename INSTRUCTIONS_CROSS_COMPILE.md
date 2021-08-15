@@ -333,8 +333,8 @@ message is printed at the end of each script.
 
 The "configure" stages of the build are where things will most likely
 go wrong. In this case it is useful to view the configure log which 
-will be located at obj/<src-dir>/config.log or for samba 
-<samba-src-dir>/bin/config.log
+will be located at obj/component-X.Y.Z/config.log or for samba 
+samba-4.X.Y/bin/config.log
 
 Cross compiling samba is difficult and there are a lot of articles
 and posts that detail the trouble people have had with this process. 
