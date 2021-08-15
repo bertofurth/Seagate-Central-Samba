@@ -35,9 +35,9 @@ You'll need ssh access to issue commands on the Seagate Central command
 line. 
 
 If you are especially adept with a soldering iron and have the right 
-equipment then you could get serial console access but this quite difficult 
-and is **not required**. There are some very brief details of the 
-connections required at
+equipment then you could get serial console access but this quite
+difficult and is **not required**. There are some very brief details 
+of the connections required at
 
 http://seagate-central.blogspot.com/2014/01/blog-post.html
 
@@ -46,31 +46,13 @@ Archive : https://archive.ph/ONi4l
 ### su/root access on the Seagate Central.
 Make sure that you can establish an ssh session to the Seagate Central
 and that you can succesfully issue the **su** command to gain root
-priviledges.
+priviledges. Note that some later versions of Seagate Central firmware
+deliberately disable su access by default.
 
-Note that the alternative procedure detailed in
+The alternative procedure detailed in
 **INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md** does not require su access
 and will in fact automatically re-enable su access as part of the
 procedure.
-
-Some later versions of Seagate Central firmware deliberately disable
-su access however there are a number of guides on how to restore su.
-
-The following guide suggests either temporarily reverting back to 
-an older firmware version that allows su or creating then upgrading
-to a new modified Seagate Central firmware image that re-enables su access.
-
-https://seagatecentralenhancementclub.blogspot.com/2015/11/root-su-recovery-for-seagate-central.html
-
-Archive : https://archive.ph/sEoOx
-
-There are is also a useful script available at another project that 
-automatically modifies a stock firmware image in such a way that it
-upgrading to it will re-allow su access.
-
-https://github.com/detain/seagate_central_sudo_firmware
-
-Archive : https://archive.ph/rg39t
 
 ### Know how to copy files between your host and the Seagate Central. 
 Not only should you know how to transfer files to and from your 
@@ -108,7 +90,7 @@ Establish an ssh session to the seagate central with the same
 username who's directory now contains the samba archive.
 
 Change to the directory where the archive has been copied to and
-extract it.
+extract it as follows.
 
     tar -xvf seagate-central-samba.tar.gz
      
@@ -131,57 +113,53 @@ user.
 
 ### Turn off the old samba service    
 Before upgrading the samba software it is important to stop the
-currently running samba software. 
+currently running samba service. 
 
      /etc/init.d/samba stop
 
-### Install the new samba software
-Begin by installing required libraries. Note that we are installing
-the libraries in a new directory, /usr/local/lib, so that there's no
-chance of overwriting any existing libaries on the Seagate Central.
+### Backup the original samba software
+It is strongly suggsted to make backup copies of any binary
+executables we are about to overwrite. This way if we need to revert 
+back to the old version of software we can do so easily.
 
-     cp -r usr/local/lib /usr/local/     
+We do this here by creating an **old.samba** subdirectory under
+/usr/bin and /usr/sbin to store the original versions of the tools.
+We then look for any files that have the same names as the new ones
+and copy them to these new subdirectories. 
 
-You may optionally install the header files. These are only necessary
-when compiling code but might be useful to store on the system in
-case they are needed in the future.
-
-     cp -r usr/local/include /usr/local/
-
-Next we make backup copies of any binary executables we are about
-to overwrite. We do this here by creating an **old.samba**
-subdirectory under /usr/bin and /usr/sbin to store the old versions
-of the tools. We then look for any files that have the same names
-as the new ones and copy them to these new directories. This way if
-we need to revert back to the old version of software we can do so
-easily. 
+From the base working directory issue the following commands
 
      mkdir -p /usr/bin/old.samba /usr/sbin/old.samba
-     ls usr/local/sbin | xargs -I{} rsync -a --ignore-existing /usr/sbin/{} /usr/sbin/old.samba/{} 
-     ls usr/local/bin | xargs -I{} rsync -a --ignore-existing /usr/bin/{} /usr/bin/old.samba/{}
+     ls usr/sbin | xargs -I{} rsync -a --ignore-existing /usr/sbin/{} /usr/sbin/old.samba/{} 
+     ls usr/bin | xargs -I{} rsync -a --ignore-existing /usr/bin/{} /usr/bin/old.samba/{}
      
 Ignore the errors in the outputs of the above commands saying "No
-such file or directory" because these simply mean that no old version of
-a particular new tool was found to backup.
+such file or directory" because these simply mean that no old
+version of a particular new tool was found to backup.
 
-Next, copy the new versions of binary executables into place. 
+### Install the new samba software
+The structure of files in the extracted archive should be such that
+we can simply copy everything under the usr subdirectory straight
+to the /usr directory of the Seagate Central.
 
-     cp usr/local/sbin/* /usr/sbin/
-     cp usr/local/bin/* /usr/bin/
+Issue the following command from the base working directory
+
+     cp -r usr/* /usr/
      
 Finally perform a sanity check to make sure the smbd binary is
 executable by running the following command to check the version of
 samba that has been installed.
 
-     smbd -V
+     testparm -V
  
-The command should report the expected new version and not the 
-old version (3.5.16).
+The command should report the expected new version (v4.x.x) and 
+not the old version (3.5.16).
 
-The archive contains other files including man pages and other
-documentation, however the Seagate Central does not natively support
-these therefore there is probably no need to install these files.
-     
+Note that the archive may contain man pages and other documentation
+that are not used on the Seagate Central. If desired these files can
+be removed from the /usr/local/doc , /usr/local/info and
+/usr/local/man subdirectories. 
+
 ### Customize samba configuration files
 The main samba configuation file /etc/samba/smb.conf needs to be
 modfied in order to work with modern versions of samba.
@@ -210,11 +188,13 @@ Replace these lines with the following. Make sure these lines
 are after the "[global]" directive and before the "include"
 directive at the end of the file
 
+     . . .
      min receivefile size = 16384
      vfs objects = catia fruit streams_xattr
      fruit:model = RackMac
      fruit:time machine = yes
      multicast dns register = yes
+     . . .
 
 At this point you can take the opportunity to enable other samba
 features that are available in samba 4. See the following link for
@@ -250,9 +230,9 @@ active.
 Also confirm that you can once again transfer files between the
 Seagate Central and your clients.
 
-Further test that you are able to disable legacy SMBv1.0 support
-on any clients and that you are still able to transfer data to and 
-from the Seagate Central.
+IF appropriate further test that you are able to disable legacy 
+SMBv1.0 support on any clients and that you are still able to
+transfer data to and from the Seagate Central.
 
 ### Optional : Revert back to the old samba software
 If the new version of samba is not performing as desired then there
@@ -270,9 +250,9 @@ samba software.
      /etc/init.d/samba start
 
 ### Troubleshooting
-If executing the "smbd -V" command shows an error message similar to
+If executing the "testparm -V" command shows an error message similar to
 
-     smbd: error while loading shared libraries: libsamba-util.so.0: cannot open shared object file: No such file or directory
+     testparm: error while loading shared libraries: libsamba-util.so.0: cannot open shared object file: No such file or directory
 
 Then it may be that the libraries have not been installed properly.
 Check to make sure that /usr/local/lib and /usr/local/lib/samba have
@@ -288,7 +268,7 @@ starting the service then check the logs in
  
       Address family not supported by protocol
       
- This is merely an indication that the samba service is trying to use
+ This is merely a warning that the samba service is trying to use
  IPv6 however the native linux kernel on a Seagate Central does not
  support IPv6. These messages can be ignored.
 
