@@ -305,9 +305,9 @@ These logs on the Seagate Central will show error messages
 associated with the samba service and will be useful if the service
 is not starting.
 
-#### Check startup logs (dmesg)    
-The **dmesg** command will show log messages and errors associated 
-with the system startup process in general.
+#### Check the syslog (/var/log/syslog)   
+The syslog will show log messages and errors associated with the
+system startup process and for other serious events.
 
 #### Check samba parameters (testparm)
 The testparm command checks the samba configuration file to make
