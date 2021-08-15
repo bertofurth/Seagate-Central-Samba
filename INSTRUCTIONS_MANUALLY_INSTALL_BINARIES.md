@@ -4,8 +4,10 @@ This is a guide that describes how to manually replace the old samba
 software on a Seagate Central NAS with an updated, modern, cross
 compiled version of samba.
 
-Performing the cross compilation build process is covered by 
-**INSTRUCTIONS_CROSS_COMPILE.md**
+Refer to the README.md file for the location of a set of 
+pre-compiled binaries that can be used in this process or
+refer to the instructions in **INSTRUCTIONS_CROSS_COMPILE.md**
+to self generate the binaries.
 
 Installation of the cross compiled software using the easier but less
 flexible firmware upgrade method is covered by
