@@ -94,12 +94,9 @@ the scope of this project.
 
 ### Obtain cross compiled samba software
 Make sure that there is a subdirectory under the base working 
-directory containing the cross compiled samba software.
-
-The procedure assumes that the directory structure of the
-samba software directory is as per the default instructions in
-INSTRUCTIONS_CROSS_COMPILE.md . Specifically the binaries and
-associated files should all be in the usr/local/ subdirectory.
+directory containing the cross compiled samba software. This
+will be called **cross** if the procedure in
+INSTRUCTIONS_CROSS_COMPILE.md has been followed.
 
 If you have downloaded a pre-compiled archive then copy it to
 the base working directory and extract it as per the following
@@ -107,6 +104,9 @@ example.
 
      tar -xf seagate-central-samba.tar.gz
      
+Take note of the extracted directory name as this will be used
+later in the procedure.
+
 ### Optional : Tweak the make_seagate_firmware.sh script
 #### su access
 By default the script will make sure that su access is enabled 
