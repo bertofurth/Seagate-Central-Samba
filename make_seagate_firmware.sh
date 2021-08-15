@@ -151,6 +151,15 @@ checkerr 0 "unsquashfs" log_02_unsquashfs.log
 if ! [ -z $SAMBA_DIRECTORY ]; then
     new_stage "Insert Samba software"
 
+    # Optional : Save a backup copy of the original samba
+    # software.
+    #
+    # mkdir -p squashfs-root/usr/bin/old.samba squashfs-root/usr/sbin/old.samba
+    # ls $SAMBA_DIRECTORY/usr/sbin | xargs -I{} rsync -a --ignore-existing squashfs-root/usr/sbin/{} squashfs-root/usr/sbin/old.samba/{}
+    # ls $SAMBA_DIRECTORY/usr/bin | xargs -I{} rsync -a --ignore-existing squashfs-root/usr/bin/{} squashfs-root/usr/bin/old.samba/{}
+    #
+
+    
     # Install samba software 
     cp -r $SAMBA_DIRECTORY/usr/* squashfs-root/usr/ &> log_03_cp_samba.log
     checkerr $? "copy libraries" log_03_cp_samba.log
