@@ -143,9 +143,8 @@ higher deprecate support for much of SMBv1.0.
 
 ## SMBv1.0 Workaround for Windows 10 clients
 In Windows 10, you may be able to reconfigure your system to allow connections
-to SMB v1.0 file services provided this change has not been administratively
-prohibited for security reasons. There are plenty of in depth instructions
-and videos on the web showing how to do this (search for : smbv1 windows 10)
+to SMB v1.0 file services. There are plenty of in depth instructions and 
+videos on the web showing how to do this (search for : smbv1 windows 10)
 however the main steps are summarized here.
 
 Launch the Control Panel applet **Turn Windows features on or off**
