@@ -9,23 +9,27 @@ It is partially based on the work at
 https://github.com/detain/seagate_central_sudo_firmware
 http://seagatecentralenhancementclub.blogspot.com/2015/11/root-su-recovery-for-seagate-central.html
 
-Performing the cross compilation build process for samba is covered 
-by **INSTRUCTIONS_CROSS_COMPILE.md**
+Refer to the README.md file for the location of a set of 
+pre-compiled binaries that can be used in this process or
+refer to the instructions in **INSTRUCTIONS_CROSS_COMPILE.md**
+to self generate the binaries.
 
 If any custom changes have been made to a Seagate Central
 unit via the command line, such as manual installation of new 
 software or manual configuration changes not done via the web
-management interface, then this method may overwrite those changes.
+management interface, then this method may overwrite those 
+changes. Configuration changes made via the normal Seagate
+Central web management interface will not be affected.
 
-If you have made custom modifications then it might be more
-appropriate to use the more difficult but more flexible manual
-installation method covered by
+If you have made extensive custom modifications via the CLI then
+it might be more appropriate to use the more difficult but more
+flexible manual installation method covered by
 **INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md**
 
 The target platform tested was a Seagate Central Single Drive NAS 
 running firmware version 2015.0916.0008-F however I believe these
-instructions should work for other Seagate Central configurations and
-firmware versions. 
+instructions should work for other Seagate Central configurations
+and firmware versions. 
 
 ## Prequisites 
 ### Disk space on the building host
@@ -142,16 +146,16 @@ web management interface but it will not be able to be activated.
      
 #### TODO : Add other options?? 
 If anyone else has any suggestions about quick settings on the 
-Seagate Central that could be optimized using this procedure then
-please raise an issue and we can look into it.
+Seagate Central that could be modified and optimized using this
+procedure then please raise an issue and we can look into it.
 
 ### Run the script
-Execute the script as per the following example. The first argument is
-the name of the original unmodified Seagate Central firmware image.
-The second argument is the name of the directory containing the
-cross compiled samba software. 
+Execute the **make_seagate_firmware.sh** script as per the following
+example. The first argument is the name of the original unmodified 
+Seagate Central firmware image. The second argument is the name of
+the directory containing the cross compiled samba software. 
 
-     ./make_seagate_firmware.sh ./Seagate-HS-update-201509160008F.img ./cross
+     ./make_seagate_firmware.sh ./Seagate-HS-update-201509160008F.img ./seagate-central-samba
      
 The script should generate output indicating the status of the process.
 Finally it should display the name of the new generated firmware image,
