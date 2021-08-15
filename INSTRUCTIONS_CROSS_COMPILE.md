@@ -303,7 +303,7 @@ once you are confident that the build will run without issue.
 The finished product is now in the **cross** subdirectory (or whatever
 BULILDHOST_DEST is set to). If this data needs to be transferred to 
 the Seagate Central as part of the manual installation procedure then
-rename that directory to descriptive name and then create an archive.
+rename that directory to a descriptive name and then create an archive.
 For example
 
      mv cross seagate-central-samba
