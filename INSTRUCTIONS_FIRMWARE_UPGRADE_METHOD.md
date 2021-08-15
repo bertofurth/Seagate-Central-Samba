@@ -150,7 +150,7 @@ If anyone has any suggestions about quick settings on the
 Seagate Central that could be modified and optimized using this
 procedure then please raise an issue and we can look into it.
 
-### Run the script
+### Run the make_seagate_firmware.sh script
 Execute the **make_seagate_firmware.sh** script as per the following
 example. The first argument is the name of the original unmodified 
 Seagate Central firmware image. The second argument is the name of
