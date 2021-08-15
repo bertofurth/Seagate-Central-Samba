@@ -98,9 +98,9 @@ directory containing the cross compiled samba software. This
 will be called **cross** if the procedure in
 INSTRUCTIONS_CROSS_COMPILE.md has been followed.
 
-If you have downloaded a pre-compiled archive then copy it to
-the base working directory and extract it as per the following
-example.
+If you have instead downloaded a pre-compiled archive of the
+samba software then copy it to the base working directory and
+extract it as per the following example.
 
      tar -xf seagate-central-samba.tar.gz
      
