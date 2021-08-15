@@ -19,8 +19,6 @@ instructions should work for other Seagate Central configurations and
 firmware versions as long as care is taken to account for any minor
 differences.
 
-The build environments tested were using the cross compilation suite
-based on gcc versions 11.2.0 and  
 These instructions should not be followed "blindly". If you have already
 made other custom changes to your Seagate Central software via the
 command line, such as installing other cross compled software, then
