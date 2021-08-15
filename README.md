@@ -230,10 +230,10 @@ difference in the moderate usage environment of a home or small business
 where a Seagate Central would typically be deployed. 
 
 Note that I have another project in the works that deals with upgrading 
-the Linux Kernel on the Seagate Central. This will overcome second CPU
-problem by making both CPUs in the Seagate Central available for **all** 
-linux processes. That is, SMP (Symmetrical Multi Processing) will be 
-implemented in this updated Linux Kernel. 
+the Linux Kernel on the Seagate Central. This will overcome the second
+CPU problem by making both CPUs in the Seagate Central available for
+**all** linux processes. That is, SMP (Symmetrical Multi Processing) 
+will be implemented in this updated Linux Kernel. 
 
 If this new upgraded linux kernel is installed and running then the new
 version of samba can take advantage of both the SMP based CPU cores on the
