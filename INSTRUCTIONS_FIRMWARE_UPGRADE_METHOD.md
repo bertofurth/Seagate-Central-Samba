@@ -178,7 +178,7 @@ On the web management page go into "Settings" Tab. Under the
 "Advanced" folder select the "Firmware Update" option.
 
 At this point I would suggest making sure that the 
-"Update Automatically" check box in deselected as Seagate is
+"Update Automatically" check box is deselected as Seagate is
 no longer providing automatic updates.
 
 In the "Install from file" field click on "Choose File". 
@@ -200,7 +200,8 @@ Click on OK
 A display entitled "Update progress" showing a progress meter should
 appear.
 
-After about 3 minutes the progress meter seems to pause at 86%.
+After about few minutes the progress meter seems to pause for a
+significant amount of time at 86%.
 
 I believe at this point the upgrade process is trying to catalogue
 user data files so if you have a lot of user data files stored on
@@ -263,7 +264,7 @@ password back to the defaults on the next system boot.
 Note that this needs to be done at anytime when the root
 password is changed on the Seagate Central.
 
-#### Confirm that Samba is working as expected
+#### Confirm that samba is working as expected
 Check to see if the smbd process is running by executing the 
 following command. Multiple instances of smbd should be
 active.
@@ -290,18 +291,29 @@ http://seagatecentralenhancementclub.blogspot.com/2015/08/revert-to-previous-fir
 Archive : https://archive.ph/3eOX0
 
 ### Troubleshooting 
+#### Client connection problems
+After the upgrade it may take a few minutes for the changes to the
+NAS configuration to propagate and be recognized throughout your
+local network.
+
+If any individual clients are having difficulty connecting to the
+NAS after the upgrade then consider rebooting them or forcing them
+to disconnect then reauthenticate to the Seagate Central NAS.
+
 #### Check samba logs (/var/log/smbd.log)
-These logs will show error messages associated with the samba service
-and will be useful if the service is not starting.
+These logs on the Seagate Central will show error messages
+associated with the samba service and will be useful if the service
+is not starting.
 
 #### Check startup logs (dmesg)    
-The **dmesg** command will show errors associated with the system startup
-process in general.
+The **dmesg** command will show log messages and errors associated 
+with the system startup process in general.
 
 #### Check samba parameters (testparm)
-The testparm command checks the samba configuration file to make sure
-that all the settings are compatible with the current version of
-samba.
+The testparm command checks the samba configuration file to make
+sure that all the settings are compatible with the current version 
+of samba. Here is an example of the expected output for a working
+system.
 
     root@NAS-X:~# testparm
     Load smb config files from /etc/samba/smb.conf
