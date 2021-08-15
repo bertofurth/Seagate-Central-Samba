@@ -51,7 +51,7 @@ usage()
     echo "    Optional : The directory containing the cross compiled"
     echo "    samba software for Seagate Central. Expect a directory"
     echo "    structure where important binaries and libraries are "
-    echo "    under the usr/local subdirectory."
+    echo "    under the usr/ subdirectory."
     echo
     echo "  Other parameters that may be manually modified within the "
     echo "  the $0 script"
@@ -109,8 +109,8 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
 	exit 1  
     fi
     # Sanity check
-    if [ ! -r $SAMBA_DIRECTORY/usr/local/sbin/smbd ]; then
-	echo "Unable to find $SAMBA_DIRECTORY/usr/local/sbin/smbd"
+    if [ ! -r $SAMBA_DIRECTORY/usr/sbin/smbd ]; then
+	echo "Unable to find $SAMBA_DIRECTORY/usr/sbin/smbd"
 	echo "Are you sure this is a directory that contains"
 	echo "cross compiled samba binaries?"
 	exit 1
@@ -151,18 +151,9 @@ checkerr 0 "unsquashfs" log_02_unsquashfs.log
 if ! [ -z $SAMBA_DIRECTORY ]; then
     new_stage "Insert Samba software"
 
-    # Install libraries
-    cp -r $SAMBA_DIRECTORY/usr/local/lib squashfs-root/usr/local/ &> log_03_cp_samba.log
+    # Install samba software 
+    cp -r $SAMBA_DIRECTORY/usr/* squashfs-root/usr/ &> log_03_cp_samba.log
     checkerr $? "copy libraries" log_03_cp_samba.log
-
-    # Install executables
-    cp $SAMBA_DIRECTORY/usr/local/sbin/* squashfs-root/usr/sbin/ &>> log_03_cp_samba.log
-    checkerr $? "copy sbin executables" log_03_cp_samba.log
-    cp $SAMBA_DIRECTORY/usr/local/bin/* squashfs-root/usr/bin/ &>> log_03_cp_samba.log
-    checkerr $? "copy bin executables" log_03_cp_samba.log
-
-    # Install headers (this is optional so we don't check if it fails)
-    cp -r $SAMBA_DIRECTORY/usr/local/include squashfs-root/usr/local/ &>> log_03_cp_samba.log
 
     new_stage "Generate modified samba configuration"
     #
@@ -177,6 +168,9 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
     # Remove no longer supported or needed options
     cp squashfs-root/etc/samba/smb.conf squashfs-root/etc/samba/smb.conf.v4 &> log_04_smb_conf.log
     checkerr $? "smb.conf modification" log_04_smb_conf.log
+
+    sed -i '1i#Copied from smb.conf.v4 at startup\' squashfs-root/etc/samba/smb.conf.v4
+    
     sed -i '/auth methods/d' squashfs-root/etc/samba/smb.conf.v4
     sed -i '/encrypt passwords/d' squashfs-root/etc/samba/smb.conf.v4
     sed -i '/null passwords/d' squashfs-root/etc/samba/smb.conf.v4
