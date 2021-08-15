@@ -285,4 +285,9 @@ This is merely a warning that the samba service is trying to use
 IPv6 however the native linux kernel on a Seagate Central does not 
 support IPv6. These messages can be ignored.
 
- 
+Check the syslog at
+
+     /var/log/syslog
+
+This will show error and messages associated with system startup and
+for any other serious conditions that occur.
