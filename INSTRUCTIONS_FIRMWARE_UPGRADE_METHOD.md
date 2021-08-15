@@ -129,7 +129,7 @@ https://www.seagate.com/au/en/support/kb/seagate-central-tappin-update-007647en/
 
 By disabling the service we are not spending cpu resources on
 something that serves no purpose. In addition about 25MB of disk
-space is saved be removing it.
+space is saved by removing it.
 
 If you **do not** want to remove the TappIn service then edit the
 make_seagate_firmware.sh file and comment out the DISABLE_TAPPIN 
@@ -149,7 +149,7 @@ please raise an issue and we can look into it.
 Execute the script as per the following example. The first argument is
 the name of the original unmodified Seagate Central firmware image.
 The second argument is the name of the directory containing the
-cross compiled samba software
+cross compiled samba software. 
 
      ./make_seagate_firmware.sh ./Seagate-HS-update-201509160008F.img ./cross
      
@@ -160,7 +160,7 @@ file containing the password.
 
        Success!!
        Created  Seagate-Samba-Update-2021.0813.1710-S.img
-       Default Root Password : XXXXXXXXXXXXXXX
+       Default Root Password : XxXxXxXxXxXxX
        Generated text file : Seagate-Samba-Update-2021.0814.1348-S.img.root-password
        
 ### Upgrade the Seagate Central
@@ -195,7 +195,7 @@ Click on OK
 A display entited "Update progress" showing a progress meter should
 appear.
 
-After about 3 minute mark the progress meter seems to pause at 86%.
+After about 3 minutes the progress meter seems to pause at 86%.
 
 I believe at this point the upgrade process is trying to catalog
 user data files so if you have a lot of user data files stored on
@@ -242,7 +242,7 @@ Next change the root password with the passwd command. Here is
 a sample session.
 
      Seagate-NAS:~$ su
-     Password: XXXXXXXXXXXXXXX
+     Password: xxxxxxxxxxxxxxx
      Seagate-NAS:/Data/admin# passwd
      Enter new UNIX password: NewPassword123
      Retype new UNIX password: NewPassword123
@@ -256,7 +256,7 @@ password back to the defaults on the next system boot.
      cp /etc/shadow /usr/config/backupconfig/etc/
      
 Note that this needs to be done at anytime when the root
-password is changed.
+password is changed on the Seagate Central.
 
 #### Confirm that Samba is working as expected
 Check to see if the smbd process is running by executing the 
@@ -285,7 +285,7 @@ http://seagatecentralenhancementclub.blogspot.com/2015/08/revert-to-previous-fir
 Archive : https://archive.ph/3eOX0
 
 ### Troubleshooting 
-#### Check samba logs (cat /var/log/smbd.log)
+#### Check samba logs (/var/log/smbd.log)
 These logs will show error messages associated with the samba service
 and will be useful if the service is not starting.
 
