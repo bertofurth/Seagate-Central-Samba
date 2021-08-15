@@ -79,8 +79,8 @@ The serial number should be in a format similar to "NA6SXXXX".
 The latest firmware zip file available as of the writing of this 
 document is Seagate-HS-update-201509160008F.zip
 
-Copy this file to the base working directory and unzip it as
-follows.
+Copy this file to the base working directory on the build host 
+and unzip it as follows.
 
      unzip Seagate-HS-update-201509160008F.zip
 
