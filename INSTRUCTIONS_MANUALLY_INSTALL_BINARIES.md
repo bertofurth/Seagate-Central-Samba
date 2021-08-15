@@ -146,7 +146,7 @@ Issue the following command from the base working directory
 
      cp -r usr/* /usr/
      
-Finally perform a sanity check to make sure the smbd binary is
+Finally perform a sanity check to make sure the new binaries are
 executable by running the following command to check the version of
 samba that has been installed.
 
