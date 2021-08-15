@@ -8,7 +8,7 @@ Central using the old and insecure SMBv1.0 protocol.
 A set of pre-compiled modern samba binaries for Seagate Central are 
 currently available at
 
-https://www.dropbox.com/sh/xhbvvse1646uq54/AACnclWcxvWp4Oq4rWgO193wa?dl=0
+https://www.dropbox.com/s/wwesnz5cmc9hlcy/seagate-central-samba-4.14.6-15-Aug-2021.tar.gz
 
 There are three sets of instructions included in this project that 
 describe three different methods to accomplish this goal. Here they
