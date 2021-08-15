@@ -13,9 +13,9 @@ flexible firmware upgrade method is covered by
 This procedure has been tested to work on the following building
 platforms
 
-* OpenSUSE Tumbleweed (Aug 2021) on x86 
-* OpenSUSE Tumbleweed (Aug 2021) on Raspberry Pi 4B  gcc-11.2.0 make-4.3
-* Debian 10 (Buster) on x86  gcc-11.2.0 make-4.2.1
+* OpenSUSE Tumbleweed (Aug 2021) on x86
+* OpenSUSE Tumbleweed (Aug 2021) on Raspberry Pi 4B
+* Debian 10 (Buster) on x86
 
 The procedure has been tested to work with make v4.3 and v4.2.1 as well
 cross compiler gcc versions 11.2.0, 8.5.0 and 5.5.0.
