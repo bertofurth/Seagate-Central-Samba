@@ -218,20 +218,24 @@ Central CPU is overwhelmed by some non file-sharing task, the file
 serving functionality will not be slowed down as it will be using the
 second CPU.
 
-Unfortunately, standard samba software as used by this installation guide 
-does not make use of AMP mode. This is because AMP is rarely implemented 
-in modern linux systems. Most modern linux systems use "Symmetrical Multi 
-Processing" (SMP) which allows **all** processes to make use of **any**
-CPU.
+Unfortunately, normal samba software as used by this installation guide 
+does not make use of AMP mode. This is because AMP is rarely implemented
+in modern linux systems. Most modern linux systems use "Symmetrical 
+Multi Processing" (SMP) which allows **all** processes to make use of
+**any** CPU.
 
 Given that the Seagate Central doesn't normally do anything except serve 
 files, in my judgement this disadvantage won't make much of a practical
 difference in the moderate usage environment of a home or small business 
-where a Seagate Central would typically be deployed. 
+where a Seagate Central would typically be deployed. The only minor 
+exception I've encountered is just after bootup when the Seagate Central
+spends a few minutes cataloging the data files stored on the unit.
+During this brief time the CPU load can be quite high and file serving 
+performance can slightly suffer.
 
 Note that I have another project in the works that deals with upgrading 
 the Linux Kernel on the Seagate Central. This will overcome the second
-CPU problem by making both CPUs in the Seagate Central available for
+CPU problem by making **both** CPUs in the Seagate Central available for
 **all** linux processes. That is, SMP (Symmetrical Multi Processing) 
 will be implemented in this updated Linux Kernel. 
 
@@ -251,14 +255,20 @@ significantly impact system performance. This is thanks to the Seagate
 Central having sufficient swap space to cater for any temporary excessive 
 memory usage.
 
-### No support for extremely old clients that depend on SMBv1.0
+### No support for very old clients that depend on SMBv1.0
 Very old client operating systems, such as Windows XP, Windows 95 or Windows 
 2000 either only support SMBv1.0 or do not properly support SMBv2.1. If the 
 new samba server is installed on the Seagate Central then these types of 
-very old clients will not be able to connect to the Seagate Central.
+very old clients may not be able to connect to the Seagate Central using
+the SMB protocol. (They'll still be able to use FTP/SCP etc)
 
-SMBv2.1 support was introduced with Windows 7 in 2007 so any clients 
-from after that era should be fine. 
+This may also apply to very old network connected systems such as 
+televisions or DVD players that make use of the Seagate Central to access 
+media files, although most of these kinds of devices use the DLNA
+media sharing protocol which is unaffected by this upgrade.
+
+SMBv2.1 client support was introduced for Windows 7 in 2007 and for
+Linux v3.7 in 2012 so most clients from after these dates should be fine. 
 
 ## Motivation for this project
 My work supplied laptop currently runs Windows 10. After one particular IT
@@ -267,7 +277,7 @@ Seagate Central NAS via the normal Windows Explorer file management tool.
 This was because SMBv1.0 client capability was turned off in my laptop by 
 the update.
 
-My work IT department administratively disabled the ability to re-enable 
+My work IT department administratively disabled the option to re-enable 
 SMBv1.0. This was presumably done for valid security reasons, however it meant 
 that I had no easy way of accessing my home Seagate Central file server.
 
