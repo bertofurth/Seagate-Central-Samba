@@ -107,19 +107,32 @@ installed on the building system.
     flex
 
 ## Procedure
-### Source code download and extraction
+### Workspace preparation
 If not already done, download the files in this project to a 
-new directory on your build machine. For example the following 
-git command will download the files in this project to a new 
-subdirectory called Seagate-Central-Samba
+new directory on your build machine. 
+
+For example, the following **git** command will download the 
+files in this project to a new subdirectory called 
+Seagate-Central-Samba
 
     git clone https://github.com/bertofurth/Seagate-Central-Samba.git
     
-Change into this directory. This will be referred to as the base 
-working directory going forward.
+Alternately, the following **wget** and **unzip** commands will 
+download the files in this project to a new subdirectory called
+Seagate-Central-Samba-main
 
+    wget https://github.com/bertofurth/Seagate-Central-Samba/archive/refs/heads/main.zip
+    unzip main.zip
+
+Change into this new subdirectory. This will be referred to as 
+the base working directory going forward.
+
+     cd Seagate-Central-Samba
+
+### Source code download and extraction
 The next part of the procedure involves gathering the source code 
-for each component and installing it into the working base directory.
+for each component and installing it into the **src** subdirectory of
+the base working directory.
 
 Here we show the versions of software used when generating this guide.
 Unless otherwise noted these are the latest stable releases at the
@@ -134,11 +147,13 @@ the same major version numbers, will still work with this guide.
 * openldap-2.3.39 (Should be the same version as Seagate Central)
 * samba-4.14.6
 
-Download these using **wget**, **curl -O** or a similar tool as
-follows. Note that these archives are available from a wide variety 
-of sources so if one of the URLs used below does not work try to 
-search for another.
+Change into the **src** subdirectory of the base working directory
+then download the source archives using **wget**, **curl -O** or a 
+similar tool as follows. Note that these archives are available from 
+a wide variety of sources so if one of the URLs used below does not 
+work try to search for another.
 
+    cd src
     wget http://mirrors.kernel.org/gnu/gmp/gmp-6.2.1.tar.xz
     wget http://mirrors.kernel.org/gnu/nettle/nettle-3.7.3.tar.gz
     wget http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
