@@ -85,7 +85,7 @@ configure_it --prefix=$PREFIX \
 	     --bindir=$EXEC_PREFIX/bin \
 	     --sbindir=$EXEC_PREFIX/sbin \
 	     --cross-compile \
-	     --cross-answers=../$CROSS_ANSWERS \
+	     --cross-answers=$TOP/$CROSS_ANSWERS \
 	     --bundled-libraries=!asn1_compile,!compile_et \
 	     --enable-fhs --sysconfdir=/etc --localstatedir=/var \
 	     --with-configdir=/etc/samba --with-logfilebase=/var/log \
