@@ -108,9 +108,15 @@ installed on the building system.
 
 ## Procedure
 ### Source code download and extraction
-Download the files in this project to a new directory on your
-build machine. This will be referred to as the base working 
-directory going forward.
+If not already done, download the files in this project to a 
+new directory on your build machine. For example the following 
+git command will download the files in this project to a new 
+subdirectory called Seagate-Central-Samba
+
+    git clone https://github.com/bertofurth/Seagate-Central-Samba.git
+    
+Change into this directory. This will be referred to as the base 
+working directory going forward.
 
 The next part of the procedure involves gathering the source code 
 for each component and installing it into the working base directory.
