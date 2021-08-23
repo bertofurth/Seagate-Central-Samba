@@ -34,20 +34,18 @@ fi
 #
 # N.B. Samba does not support out of tree builds
 # https://wiki.samba.org/index.php/Waf#Out_of_tree_builds
-# so we cheat by setting OBJ to blank to force the
-# build process to use the source directory for the build.
-export OBJ=""
-change_into_obj_directory
+# so we do not change into the normal "OBJ"
+# directory. We just stay in the source directory.
 
 if [ ! -x asn1_compile.local ]; then
     echo
-    echo No asn1_compile.local binary found in $LIB_NAME
+    echo No asn1_compile.local binary found in $SRC/$LIB_NAME
     echo Did you run the previous step properly?
 fi
 
 if [ ! -x compile_et.local ]; then
     echo
-    echo No compile_et.local binary found in $LIB_NAME
+    echo No compile_et.local binary found in $SRC/$LIB_NAME
     echo Did you run the previous step properly?
 fi
 

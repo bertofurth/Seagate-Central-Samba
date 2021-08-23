@@ -17,10 +17,9 @@ check_source_dir "samba"
 #
 # N.B. Samba does not support out of tree builds
 # https://wiki.samba.org/index.php/Waf#Out_of_tree_builds
-# so we cheat by setting OBJ to blank to force the
-# build process to use the source directory for the build.
-export OBJ=""
-change_into_obj_directory
+# so we do not change into the normal "OBJ"
+# directory. We just stay in the source directory.
+
 configure_it --without-systemd \
 	     --disable-python --without-ad-dc \
 	     --with-shared-modules='!vfs_snapper' \

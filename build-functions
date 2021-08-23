@@ -2,21 +2,26 @@
 # This file should not be executed, instead it should be
 # "source"d by each of the build scripts.
 #
-# Make sure that the file containing all the common variable
-# definitions have been sourced
+# Make sure that the build-common file which contains all
+# the common variable definitions has been sourced
 #
 export TOP=$(pwd)
-export OBJ=obj/
+export OBJ=$TOP/obj
+export SRC=$TOP/src
 
 #
 # check_source_dir <source-name>
 #
 # Find the directory with the "latest" version of the
 # given project name in the current directory.
+#
+# Change into this directory to allow the main script
+# to perform any necessary modifications.
 # 
 check_source_dir()
 {
         SECONDS=0
+	cd $SRC
 	# Automatically try to find a source directory
 	# that matches the parameter given
         if [ -z $LIB_NAME ]; then
@@ -31,18 +36,20 @@ check_source_dir()
 	fi
 
         echo Using $LIB_NAME as source directory.
+	cd $SRC/$LIBNAME
 }
 
 #
 # change_into_obj_directory 
 #
-# Create and change into the directory $OBJ$LIB_NAME
+# Create and change into the directory $OBJ/$LIB_NAME
 # where the project will be built.
 #
 change_into_obj_directory()
 {
-        mkdir -p $OBJ$LIB_NAME
-	cd $OBJ$LIB_NAME
+        cd $TOP
+        mkdir -p $OBJ/$LIB_NAME
+	cd $OBJ/$LIB_NAME
 	if [ $? -ne 0 ]; then
 	   echo
 	   echo Can\'t change to $OBJ/$LIB_NAME directory
@@ -57,9 +64,12 @@ change_into_obj_directory()
 # Run the configure step with the given parameters
 # and report on the status. Exit on fail.
 #
+# Make sure that this function is called while in
+# the directory where the build will take place.
+#
 configure_it()
 {
-	$TOP/$LIB_NAME/configure "$@"
+	$SRC/$LIB_NAME/configure "$@"
 	if [ $? -ne 0 ]; then
     	   echo   
            echo configure for $LIB_NAME failed. Exiting
