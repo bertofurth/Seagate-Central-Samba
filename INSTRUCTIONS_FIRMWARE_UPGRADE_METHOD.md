@@ -59,10 +59,28 @@ installed on the building system.
 
 ## Procedure
 ### Workspace preparation
-Download the files in this project to a new directory on the
-building host. This will be known as the base working directory.
+If not already done, download the files in this project to a 
+new directory on your build machine. 
 
-### Obtain Seagate Central Firmware
+For example, the following **git** command will download the 
+files in this project to a new subdirectory called 
+Seagate-Central-Samba
+
+    git clone https://github.com/bertofurth/Seagate-Central-Samba.git
+    
+Alternately, the following **wget** and **unzip** commands will 
+download the files in this project to a new subdirectory called
+Seagate-Central-Samba-main
+
+    wget https://github.com/bertofurth/Seagate-Central-Samba/archive/refs/heads/main.zip
+    unzip main.zip
+
+Change into this new subdirectory. This will be referred to as 
+the base working directory going forward.
+
+     cd Seagate-Central-Samba
+
+### Obtain Seagate Central firmware
 As of the writing of this document a Seagate Central firmware zip
 file can be downloaded from the Seagate website by going to the
 following URL and entering your Seagate Central's serial number.
