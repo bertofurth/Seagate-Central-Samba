@@ -36,7 +36,7 @@ check_source_dir()
 	fi
 
         echo Using $LIB_NAME as source directory.
-	cd $SRC/$LIBNAME
+	cd $SRC/$LIB_NAME
 }
 
 #
