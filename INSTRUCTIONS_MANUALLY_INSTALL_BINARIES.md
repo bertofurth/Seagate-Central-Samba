@@ -265,7 +265,7 @@ samba software.
      cp /usr/bin/old.samba/* /usr/bin/
      /etc/init.d/samba start
 
-### Troubleshooting
+## Troubleshooting
 After the upgrade it may take a few minutes for the changes to the
 NAS configuration to propagate and be recognized throughout your local
 network. 
