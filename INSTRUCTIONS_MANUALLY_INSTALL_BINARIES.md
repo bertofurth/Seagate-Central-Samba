@@ -125,7 +125,7 @@ currently running samba service.
      /etc/init.d/samba stop
 
 ### Backup the original samba software
-It is strongly suggsted to make backup copies of any binary
+It is strongly suggested to make backup copies of any binary
 executables we are about to overwrite. This way if we need to revert 
 back to the old version of software we can do so easily.
 
