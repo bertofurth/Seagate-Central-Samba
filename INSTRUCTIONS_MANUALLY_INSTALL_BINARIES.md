@@ -26,9 +26,12 @@ make sure that none of the steps below interfere with those changes.
 
 ## Prerequisites 
 ### Disk space on the Seagate Central
-About 170MiB of disk space on the Seagate Central will be required
-to perform this procedure. The procedure will add about 90MiB worth of
-newly installed files to the Seagate Central.
+About 170MB of disk space on the Seagate Central Data partition will be
+required while performing this procedure.
+
+The procedure will result in about 90MB worth of newly installed files
+on the Seagate Central Root file system. The Root file system on an
+unmodified Seagate Central typically has in the order of 500MB free.
 
 ### ssh access to the Seagate Central.
 You'll need ssh access to issue commands on the Seagate Central command 
