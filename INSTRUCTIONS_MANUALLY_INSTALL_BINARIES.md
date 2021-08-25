@@ -30,7 +30,7 @@ About 170MB of disk space on the Seagate Central Data partition will be
 required while performing this procedure.
 
 The procedure will result in about 90MB worth of newly installed files
-on the Seagate Central Root partition. The Root parition on an
+on the Seagate Central Root partition. The Root partition on an
 unmodified Seagate Central typically has in the order of 500MB free so
 hopefully this small addition of files will not cause any problems.
 
