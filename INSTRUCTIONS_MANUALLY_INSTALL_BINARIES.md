@@ -55,7 +55,7 @@ deliberately disable su access by default.
 
 The alternative procedure detailed in
 **INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md** does not require su access
-and will in fact automatically re-enable su access as part of the
+and will in fact automatically re-enable su access as a result of the
 procedure.
 
 ### Know how to copy files between your host and the Seagate Central. 
