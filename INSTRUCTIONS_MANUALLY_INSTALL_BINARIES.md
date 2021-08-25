@@ -274,10 +274,10 @@ If any individual clients are having difficulty connecting to the NAS
 after the upgrade then consider rebooting them or forcing them to
 disconnect then reauthenticate to the Seagate Central NAS. 
 
-If executing the "testparm -V" command on the Seagate Central shows an
-error message similar to
+If executing the "testparm" command or starting the samba service on 
+the Seagate Central shows an error message similar to
 
-     testparm: error while loading shared libraries: libsamba-util.so.0: cannot open shared object file: No such file or directory
+     error while loading shared libraries: libsamba-util.so.0: cannot open shared object file: No such file or directory
 
 then it may be that the libraries have not been installed properly.
 Check to make sure that /usr/local/lib and /usr/local/lib/samba have
