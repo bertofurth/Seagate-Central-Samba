@@ -93,6 +93,9 @@ password.
 Establish an ssh session to the seagate central with the same
 username who's directory now contains the samba archive.
 
+All the commands after this point are executed on the Seagate
+Central and not on the build host.
+
 Change to the directory where the archive has been copied to and
 extract it as follows.
 
