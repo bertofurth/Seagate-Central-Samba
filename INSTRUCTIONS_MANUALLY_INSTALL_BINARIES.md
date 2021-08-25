@@ -242,7 +242,13 @@ SMBv1.0 support on any clients and that you are still able to
 transfer data to and from the Seagate Central.
 
 Finally test that the new software and configuration survive a
-reboot of the Seagate Central. 
+reboot of the Seagate Central. The best way to do this is either
+via the Web management interface or with the CLI command
+
+     reboot
+ 
+Rebooting the Seagate Central by disconnecting the power is
+not normally recommended.
 
 ### Optional : Revert back to the old samba software
 If the new version of samba is not performing as desired then there
