@@ -234,8 +234,8 @@ active.
 
      ps -w | grep smbd
 
-Also confirm that you can once again transfer files between the
-Seagate Central and your clients.
+After waiting a minute or two confirm that you can once again
+transfer files between the Seagate Central and your clients.
 
 If appropriate, further test that you are able to disable legacy 
 SMBv1.0 support on any clients and that you are still able to
