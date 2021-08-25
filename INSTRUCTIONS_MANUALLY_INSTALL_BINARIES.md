@@ -177,18 +177,18 @@ revert to the original version of samba.
     cp /etc/samba/smb.conf /etc/samba/smb.conf.old
     
 Next, edit the /etc/samba/smb.conf file with vi or nano and remove
-or comment out with a #, the following configuration lines which
+or comment out with a # the following configuration lines which
 are no longer supported in samba v4.
 
      . . .
-     min receivefile size = 1 ## disabled due to SOP receive file bug
+     # min receivefile size = 1 ## disabled due to SOP receive file bug
      . . .
-     auth methods = guest, sam_ignoredomain
-     encrypt passwords = yes
+     # auth methods = guest, sam_ignoredomain
+     # encrypt passwords = yes
      . . .
-     null passwords = yes
+     # null passwords = yes
      . . .
-     vfs object = netatalk
+     # vfs object = netatalk
      . . .
      
 Replace these lines with the following. Make sure these lines
