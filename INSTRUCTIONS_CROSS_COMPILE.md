@@ -63,7 +63,7 @@ overwrite parts of the building system's library directories.
 
 For this reason it is **imperative** that you are not performing
 this procedure as root on the build machine otherwise important 
-components of your build system machine may be overwritten.
+components of your build system may be overwritten.
 
 The only time during this procedure you should be acting as the 
 root user on the build system is if you are deliberately installing 
@@ -143,7 +143,7 @@ the same major version numbers, will still work with this guide.
 * nettle-3.7.3
 * acl-2.3.1
 * libtasn1-4.17.0
-* gntls-3.6.16
+* gnutls-3.6.16
 * openldap-2.3.39 (Should be the same version as Seagate Central)
 * samba-4.14.6
 
