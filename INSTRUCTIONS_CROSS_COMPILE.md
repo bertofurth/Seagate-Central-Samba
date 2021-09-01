@@ -71,14 +71,14 @@ new components on your build system to facilitate the building process.
 See the next pre-requisite for details.
 
 ### Required software on build host
-The most important software used by this procedure is the
-cross compiler and associated toolset. This will most likely need to
-be manually generated before commencing this procedure as there is
+As mentioned above, the most important software used by this procedure 
+is the cross compiler and associated toolset. This will most likely need
+to be manually generated before commencing this procedure as there is
 unlikely to be a pre-built cross compiler tool set for Seagate Central
 readily available.
 
 There is a guide to generate a cross compilation toolset suitable
-for the Seagate Central at the link below.
+for the Seagate Central at the following link.
 
 https://github.com/bertofurth/Seagate-Central-Toolchain
 
