@@ -5,8 +5,8 @@ samba (v4.14.6) in order to solve problems with Windows 10, Linux and
 other modern clients no longer being able to connect to the Seagate
 Central using the old and insecure SMBv1.0 protocol.
 
-A set of pre-compiled modern samba binaries for Seagate Central are 
-currently available at
+A set of pre-compiled samba binaries for Seagate Central generated using
+the instructions in this project are currently available for download at
 
 https://www.dropbox.com/s/wwesnz5cmc9hlcy/seagate-central-samba-4.14.6-15-Aug-2021.tar.gz
 
