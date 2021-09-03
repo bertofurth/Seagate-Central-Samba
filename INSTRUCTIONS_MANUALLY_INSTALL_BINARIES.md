@@ -87,7 +87,7 @@ substitute your own username and NAS IP address. After
 executing the scp command you'll be prompted for the user's
 password.
 
-    scp seagate-central-samba.tar.gz admin@<NAS-ip-address>:
+    scp seagate-central-samba.tar.gz admin@192.168.1.99:
 
 ### Extract the archive on the Seagate Central
 Establish an ssh session to the seagate central with the same
