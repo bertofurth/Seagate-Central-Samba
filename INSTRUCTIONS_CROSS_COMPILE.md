@@ -197,9 +197,9 @@ messages about "not a regular file".
 Note that when copying the include files the "-r" option is used to
 copy the sub directories as well.
 
-    scp admin@<NAS-ip-address>:/lib/* ./lib/
-    scp admin@<NAS-ip-address>:/usr/lib/* ./usr/lib
-    scp -r admin@<NAS-ip-address>:/usr/include/* usr/include/
+    scp admin@192.168.1.99:/lib/* ./lib/
+    scp admin@192.168.1.99:/usr/lib/* ./usr/lib
+    scp -r admin@192.168.1.99:/usr/include/* usr/include/
    
 ### Special library and header customizations   
 After the libraries and headers are copied over we need to make a 
