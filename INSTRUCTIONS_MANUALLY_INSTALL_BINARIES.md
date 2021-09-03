@@ -39,7 +39,7 @@ You'll need ssh access to issue commands on the Seagate Central command
 line. 
 
 If you are especially adept with a soldering iron and have the right 
-equipment then you could get serial console access but this quite
+equipment then you could get serial console access but this is quite
 difficult and is **not required**. There are some very brief details 
 of the connections required at
 
@@ -114,9 +114,9 @@ directory.
     
 ### Login as root or prepend sudo to further commands
 The commands after this point in the procedure must be executed with
-root priviedges. This can be done by either prepending **sudo** to
-each command or by issuing the **su** command and becoming the root
-user.
+root priviledges on the Seagate Central. This can be done by either
+prepending **sudo** to each command or by issuing the **su** command
+and becoming the root user.
 
 ### Turn off the old samba service    
 Before upgrading the samba software it is important to stop the
