@@ -77,26 +77,29 @@ as well as new samba software features. This new version of samba
 does not, by default, support SMBv1.0.
 
 ## Warning
-**Performing modifications of this kind on the Seagate Central is 
-not without risk. Making the changes suggested in these instructions
-will likely void any warranty and may potentially lead to the device
-becoming unusable or damaged.**
+**Performing modifications of this kind on the Seagate Central is not 
+without risk. Making the changes suggested in these instructions will
+likely void any warranty and in rare circumstances may lead to the
+device becoming unusable or damaged.**
 
-That being said I have never come close to "bricking" any Seagate
-Central during the course of developing or testing these procedures.
+**Do not use the products of this project in a mission critical system
+or in a system that people's health or safety depends on.** 
 
-In addition, it's unlikely as I write this note in 2021 that any
-Seagate Centrals are currently under any kind of warranty.
+It is worth noting that during the testing and development of this
+procedure I never encountered any problems involving data corruption 
+or abrupt loss of connectivity.
 
-The Seagate Central has a feature where it automatically reverts to
-the previous version of firmware if it finds it is unable to bootup 
-after 4 consecutive attempts. This normally overcomes any kind of 
-cataclysmic software induced failure.
+In addition, I have never come close to "bricking" any Seagate Central!
+
+The Seagate Central boot loader (u-boot) has a feature where it
+automatically reverts to the previous version of firmware if it finds
+it is unable to bootup the system after 4 consecutive attempts. This
+normally overcomes any kind of cataclysmic software induced failure.
 
 In the absolute worst case where a Seagate Central were rendered totally
 inoperable there is always the option of physically opening the Seagate
 Central, removing the hard drive and mounting it on a different machine
-in order to resurrect it, and if necessary, obtain any user data.
+in order to resurrect it, and if necessary, retrieve any user data.
 
 Finally, note that the Seagate Central has not received an official 
 firmware update since 2015 so the manufacturer will probably not be
