@@ -198,8 +198,8 @@ workarounds on the client systems.
 ### Enhanced security and performance
 SMBv1.0 has multiple security issues that make it vulnerable to various 
 forms of attack. Additionally later versions of SMB introduce more
-efficient messaging mechanisms and the option for stronger forms of data 
-encryption. Some tests show that SMBv3.0 can be many times faster
+efficient messaging mechanisms and stronger builtin data integrity 
+checking. Some tests show that SMBv3.0 can be many times faster
 than SMBv1.0 in some circumstances because of increased efficiency.
 
 ### Support for new features 
