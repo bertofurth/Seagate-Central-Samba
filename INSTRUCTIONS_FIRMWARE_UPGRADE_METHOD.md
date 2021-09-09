@@ -27,6 +27,12 @@ it might be more appropriate to use the more difficult but more
 flexible manual installation method covered by
 **INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md**
 
+Note that it is possible to also upgrade the system Linux kernel
+using this method. See the Seagate-Central-Slot-In-v5.x-Kernel
+project for details.
+
+https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel/
+
 The target platform tested was a Seagate Central Single Drive NAS 
 running firmware version 2015.0916.0008-F however I believe these
 instructions should work for other Seagate Central configurations
@@ -176,6 +182,10 @@ the directory containing the cross compiled samba software.
 
      ./make_seagate_firmware.sh ./Seagate-HS-update-201509160008F.img ./seagate-central-samba
      
+Note that it's possible to also include the name and location of a
+new linux kernel for the system as a third argument. See the 
+Seagate-Central-Slot-In-v5.x-Kernel project for details.
+
 The script should generate output indicating the status of the process.
 Finally it should display the name of the newly generated firmware image,
 the new randomly generated default root password, and the name of a text
