@@ -263,6 +263,14 @@ if [ -n $DISABLE_TAPPIN ]; then
     find  squashfs-root/etc/ -name *tappinAgent* -exec rm {} +
 fi
 
+
+#
+# Disable the periodic poll to Seagate for a
+# firmware update. We do this because Seagate have
+# stopped issuing updates for the Seagate Central.
+#
+rm squashfs-root/etc/rcS.d/S99remote_check_cron
+
 #
 # Generate the small descriptor file associated
 # with the firmware update
@@ -284,7 +292,7 @@ new_stage "Creating new firmware archive"
 rm rfs.squashfs
 #
 # Note that we are using the lowest and
-# therefore the fastest form of compression here.
+# least CPU intenstive form of compression here.
 # This is because the Seagate Central is not very
 # powerful and will take a long time to decompress
 # a heavily compressed file.
