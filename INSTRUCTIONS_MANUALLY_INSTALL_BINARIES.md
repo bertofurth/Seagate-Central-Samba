@@ -26,16 +26,20 @@ make sure that none of the steps below interfere with those changes.
 
 ## Prerequisites 
 ### Disk space on the Seagate Central
-About 170MiB of disk space on the Seagate Central will be required
-to perform this procedure. The procedure will add about 90MiB worth of
-newly installed files to the Seagate Central.
+About 170MB of disk space on the Seagate Central Data partition will be
+required while performing this procedure.
+
+The procedure will result in about 90MB worth of newly installed files
+on the Seagate Central Root partition. The Root partition on an
+unmodified Seagate Central typically has in the order of 500MB free so
+hopefully this small addition of files will not cause any problems.
 
 ### ssh access to the Seagate Central.
 You'll need ssh access to issue commands on the Seagate Central command 
 line. 
 
 If you are especially adept with a soldering iron and have the right 
-equipment then you could get serial console access but this quite
+equipment then you could get serial console access but this is quite
 difficult and is **not required**. There are some very brief details 
 of the connections required at
 
@@ -51,7 +55,7 @@ deliberately disable su access by default.
 
 The alternative procedure detailed in
 **INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md** does not require su access
-and will in fact automatically re-enable su access as part of the
+and will in fact automatically re-enable su access as a result of the
 procedure.
 
 ### Know how to copy files between your host and the Seagate Central. 
@@ -83,11 +87,14 @@ substitute your own username and NAS IP address. After
 executing the scp command you'll be prompted for the user's
 password.
 
-    scp seagate-central-samba.tar.gz admin@<NAS-ip-address>:
+    scp seagate-central-samba.tar.gz admin@192.168.1.99:
 
 ### Extract the archive on the Seagate Central
 Establish an ssh session to the seagate central with the same
 username who's directory now contains the samba archive.
+
+All the commands after this point are executed on the Seagate
+Central and not on the build host.
 
 Change to the directory where the archive has been copied to and
 extract it as follows.
@@ -107,9 +114,9 @@ directory.
     
 ### Login as root or prepend sudo to further commands
 The commands after this point in the procedure must be executed with
-root priviedges. This can be done by either prepending **sudo** to
-each command or by issuing the **su** command and becoming the root
-user.
+root priviledges on the Seagate Central. This can be done by either
+prepending **sudo** to each command or by issuing the **su** command
+and becoming the root user.
 
 ### Turn off the old samba service    
 Before upgrading the samba software it is important to stop the
@@ -118,7 +125,7 @@ currently running samba service.
      /etc/init.d/samba stop
 
 ### Backup the original samba software
-It is strongly suggsted to make backup copies of any binary
+It is strongly suggested to make backup copies of any binary
 executables we are about to overwrite. This way if we need to revert 
 back to the old version of software we can do so easily.
 
@@ -170,18 +177,18 @@ revert to the original version of samba.
     cp /etc/samba/smb.conf /etc/samba/smb.conf.old
     
 Next, edit the /etc/samba/smb.conf file with vi or nano and remove
-or comment out with a #, the following configuration lines which
+or comment out with a # the following configuration lines which
 are no longer supported in samba v4.
 
      . . .
-     min receivefile size = 1 ## disabled due to SOP receive file bug
+     # min receivefile size = 1 ## disabled due to SOP receive file bug
      . . .
-     auth methods = guest, sam_ignoredomain
-     encrypt passwords = yes
+     # auth methods = guest, sam_ignoredomain
+     # encrypt passwords = yes
      . . .
-     null passwords = yes
+     # null passwords = yes
      . . .
-     vfs object = netatalk
+     # vfs object = netatalk
      . . .
      
 Replace these lines with the following. Make sure these lines
@@ -227,15 +234,21 @@ active.
 
      ps -w | grep smbd
 
-Also confirm that you can once again transfer files between the
-Seagate Central and your clients.
+After waiting a minute or two confirm that you can once again
+transfer files between the Seagate Central and your clients.
 
 If appropriate, further test that you are able to disable legacy 
 SMBv1.0 support on any clients and that you are still able to
 transfer data to and from the Seagate Central.
 
 Finally test that the new software and configuration survive a
-reboot of the Seagate Central. 
+reboot of the Seagate Central. The best way to do this is either
+via the Web management interface or with the CLI command
+
+     reboot
+ 
+Rebooting the Seagate Central by disconnecting the power is
+not normally recommended.
 
 ### Optional : Revert back to the old samba software
 If the new version of samba is not performing as desired then there
@@ -252,7 +265,7 @@ samba software.
      cp /usr/bin/old.samba/* /usr/bin/
      /etc/init.d/samba start
 
-### Troubleshooting
+## Troubleshooting
 After the upgrade it may take a few minutes for the changes to the
 NAS configuration to propagate and be recognized throughout your local
 network. 
@@ -261,10 +274,10 @@ If any individual clients are having difficulty connecting to the NAS
 after the upgrade then consider rebooting them or forcing them to
 disconnect then reauthenticate to the Seagate Central NAS. 
 
-If executing the "testparm -V" command on the Seagate Central shows an
-error message similar to
+If executing the "testparm" command or starting the samba service on 
+the Seagate Central shows an error message similar to
 
-     testparm: error while loading shared libraries: libsamba-util.so.0: cannot open shared object file: No such file or directory
+     error while loading shared libraries: libsamba-util.so.0: cannot open shared object file: No such file or directory
 
 then it may be that the libraries have not been installed properly.
 Check to make sure that /usr/local/lib and /usr/local/lib/samba have

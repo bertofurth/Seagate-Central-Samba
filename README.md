@@ -5,8 +5,8 @@ samba (v4.14.6) in order to solve problems with Windows 10, Linux and
 other modern clients no longer being able to connect to the Seagate
 Central using the old and insecure SMBv1.0 protocol.
 
-A set of pre-compiled modern samba binaries for Seagate Central are 
-currently available at
+A set of pre-compiled samba binaries for Seagate Central generated using
+the instructions in this project are currently available for download at
 
 https://www.dropbox.com/s/wwesnz5cmc9hlcy/seagate-central-samba-4.14.6-15-Aug-2021.tar.gz
 
@@ -76,22 +76,30 @@ secure and efficient versions of the SMB protocol (V2.1 and above)
 as well as new samba software features. This new version of samba
 does not, by default, support SMBv1.0.
 
-**NOTE : Performing modifications of this kind on the Seagate Central is 
-not without risk. Making the changes suggested in these instructions will 
-likely void any warranty and may potentially lead to the device becoming 
-unusable or damaged.**
+## Warning
+**Performing modifications of this kind on the Seagate Central is not 
+without risk. Making the changes suggested in these instructions will
+likely void any warranty and in rare circumstances may lead to the
+device becoming unusable or damaged.**
 
-That being said I have never come close to "bricking" any Seagate
-Central during the course of developing or testing these procedures.
+**Do not use the products of this project in a mission critical system
+or in a system that people's health or safety depends on.** 
 
-In addition it's unlikely as I write this note in 2021 that any
-Seagate Centrals are currently under any kind of warranty.
+It is worth noting that during the testing and development of this
+procedure I never encountered any problems involving data corruption 
+or abrupt loss of connectivity.
 
-In the absolute worst case where a Seagate Central is somehow rendered
-inoperable there is always the option of physically opening the
-Seagate Central, removing the hard drive and mounting it on a
-different machine in order to resurrect it and obtain any user
-data.
+In addition, I have never come close to "bricking" any Seagate Central!
+
+The Seagate Central boot loader (u-boot) has a feature where it
+automatically reverts to the previous version of firmware if it finds
+it is unable to bootup the system after 4 consecutive attempts. This
+normally overcomes any kind of cataclysmic software induced failure.
+
+In the absolute worst case where a Seagate Central were rendered totally
+inoperable there is always the option of physically opening the Seagate
+Central, removing the hard drive and mounting it on a different machine
+in order to resurrect it, and if necessary, retrieve any user data.
 
 Finally, note that the Seagate Central has not received an official 
 firmware update since 2015 so the manufacturer will probably not be
@@ -190,8 +198,8 @@ workarounds on the client systems.
 ### Enhanced security and performance
 SMBv1.0 has multiple security issues that make it vulnerable to various 
 forms of attack. Additionally later versions of SMB introduce more
-efficient messaging mechanisms and the option for stronger forms of data 
-encryption. Some tests show that SMBv3.0 can be many times faster
+efficient messaging mechanisms and stronger builtin data integrity 
+checking. Some tests show that SMBv3.0 can be many times faster
 than SMBv1.0 in some circumstances because of increased efficiency.
 
 ### Support for new features 

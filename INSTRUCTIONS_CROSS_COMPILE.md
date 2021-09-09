@@ -63,7 +63,7 @@ overwrite parts of the building system's library directories.
 
 For this reason it is **imperative** that you are not performing
 this procedure as root on the build machine otherwise important 
-components of your build system machine may be overwritten.
+components of your build system may be overwritten.
 
 The only time during this procedure you should be acting as the 
 root user on the build system is if you are deliberately installing 
@@ -71,14 +71,14 @@ new components on your build system to facilitate the building process.
 See the next pre-requisite for details.
 
 ### Required software on build host
-The most important software used by this procedure is the
-cross compiler and associated toolset. This will most likely need to
-be manually generated before commencing this procedure as there is
+As mentioned above, the most important software used by this procedure 
+is the cross compiler and associated toolset. This will most likely need
+to be manually generated before commencing this procedure as there is
 unlikely to be a pre-built cross compiler tool set for Seagate Central
 readily available.
 
 There is a guide to generate a cross compilation toolset suitable
-for the Seagate Central at the link below.
+for the Seagate Central at the following link.
 
 https://github.com/bertofurth/Seagate-Central-Toolchain
 
@@ -143,7 +143,7 @@ the same major version numbers, will still work with this guide.
 * nettle-3.7.3
 * acl-2.3.1
 * libtasn1-4.17.0
-* gntls-3.6.16
+* gnutls-3.6.16
 * openldap-2.3.39 (Should be the same version as Seagate Central)
 * samba-4.14.6
 
@@ -197,9 +197,9 @@ messages about "not a regular file".
 Note that when copying the include files the "-r" option is used to
 copy the sub directories as well.
 
-    scp admin@<NAS-ip-address>:/lib/* ./lib/
-    scp admin@<NAS-ip-address>:/usr/lib/* ./usr/lib
-    scp -r admin@<NAS-ip-address>:/usr/include/* usr/include/
+    scp admin@192.168.1.99:/lib/* ./lib/
+    scp admin@192.168.1.99:/usr/lib/* ./usr/lib
+    scp -r admin@192.168.1.99:/usr/include/* usr/include/
    
 ### Special library and header customizations   
 After the libraries and headers are copied over we need to make a 
@@ -354,8 +354,8 @@ message is printed at the end of each script.
 
 The "configure" stages of the build are where things will most likely
 go wrong. In this case it is useful to view the configure log which 
-will be located at obj/component-X.Y.Z/config.log or for samba 
-samba-4.X.Y/bin/config.log
+will be located at obj/component-X.Y.Z/config.log or 
+src/samba-4.X.Y/bin/config.log
 
 Cross compiling samba is difficult and there are a lot of articles
 and posts that detail the trouble people have had with this process. 

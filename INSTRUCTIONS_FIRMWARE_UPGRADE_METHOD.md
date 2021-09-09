@@ -244,7 +244,7 @@ pie chart indicates that there's no user data. It can take up to
 stock of the user data and update it's internal statistics. 
 
 If you navigate to the Settings tab then look at the
-Settings -> About page then you should see a new version number
+Setup -> About page then you should see a new version number
 in the "Firmware version" field reflecting the new firmware just
 applied.
 
