@@ -13,8 +13,8 @@ md5sum : 0d4a5a9e795f4d95dfd19d8c1b60e2fe
 
 Note that there is a related project called 
 Seagate-Central-Slot-In-v5.x-Kernel that provides a guide on how to
-upgrade the Seagate Central Linux kernel which can also be of
-significant benefit.
+upgrade the Seagate Central Linux kernel after the samba service has been
+upgraded. This can be of significant benefit for performance.
 
 https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
 
@@ -218,7 +218,7 @@ may be configured, albeit via the command line and configuration file
 rather than the web interface.
 
 ## Disadvantages of installing the new samba server
-### Second CPU
+### Second CPU (fixed by Seagate-Central-Slot-In-v5.x-Kernel)
 The Seagate Central is based on a Cavium CNS3420 CPU which has 2 CPU 
 cores. In stock Seagate Central firmware, the first CPU core is available
 for normal linux processes and the second is reserved exclusively for the 
