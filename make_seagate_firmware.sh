@@ -263,14 +263,6 @@ if [ -n $DISABLE_TAPPIN ]; then
     find  squashfs-root/etc/ -name *tappinAgent* -exec rm {} +
 fi
 
-
-#
-# Disable the periodic poll to Seagate for a
-# firmware update. We do this because Seagate have
-# stopped issuing updates for the Seagate Central.
-#
-rm squashfs-root/etc/rcS.d/S99remote_check_cron
-
 #
 # Generate the small descriptor file associated
 # with the firmware update
