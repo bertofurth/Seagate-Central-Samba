@@ -9,6 +9,14 @@ A set of pre-compiled samba binaries for Seagate Central generated using
 the instructions in this project are currently available for download at
 
 https://www.dropbox.com/s/wwesnz5cmc9hlcy/seagate-central-samba-4.14.6-15-Aug-2021.tar.gz
+md5sum : 0d4a5a9e795f4d95dfd19d8c1b60e2fe
+
+Note that there is a related project called 
+Seagate-Central-Slot-In-v5.x-Kernel that provides a guide on how to
+upgrade the Seagate Central Linux kernel which can also be of
+significant benefit.
+
+https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
 
 There are three sets of instructions included in this project that 
 describe three different methods to accomplish this goal. Here they
@@ -241,8 +249,13 @@ spends a few minutes cataloging the data files stored on the unit.
 During this brief time the CPU load can be quite high and file serving 
 performance can slightly suffer.
 
-Note that I have another project in the works that deals with upgrading 
-the Linux Kernel on the Seagate Central. This will overcome the second
+Note that there is another project called Seagate-Central-Slot-In-v5.x-Kernel
+located at
+
+https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel/ 
+
+which shows instructions for compiling and installing an upgraded SMP
+capable Linux Kernel on the Seagate Central. This will overcome the second
 CPU problem by making **both** CPUs in the Seagate Central available for
 **all** linux processes. That is, SMP (Symmetrical Multi Processing) 
 will be implemented in this updated Linux Kernel. 
