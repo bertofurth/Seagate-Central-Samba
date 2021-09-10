@@ -18,9 +18,7 @@ upgraded. This can be of significant benefit for performance.
 
 https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
 
-There are three sets of instructions included in this project that 
-describe three different methods to accomplish this goal. Here they
-are ranging from hardest to easiest.
+There are three sets of instructions included in this project.
 
 ### INSTRUCTIONS_CROSS_COMPILE.md 
 Cross compile the replacement samba server from scratch.
@@ -48,7 +46,8 @@ interface.
 ### INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md
 This option involves running an automated script that takes an existing 
 official Seagate Central firmware image and the samba binaries generated
-in the first set of instructions as it's input. 
+in the first set of instructions, or the downloaded pre-compiled
+binaries, as it's input. 
 
 The script modifies the supplied Seagate Central firmware image to
 include the samba binaries, appropriate configuration, and other
