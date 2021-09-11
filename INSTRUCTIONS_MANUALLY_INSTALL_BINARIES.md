@@ -34,19 +34,6 @@ on the Seagate Central Root partition. The Root partition on an
 unmodified Seagate Central typically has in the order of 500MB free so
 hopefully this small addition of files will not cause any problems.
 
-### ssh access to the Seagate Central.
-You'll need ssh access to issue commands on the Seagate Central command 
-line. 
-
-If you are especially adept with a soldering iron and have the right 
-equipment then you could get serial console access but this is quite
-difficult and is **not required**. There are some very brief details 
-of the connections required at
-
-http://seagate-central.blogspot.com/2014/01/blog-post.html
-
-Archive : https://archive.ph/ONi4l
-
 ### su/root access on the Seagate Central.
 Make sure that you can establish an ssh session to the Seagate Central
 and that you can succesfully issue the **su** command to gain root
