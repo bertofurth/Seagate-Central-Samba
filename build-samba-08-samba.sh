@@ -8,7 +8,7 @@ source build-common
 source build-functions
 check_source_dir "samba"
 
-if [ ! -r $CROSS_ANSWERS ]; then
+if [ ! -r $TOP/$CROSS_ANSWERS ]; then
     echo
     echo "Cross answers file $CROSS_ANSWERS not accessible."
     echo "This file needs to be present and filled in"
