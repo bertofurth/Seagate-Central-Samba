@@ -8,8 +8,7 @@ configure_it --prefix=$PREFIX \
 	     --sbindir=$EXEC_PREFIX/sbin \
 	     --host=$ARCH \
 	     --disable-openssl \
-	     --disable-documentation \
-	     --enable-arm-neon
+	     --disable-documentation
 make_it
 install_it
 finish_it
