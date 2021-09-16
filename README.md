@@ -6,21 +6,21 @@ other modern clients no longer being able to connect to the Seagate
 Central using the old and insecure SMBv1.0 protocol.
 
 A set of pre-compiled samba binaries for Seagate Central generated using
-the instructions in this project are currently available for download at
+the instructions in this project are currently available for download
+in the "releases" section of this project at
 
-https://www.dropbox.com/s/wwesnz5cmc9hlcy/seagate-central-samba-4.14.6-15-Aug-2021.tar.gz
+https://github.com/bertofurth/Seagate-Central-Samba/releases/download/v1.0/seagate-central-samba-4.14.6-15-Aug-2021.tar.gz
+
 md5sum : 0d4a5a9e795f4d95dfd19d8c1b60e2fe
 
 Note that there is a related project called 
 Seagate-Central-Slot-In-v5.x-Kernel that provides a guide on how to
-upgrade the Seagate Central Linux kernel which can also be of
-significant benefit.
+upgrade the Seagate Central Linux kernel after the samba service has been
+upgraded. This can be of significant benefit for performance.
 
 https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
 
-There are three sets of instructions included in this project that 
-describe three different methods to accomplish this goal. Here they
-are ranging from hardest to easiest.
+There are three sets of instructions included in this project.
 
 ### INSTRUCTIONS_CROSS_COMPILE.md 
 Cross compile the replacement samba server from scratch.
@@ -48,7 +48,8 @@ interface.
 ### INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md
 This option involves running an automated script that takes an existing 
 official Seagate Central firmware image and the samba binaries generated
-in the first set of instructions as it's input. 
+in the first set of instructions, or the downloaded pre-compiled
+binaries, as it's input. 
 
 The script modifies the supplied Seagate Central firmware image to
 include the samba binaries, appropriate configuration, and other
@@ -218,7 +219,7 @@ may be configured, albeit via the command line and configuration file
 rather than the web interface.
 
 ## Disadvantages of installing the new samba server
-### Second CPU
+### Second CPU (fixed by Seagate-Central-Slot-In-v5.x-Kernel)
 The Seagate Central is based on a Cavium CNS3420 CPU which has 2 CPU 
 cores. In stock Seagate Central firmware, the first CPU core is available
 for normal linux processes and the second is reserved exclusively for the 
