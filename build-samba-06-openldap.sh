@@ -6,17 +6,17 @@ check_source_dir "openldap"
 # Copy ldap header files available in the source code
 # to the target directory
 #
-cp -n $LIB_NAME/include/lber.h \
-   $LIB_NAME/include/ldap.h \
-   $LIB_NAME/include/ldap_cdefs.h \
-   $LIB_NAME/include/ldap_schema.h \
-   $LIB_NAME/include/ldap_utf8.h \
-   $LIB_NAME/include/slapi-plugin.h  \
+cp -n include/lber.h \
+   include/ldap.h \
+   include/ldap_cdefs.h \
+   include/ldap_schema.h \
+   include/ldap_utf8.h \
+   include/slapi-plugin.h  \
    $BUILDHOST_DEST/$PREFIX/include
 if [ $? -ne 0 ]; then
     echo
     echo Copying source based header files for $LIB_NAME failed. Exiting
-    exit 0
+    exit -1
 fi
 
 change_into_obj_directory
