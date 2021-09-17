@@ -1,3 +1,5 @@
+TODO : Does changing the startup script to be after AVAHI help?
+
 # INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md
 ## Summary
 This is a guide that describes how to manually replace the old samba
