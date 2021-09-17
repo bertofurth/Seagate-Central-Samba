@@ -31,8 +31,8 @@ make sure that none of the steps below interfere with those changes.
 About 170MB of disk space on the Seagate Central Data partition will be
 required while performing this procedure.
 
-The procedure will result in about 90MB worth of newly installed files
-on the Seagate Central Root partition. The Root partition on an
+The procedure will result in up to about 90MB worth of newly installed 
+files on the Seagate Central Root partition. The Root partition on an
 unmodified Seagate Central typically has in the order of 500MB free so
 hopefully this small addition of files will not cause any problems.
 
@@ -113,7 +113,7 @@ currently running samba service.
 
      /etc/init.d/samba stop
 
-### Backup the original samba software
+### Optional - Backup the original samba software (Recommended)
 It is strongly suggested to make backup copies of any binary
 executables we are about to overwrite. This way if we need to revert 
 back to the old version of software we can do so easily.
@@ -151,11 +151,6 @@ samba that has been installed.
 The command should report the expected new version (v4.x.x) and 
 not the old version (3.5.16).
 
-Note that the archive may contain man pages and other documentation
-that are not used on the Seagate Central. If desired these files can
-be removed from the /usr/local/doc , /usr/local/info and
-/usr/local/man subdirectories. 
-
 ### Customize samba configuration files
 The main samba configuation file /etc/samba/smb.conf needs to be
 modfied in order to work with modern versions of samba.
@@ -165,8 +160,8 @@ revert to the original version of samba.
 
     cp /etc/samba/smb.conf /etc/samba/smb.conf.old
     
-Next, edit the /etc/samba/smb.conf file with vi or nano and remove
-or comment out with a # the following configuration lines which
+Next, edit the /etc/samba/smb.conf file with "vi" or "nano" and 
+remove or comment out with a # the following configuration lines which
 are no longer supported in samba v4.
 
      . . .
@@ -236,8 +231,8 @@ via the Web management interface or with the CLI command
 
      reboot
  
-Rebooting the Seagate Central by disconnecting the power is
-not normally recommended.
+Note that rebooting the Seagate Central by disconnecting the
+power is not normally recommended.
 
 ### Optional : Revert back to the old samba software
 If the new version of samba is not performing as desired then there
