@@ -1,3 +1,13 @@
+BERTO : BROKEN!!! DO NOT USE!!!!
+
+TODO : Fix ldap errors
+
+TODO : TLS  - >    --without-zlib    fix this
+
+TODO :Change to "compile everything" mode. Stop downloading libraries from the SC
+
+TODO : Add a note where new stuff can be added to the firmware
+
 # INSTRUCTIONS_CROSS_COMPILE.md
 ## Summary
 This is a guide that describes how to cross compile replacement samba
@@ -130,63 +140,39 @@ the base working directory going forward.
      cd Seagate-Central-Samba
 
 ### Source code download and extraction
-The next part of the procedure involves gathering the source code 
-for each component and installing it into the **src** subdirectory of
-the base working directory.
-
-Here we show the versions of software used when generating this guide.
+### Source code download and extraction
+This procedure was tested using the following versions of software.
 Unless otherwise noted these are the latest stable releases at the
 time of writing. Hopefully later versions, or at least those with
 the same major version numbers, will still work with this guide.
 
-* gmp-6.2.1
-* nettle-3.7.3
-* acl-2.3.1
-* libtasn1-4.17.0
-* gnutls-3.6.16
-* openldap-2.3.39 (Should be the same version as Seagate Central)
-* samba-4.14.6
+* gmp-6.2.1 - http://mirrors.kernel.org/gnu/gmp/gmp-6.2.1.tar.xz
+* nettle-3.7.3 - http://mirrors.kernel.org/gnu/nettle/nettle-3.7.3.tar.gz
+* acl-2.3.1 - http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
+* libtasn1-4.17.0 - http://mirrors.kernel.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz 
+* gnutls-3.6.16 - https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.16.tar.xz
+* openldap-2.3.39 (Same version as Seagate Central) - https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.3.39.tgz
+* samba-4.14.6 - https://www.samba.org/ftp/samba/stable/samba-4.14.6.tar.gz
 
-Change into the **src** subdirectory of the base working directory
-then download the source archives using **wget**, **curl -O** or a 
-similar tool as follows. Note that these archives are available from 
-a wide variety of sources so if one of the URLs used below does not 
-work try to search for another.
-
-    cd src
-    wget http://mirrors.kernel.org/gnu/gmp/gmp-6.2.1.tar.xz
-    wget http://mirrors.kernel.org/gnu/nettle/nettle-3.7.3.tar.gz
-    wget http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
-    wget http://mirrors.kernel.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz   
-    wget https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.16.tar.xz
-    wget https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.3.39.tgz
-    wget https://download.samba.org/pub/samba/samba-4.14.6.tar.gz
-
-Extract each file with the **tar -xf** command.
-
-    tar -xf gmp-6.2.1.tar.xz 
-    tar -xf nettle-3.7.3.tar.gz  
-    tar -xf acl-2.3.1.tar.xz
-    tar -xf libtasn1-4.17.0.tar.gz
-    tar -xf gnutls-3.6.16.tar.xz
-    tar -xf openldap-2.3.39.tgz
-    tar -xf samba-4.14.6.tar.gz
+Download the required source code archives for each component to 
+the **src** subdirectory of the base working directory and extract
+them using the "tar -xf" command. This can be done automatically for
+the versions listed above by running the **download-minidlna-src.sh**
+script.
 
 ### Seagate Central libraries and headers
 We need to copy the binary libraries and header files on the Seagate 
 Central to the build host so that they can be linked to during the
-build process.
+build process. The build scripts are configured to use the "sc-libs"
+subdirectory under the base working directory to hold these files.
 
 There are many methods of copying information from the Seagate Central 
 but in this example we use the secure copy program - scp.
 
-First change into the sc-libs subdirectory from the base working 
-directory and create the required lib, usr/lib, and usr/include 
-sub directories.
+First create the required subdirectories under sc-libs. Namely lib,
+usr/lib, and usr/includes.
 
-    mkdir -p sc-libs
-    cd sc-libs
-    mkdir -p lib usr/lib usr/include 
+    mkdir -p sc-libs/lib sc-libs/usr/lib sc-libs/usr/include 
     
 In this example we use the "admin" user to copy files from the Seagate
 Central. You will need to substitute your own username and NAS IP 
@@ -197,9 +183,9 @@ messages about "not a regular file".
 Note that when copying the include files the "-r" option is used to
 copy the sub directories as well.
 
-    scp admin@192.0.2.99:/lib/* ./lib/
-    scp admin@192.0.2.99:/usr/lib/* ./usr/lib
-    scp -r admin@192.0.2.99:/usr/include/* usr/include/
+    scp admin@192.0.2.99:/lib/* sc-libs/lib/
+    scp admin@192.0.2.99:/usr/lib/* sc-libs/usr/lib
+    scp -r admin@192.0.2.99:/usr/include/* sc-libs/usr/include/
    
 ### Special library and header customizations   
 After the libraries and headers are copied over we need to make a 
@@ -210,8 +196,8 @@ load but they contain references to the absolute paths /lib and
 these files to remove these paths or run the following commands in the 
 sc-libs directory to automatically remove them.
 
-    sed -i.orig -e 's#\(/usr\|/lib/\)##g' usr/lib/libc.so
-    sed -i.orig -e 's#\(/usr\|/lib/\)##g' usr/lib/libpthread.so
+    sed -i.orig -e 's#\(/usr\|/lib/\)##g' sc-libs/usr/lib/libc.so
+    sed -i.orig -e 's#\(/usr\|/lib/\)##g' sc-libs/usr/lib/libpthread.so
 
 The original versions of the files will be kept with a .orig suffix.
 
@@ -219,7 +205,7 @@ We also need to rename the **usr/include/md5.h** header file so that
 it is not used in the compilation process, otherwise errors related to 
 md5 functions will appear when compiling samba.
 
-    mv -f usr/include/md5.h usr/include/md5.h.orig
+    mv -f sc-libs/usr/include/md5.h sc-libs/usr/include/md5.h.orig
 
 ### Customize the scripts
 Change back to the base working directory and edit the variables
@@ -227,7 +213,7 @@ at the top of the **build-common** file to suit your build
 environment.
 
 These parameters are arranged roughly in order of their likelihood
-of needing to be changed. The first three are the most important
+of needing to be changed. The first two are the most important
 to get right.
 
 #### CROSS_COMPILE (Important)
@@ -247,7 +233,7 @@ Make sure to use an absolute path and not the ~ or . symbols.
     CROSS=$HOME/Seagate-Central-Toolchain/cross
     TOOLS=$CROSS/tools/bin
 
-#### J (Number of CPU threads) (Important)
+#### J (Number of CPU threads) 
 Set the number of threads to use when compiling. Generally set 
 equal to or less than the number of CPU cores on the building machine. 
 Set to 1 when troubleshooting.
