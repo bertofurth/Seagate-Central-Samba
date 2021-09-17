@@ -1,6 +1,6 @@
-BERTO : BROKEN!!! DO NOT USE!!!!
+BERTO : Kind of broken at the moment. Use with caution.
 
-TODO : Fix ldap errors
+TODO : TLDNR
 
 TODO : TLS  - >    --without-zlib    fix this
 
@@ -35,10 +35,12 @@ running firmware version 2015.0916.0008-F however I believe these
 instructions should work for other Seagate Central configurations and
 firmware versions.
 
+## TODO TLDNR
+
 ## Prerequisites 
 ### Disk space
 This procedure will take up to a maximum of just under 850MiB of disk
-space during the build process and will generate about 85MiB of finished
+space during the build process and will generate up to 85MiB of finished
 product. 
 
 ### Time
@@ -157,10 +159,10 @@ the same major version numbers, will still work with this guide.
 Download the required source code archives for each component to 
 the **src** subdirectory of the base working directory and extract
 them using the "tar -xf" command. This can be done automatically for
-the versions listed above by running the **download-minidlna-src.sh**
+the versions listed above by running the **download-samba-src.sh**
 script.
 
-### Seagate Central libraries and headers
+### Seagate Central libraries and headers TODO: GET RID OF THIS
 We need to copy the binary libraries and header files on the Seagate 
 Central to the build host so that they can be linked to during the
 build process. The build scripts are configured to use the "sc-libs"
@@ -305,6 +307,73 @@ sure each one works.
 There is a script called **run_all_build.sh** that will execute all 
 the individual build scripts in order however this is only recommended
 once you are confident that the build will run without issue.
+
+### Optional - Reducing the software size
+You can reduce the size of the software that will be installed
+on the Seagate Central by deleting or "stripping" components that
+aren't normally useful to store on the Seagate Central itself.
+
+#### Optional - Remove static libraries (Strongly recommended)
+Many of the build scripts in this project to build both shared and
+static libraries. The static libraries are generally only useful while
+compiling a static binary on a build host.
+ 
+Since you're unlikely to be performing any compilation on the Seagate
+Central itself, we suggest that you remove any static libraries from
+the software before it is transferred to the Seagate Central. This can
+save a significant amount of disk space.
+
+The following command finds static libraries in the "cross" 
+subdirectory and deletes them.
+
+    find cross/ -name "*.a" -exec rm {} \;
+
+An alternative is to keep the static libraries but to "strip" them as
+per the information below.
+
+#### Optional - Strip binaries and executables
+Binaries and executables generated in this project have debugging
+information embedded in them by default. A small amount of space 
+(around 20%) can be saved by removing this debugging information 
+using the "strip" command. 
+
+The following command searches through the "cross" subdirectory 
+and "strips" any appropriate files.
+
+     find cross/ -type f -exec strip {} \;
+     
+"strip" command error messages saying "file format not recognized" are 
+safe to ignore.
+
+#### Optional - Remove documentation
+Documentation, which is unlikely to be read on the Seagate Central, can
+be deleted to save a small amount of disk space.
+
+    rm -rf cross/usr/local/share/doc
+    rm -rf cross/usr/local/share/man
+    rm -rf cross/usr/local/share/info
+    
+#### Optional - Remove multi-language files
+If you are happy to keep all command outputs in English, then you can 
+delete the files that provide support for other languages.
+
+    rm -rf cross/usr/local/share/locale
+
+#### Optional - Remove header files
+Header files, which are only used when compiling software, can be removed
+to save a small amount of disk space.
+
+Personally, I prefer to keep these header files in place so that if in
+future some other software requiring the shared libraries needs to be 
+compiled, the headers are available.  This can make the process of building
+software in the future easier.
+
+That being said, it's possible to re-download the relevant library's 
+source code again and get the headers that way.
+
+To remove the headers run the following command.
+
+    rm -rf cross/usr/local/include
 
 ### Optional : Create an archive of the finished product
 The finished product is now in the **cross** subdirectory (or whatever
