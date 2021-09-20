@@ -2,33 +2,28 @@
 #
 # Set this to the name of the cross-answers file.
 #
-CROSS_ANSWERS=cross-answers-seagate-central-samba-4.14.6.txt
 
+CROSS_ANSWERS=$(basename $(ls -1drv cross-answers*/))
+
+# Below we set "/usr" as the directory for executables
+# as opposed to the default of /usr/local because we
+# want to overwrite the old samba binaries in /usr/bin
+# and /usr/sbin.
+#
+EXEC_PREFIX=${EXEC_PREFIX:-/usr}
 source build-common
 source build-functions
 check_source_dir "samba"
 
 if [ ! -r $TOP/$CROSS_ANSWERS ]; then
     echo
-    echo "Cross answers file $CROSS_ANSWERS not accessible."
+    echo "Cross answers file not found!"
     echo "This file needs to be present and filled in"
     echo "properly in order to cross compile samba."
     echo
+    exit 1
 else
-    echo "Cross answers file $CROSS_ANSWERS found!"
-fi
-
-if [ -r $SEAGATE_LIBS_BASE/usr/include/md5.h ]; then 
-    echo
-    echo $SEAGATE_LIBS_BASE/usr/include/md5.h
-    echo may cause compilation to fail when compiling
-    echo source4/heimdal/lib/hcrypto/evp-hcrypto.c
-    echo
-    echo This file is going to be renamed to md5.h.orig.
-    echo
-    mv -f $SEAGATE_LIBS_BASE/usr/include/md5.h $SEAGATE_LIBS_BASE/usr/include/md5.h.orig
-else
-    echo "$SEAGATE_LIBS_BASE/usr/include/md5.h does not exist. Good!"
+    echo "Using cross answers file $CROSS_ANSWERS"
 fi
 
 #
@@ -49,7 +44,6 @@ if [ ! -x compile_et.local ]; then
     echo Did you run the previous step properly?
 fi
 
-
 #
 # Configure the build. Some parameters explained.
 # prefix : The location on the target device where libraries
@@ -67,9 +61,9 @@ fi
 #                 the target.
 # enable-fhs : This is necessary when we're using $PREFIX of /usr/local
 #              It tells SAMBA to use the standard style of file hierachy.
-# *dir : Configuration and state file folders set up as per the original
-#        Seagate Central SAMBA daemon. This could be left out on a
-#        non Seagate Central style system.
+# with-*dir : Configuration and state file folders set up as per the original
+#             Seagate Central SAMBA daemon. This could be left out on a
+#             non Seagate Central style system.
 #
 # The options following are just customizations disabling functionality
 # that I don't think is necessary and that makes it easier to cross compile

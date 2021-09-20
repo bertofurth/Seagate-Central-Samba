@@ -2,12 +2,17 @@
 # This file should not be executed, instead it should be
 # "source"d by each of the build scripts.
 #
-# Make sure that the build-common file which contains all
-# the common variable definitions has been sourced
+# Make sure that the file containing all the common variable
+# definitions have been sourced
 #
 export TOP=$(pwd)
 export OBJ=$TOP/obj
 export SRC=$TOP/src
+export LOG=$TOP/log
+ARGS=$@
+NAME=$(basename $0)
+
+set -o pipefail
 
 #
 # check_source_dir <source-name>
@@ -64,17 +69,33 @@ change_into_obj_directory()
 # Run the configure step with the given parameters
 # and report on the status. Exit on fail.
 #
-# Make sure that this function is called while in
-# the directory where the build will take place.
-#
 configure_it()
 {
-	$SRC/$LIB_NAME/configure "$@"
+
+	# Make sure the cross compilation suite
+	# is in place before starting this stage
+
+	if ! type $CC > /dev/null ; then
+	    echo
+	    echo "ERROR : Unable to find $CROSS_COMPILE toolchain"
+	    echo "Check CROSS_COMPILE and CROSS are set correctly"
+	    echo "in the build-common script"
+	    echo
+	    echo Exiting \($SECONDS seconds\)
+            exit -1
+	fi
+
+        mkdir -p $LOG
+	$SRC/$LIB_NAME/configure "$@" |& tee $LOG/"$NAME"_configure.log
 	if [ $? -ne 0 ]; then
     	   echo   
-           echo configure for $LIB_NAME failed. Exiting
+           echo configure for $LIB_NAME failed. See $LOG/"$NAME"_configure.log
+	   echo and config.log under $(pwd)
+	   echo Exiting \($SECONDS seconds\)
 	   exit -1
-	fi	
+	fi
+	echo configure for $LIB_NAME complete. See $LOG/"$NAME"_configure.log
+	echo and config.log under $(pwd)
 }
 #
 # make_it [make-params]
@@ -86,12 +107,15 @@ configure_it()
 #
 make_it()
 {
-	make -j$J $@
+        mkdir -p $LOG	
+	make -j$J $@ $ARGS |& tee $LOG/"$NAME"_make.log
 	if [ $? -ne 0 ]; then
     	   echo
-           echo make for $LIB_NAME failed. Exiting
+           echo make for $LIB_NAME failed. See $LOG/"$NAME"_make.log
+	   echo Exiting \($SECONDS seconds\)
 	   exit -1
-	fi	
+	fi
+	echo make for $LIB_NAME complete. See $LOG/"$NAME"_make.log
 }
 
 #
@@ -102,12 +126,16 @@ make_it()
 #
 install_it()
 {
-	make DESTDIR=$BUILDHOST_DEST install
+        mkdir -p $LOG
+	make DESTDIR=$BUILDHOST_DEST install |& tee $LOG/"$NAME"_install.log
 	if [ $? -ne 0 ]; then
     	   echo   
-           echo make install of $LIB_NAME to $BUILDHOST_DEST Failed. Exiting
+           echo make install of $LIB_NAME to $BUILDHOST_DEST Failed.
+	   echo See $LOG/"$NAME"_install.log
+	   echo Exiting \($SECONDS seconds\)
 	   exit -1
-	fi	
+	fi
+	echo make install for $LIB_NAME complete. See $LOG/"$NAME"_install.log	
 }
 
 #
@@ -121,7 +149,7 @@ finish_it()
         echo
 	echo "****************************************"
 	echo 
-	echo "Success! Finished installing $LIB_NAME to $BUILDHOST_DEST ($SECONDS seconds)"
+	echo Success! $NAME finished installing $LIB_NAME to $BUILDHOST_DEST \($SECONDS seconds\)
 	echo
 	echo "****************************************"
 	echo

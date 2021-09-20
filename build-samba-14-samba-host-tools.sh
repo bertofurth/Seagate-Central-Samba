@@ -2,7 +2,8 @@
 #
 # This build script differs from the others as
 # we want this build step to build executables
-# for the host building system, not the target Seagate Central.
+# for the host building system, not the target
+# platform, i.e. the Seagate Central.
 #
 # In this script we are building local versions
 # of the "asn1_compile" and "compile_et" tools

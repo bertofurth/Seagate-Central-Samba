@@ -9,21 +9,36 @@
 
 gmp='http://mirrors.kernel.org/gnu/gmp/gmp-6.2.1.tar.xz'
 nettle='http://mirrors.kernel.org/gnu/nettle/nettle-3.7.3.tar.gz'
+attr='http://download.savannah.gnu.org/releases/attr/attr-2.4.48.tar.gz'
 acl='http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz'
-libtasn1='http://mirrors.kernel.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz '
+zlib='https://zlib.net/zlib-1.2.11.tar.xz'
+libunistring='http://mirrors.kernel.org/gnu/libunistring/libunistring-0.9.10.tar.xz'
+libidn2='http://mirrors.kernel.org/gnu/libidn/libidn2-2.3.1.tar.gz'
+libtasn1='http://mirrors.kernel.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz'
+p11kit='https://github.com/p11-glue/p11-kit/releases/download/0.24.0/p11-kit-0.24.0.tar.xz'
 gnutls='https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.16.tar.xz'
-openldap='https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.3.39.tgz'
+openldap='https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.5.7.tgz'
+libtirpc='https://downloads.sourceforge.net/project/libtirpc/libtirpc/1.3.2/libtirpc-1.3.2.tar.bz2'
+LinuxPAM='https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz'
 samba='https://www.samba.org/ftp/samba/stable/samba-4.14.6.tar.gz'
+krb5='https://kerberos.org/dist/krb5/1.19/krb5-1.19.2.tar.gz'
 
 echo_archives() {
     echo "${gmp}"
     echo "${nettle}"
+    echo "${attr}"
     echo "${acl}"
+    echo "${zlib}"
+    echo "${libunistring}"
+    echo "${libidn2}"
     echo "${libtasn1}"
+    echo "${p11kit}"
     echo "${gnutls}"
     echo "${openldap}"
+    echo "${libtirpc}"
+    echo "${LinuxPAM}"
     echo "${samba}"
-
+    echo "${krb5}"
 }
 
 die() {

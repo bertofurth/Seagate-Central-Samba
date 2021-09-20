@@ -14,13 +14,15 @@ CROSS_COMPILE=arm-sc-linux-gnueabi-
 
 #
 # The location of the root of the cross compiling tool suite
-# on the compiling host (CROSS), and the location of the
-# binaries (TOOLS).
+# on the compiling host (CROSS), the location of the
+# binaries (TOOLS) and the root libraries and includes
+# (SYSROOT)
 #
 # Make sure to use an absolute path and not the ~ or . symbols.
 #
 CROSS=$HOME/Seagate-Central-Toolchain/cross
 TOOLS=$CROSS/tools/bin
+SYSROOT=$CROSS/sysroot
 
 #
 # Set the number of threads to use when compiling.
@@ -53,8 +55,8 @@ BUILDHOST_DEST=$(pwd)/cross
 #
 # The directory where the libraries and associated files
 # will be installed on the target device (i.e. on the
-# Seagate Central). We select /usr/local so as to not
-# overwrite any native libaries on the Seagate Central.
+# Seagate Central). Default value is "/usr/local" so as
+# to not overwrite any native libaries on the Seagate Central.
 #
 # Note 1 : This is NOT the place where the resultant binaries
 # and libraries will be temporarily copied to on the compiling
@@ -66,13 +68,13 @@ BUILDHOST_DEST=$(pwd)/cross
 # where to access the shared libraries that we produce in this
 # project.
 #
-PREFIX=/usr/local
+PREFIX=${PREFIX:-/usr/local}
 
 #
 # The directory where executables will be installed on the
-# target device. On the Seagate Central these are installed
-# in /usr.
-EXEC_PREFIX=/usr
+# target device. Default value is "/usr/local" so as to not
+# overwrite the native binaries in "/usr".
+EXEC_PREFIX=${EXEC_PREFIX:-/usr/local}
 
 #
 # Specify a directory on the building host containing the
@@ -81,8 +83,8 @@ EXEC_PREFIX=/usr
 # From the Seagate central copy /lib/* and /usr/lib/* to this
 # directory. Also copy /usr/include/* along with subdirectories.
 #
-# Make sure to edit usr/lib/libc.so and usr/lib/libpthread.so to
-# remove the absolute path names. 
+# You may need to edit usr/lib/libc.so and
+# usr/lib/libpthread.so to remove absolute path names.
 #
 SEAGATE_LIBS_BASE=$(pwd)/sc-libs
 
@@ -115,19 +117,31 @@ export PATH=$TOOLS:$PATH
 # libraries that are needed by the other libraries that are linked
 # to.
 #
-export LDFLAGS="-L$BUILDHOST_DEST/$PREFIX/lib -L$SEAGATE_LIBS_BASE/lib \
+export LDFLAGS="--sysroot=$SYSROOT \
+       -L$SYSROOT/lib -L$SYSROOT/usr/lib \
+       -L$BUILDHOST_DEST/$PREFIX/lib -L$SEAGATE_LIBS_BASE/lib \
        -L$SEAGATE_LIBS_BASE/usr/lib \
+       -Wl,-rpath-link=$SYSROOT/lib \
+       -Wl,-rpath-link=$SYSROOT/usr/lib \
        -Wl,-rpath-link=$BUILDHOST_DEST/$PREFIX/lib \
        -Wl,-rpath-link=$SEAGATE_LIBS_BASE/lib  \
        -Wl,-rpath-link=$SEAGATE_LIBS_BASE/usr/lib"
 
-# Ensure that rpath is explicitly set. This might be superflous
-# for some software but others don't automatically add it.
+# "rpath" lets binaries running on the target platform
+# know where to search for shared libraries that are
+# stored in places other than the "standard path" which
+# on the Seagate Central is just /lib and /usr/lib.
+# -rpath ensures that the specified rpath is explicitly
+# within binaries so that binaries running on the Seagate
+# Central know to search $PREFIX/lib for shared libaries.
+# This might be superflous for some software but others
+# don't automatically add it
 #
 export LDFLAGS=$LDFLAGS" -Wl,-rpath=$PREFIX/lib"
 
 #
-# Append the verbose flag to LDFLAGS if linker debugging is required.
+# Append the verbose flag to LDFLAGS if linker debugging
+# is required.
 #
 #export LDFLAGS="$LDFLAGS -Wl,--verbose"
 
@@ -160,7 +174,8 @@ export LDFLAGS="$LDFLAGS -Wl,-z,max-page-size=0x10000 -Wl,-z,common-page-size=0x
 # Seagate Central specific : Make sure to rename or delete
 # $SEAGATE_LIBS_BASE/usr/include/md5
 #
-export NOSTDINC_FLAGS="-I$BUILDHOST_DEST/$PREFIX/include \
+export NOSTDINC_FLAGS="--sysroot=$SYSROOT -I$SYSROOT/usr/include \
+       -I$BUILDHOST_DEST/$PREFIX/include \
        -I$SEAGATE_LIBS_BASE/usr/include"
 
 #
@@ -174,5 +189,6 @@ export PKG_CONFIG_PATH="$BUILDHOST_DEST/$PREFIX/lib/pkgconfig"
 # architecture
 #
 export CFLAGS="$NOSTDINC_FLAGS -march=armv6k"
+export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CFLAGS
 export ARCH=arm-linux
