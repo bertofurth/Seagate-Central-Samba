@@ -1,5 +1,3 @@
-TODO : Does changing the startup script to be after AVAHI help?
-
 # INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md
 ## Summary
 This is a guide that describes how to manually replace the old samba
@@ -164,28 +162,28 @@ Next, edit the /etc/samba/smb.conf file with "vi" or "nano" and
 remove or comment out with a # the following configuration lines which
 are no longer supported in samba v4.
 
-     . . .
-     # min receivefile size = 1 ## disabled due to SOP receive file bug
-     . . .
-     # auth methods = guest, sam_ignoredomain
-     # encrypt passwords = yes
-     . . .
-     # null passwords = yes
-     . . .
-     # vfs object = netatalk
-     . . .
+    . . .
+    # min receivefile size = 1 ## disabled due to SOP receive file bug
+    . . .
+    # auth methods = guest, sam_ignoredomain
+    # encrypt passwords = yes
+    . . .
+    # null passwords = yes
+    . . .
+    # vfs object = netatalk
+    . . .
      
 Replace these lines with the following. Make sure these lines
 are after the "[global]" directive and before the "include"
 directive at the end of the file
 
-     . . .
-     min receivefile size = 16384
-     vfs objects = catia fruit streams_xattr
-     fruit:model = RackMac
-     fruit:time machine = yes
-     multicast dns register = yes
-     . . .
+    . . .
+    min receivefile size = 16384
+    vfs objects = catia fruit streams_xattr
+    fruit:model = RackMac
+    fruit:time machine = yes
+    multicast dns register = yes
+    . . .
 
 At this point you can take the opportunity to enable other samba
 features that are available in samba 4. See the following link for
@@ -199,24 +197,24 @@ is not completed then any changes made to the smb.conf file will be
 overwritten each time the system boots up. (See the 
 /etc/init.d/firmware-init-1bay startup script for details.)
 
-     cp /etc/samba/smb.conf /usr/config/backupconfig/etc/samba/smb.conf
+    cp /etc/samba/smb.conf /usr/config/backupconfig/etc/samba/smb.conf
 
-### Test the newly installed server
+### Activate the newly installed server
 At this point the server should be fully installed. Run the 
 **testparm** command to check that the new samba configuration
 is correct and compatible with the new version of samba.
 
-     testparm
+    testparm
 
 The server may be reactivated with the following command
 
-     /etc/init.d/samba start
+    /etc/init.d/samba start
 
 Check to see if the smbd process is running by using the 
 following command. Multiple instances of smbd should be
 active.
 
-     ps -w | grep smbd
+    ps -w | grep smbd
 
 After waiting a minute or two confirm that you can once again
 transfer files between the Seagate Central and your clients.
@@ -229,7 +227,7 @@ Finally test that the new software and configuration survive a
 reboot of the Seagate Central. The best way to do this is either
 via the Web management interface or with the CLI command
 
-     reboot
+    reboot
  
 Note that rebooting the Seagate Central by disconnecting the
 power is not normally recommended.
@@ -288,3 +286,6 @@ Check the syslog at
 
 This will show error and messages associated with system startup and
 for any other serious conditions that occur.
+
+### TODO : avahi / uPNP not working. 
+
