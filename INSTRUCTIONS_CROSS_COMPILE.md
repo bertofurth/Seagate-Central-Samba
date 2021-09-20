@@ -1,13 +1,3 @@
-BERTO : Kind of broken at the moment. Use with caution.
-
-TODO : TLDNR
-
-TODO : TLS  - >    --without-zlib    fix this
-
-TODO :Change to "compile everything" mode. Stop downloading libraries from the SC
-
-TODO : Add a note where new stuff can be added to the firmware
-
 # INSTRUCTIONS_CROSS_COMPILE.md
 ## Summary
 This is a guide that describes how to cross compile replacement samba
