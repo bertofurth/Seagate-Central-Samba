@@ -20,20 +20,9 @@ Installation of the cross compiled software using the easier but less
 flexible firmware upgrade method is covered by
 **INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md**
 
-This procedure has been tested to work on the following building
-platforms
-
-* OpenSUSE Tumbleweed (Aug 2021) on x86
-* OpenSUSE Tumbleweed (Aug 2021) on Raspberry Pi 4B
-* Debian 10 (Buster) on x86
-
-The procedure has been tested to work with make v4.3 and v4.2.1 as well
-cross compiler gcc versions 11.2.0, 8.5.0 and 5.5.0.
-
-The target platform tested was a Seagate Central Single Drive NAS 
-running firmware version 2015.0916.0008-F however I believe these
-instructions should work for other Seagate Central configurations and
-firmware versions.
+Cross compiling samba is difficult and there are many articles and posts
+that detail the trouble people have had with this process. Hopefully by
+following this guide you will avoid most of those problems.
 
 ## TLDNR
 On a build server with an appropriate cross compilation suite installed
@@ -57,15 +46,35 @@ the Seagate Central
     mv cross seagate-central-samba-v4.14.6
     tar -caf seagate-central-samba-v4.14.6.tar.gz seagate-central-samba-v4.14.6
     
+Proceed to the instructions in either
+**INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md** or
+**INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md** to install the newly
+built software on the Seagate Central.
+    
+## Tested platforms
+This procedure has been tested to work on the following building
+platforms
+
+* OpenSUSE Tumbleweed (Aug 2021) on x86
+* OpenSUSE Tumbleweed (Aug 2021) on Raspberry Pi 4B
+* Debian 10 (Buster) on x86
+
+The procedure has been tested to work with make v4.3 and v4.2.1 as well
+cross compiler gcc versions 11.2.0, 8.5.0 and 5.5.0.
+
+The target platform tested was a Seagate Central Single Drive NAS 
+running firmware version 2015.0916.0008-F however I believe these
+instructions should work for other Seagate Central configurations and
+firmware versions.
+
 ## Prerequisites 
 ### Disk space
-This procedure will take up to 850MiB of disk  BERTO
-space during the build process and will generate up to 85MiB of finished
-product. 
+This procedure will take up to 1.1GB of disk space during the build
+process and will generate approximately 85MiB of finished product. 
 
 ### Time
-The build component takes a total of about 10 minutes to complete on an 
-8 core i7 PC. The build takes about 1 hour on a Raspberry Pi 4B.
+The build component takes a total of about 25 minutes to complete on an 
+8 core i7 PC. The build takes about 2 hours on a Raspberry Pi 4B.
 
 ### A cross compilation suite on a build host
 You can follow the instructions at
@@ -162,7 +171,14 @@ the base working directory going forward.
      cd Seagate-Central-Samba
 
 ### Source code download and extraction
-### Source code download and extraction
+Download the required source code archives for each component to 
+the **src** subdirectory of the base working directory and extract
+them using the "tar -xf" command. This can be done automatically for
+the versions listed below by running the **download-samba-src.sh**
+script.
+
+     ./download-samba-src.sh
+     
 This procedure was tested using the following versions of software.
 Unless otherwise noted these are the latest stable releases at the
 time of writing. Hopefully later versions, or at least those with
@@ -170,90 +186,48 @@ the same major version numbers, will still work with this guide.
 
 * gmp-6.2.1 - http://mirrors.kernel.org/gnu/gmp/gmp-6.2.1.tar.xz
 * nettle-3.7.3 - http://mirrors.kernel.org/gnu/nettle/nettle-3.7.3.tar.gz
+* attr-2.4.48 - http://download.savannah.gnu.org/releases/attr/attr-2.4.48.tar.gz
 * acl-2.3.1 - http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
+* zlib-1.2.11 - https://zlib.net/zlib-1.2.11.tar.xz
+* libunistring-0.9.10 - http://mirrors.kernel.org/gnu/libunistring/libunistring-0.9.10.tar.xz
+* libidn2-2.3.1 - http://mirrors.kernel.org/gnu/libidn/libidn2-2.3.1.tar.gz
 * libtasn1-4.17.0 - http://mirrors.kernel.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz 
+* p11-kit-0.24.0 - https://github.com/p11-glue/p11-kit/releases/download/0.24.0/p11-kit-0.24.0.tar.xz
 * gnutls-3.6.16 - https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.16.tar.xz
-* openldap-2.3.39 (Same version as Seagate Central) - https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.3.39.tgz
+* openldap-2.5.7 - https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.5.7.tgz
+* libtirpc-1.3.2 - https://downloads.sourceforge.net/project/libtirpc/libtirpc/1.3.2/libtirpc-1.3.2.tar.bz2
+* Linux-PAM-1.5.2 - https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz'
 * samba-4.14.6 - https://www.samba.org/ftp/samba/stable/samba-4.14.6.tar.gz
+* krb5-1.19.2 - https://kerberos.org/dist/krb5/1.19/krb5-1.19.2.tar.gz
 
-Download the required source code archives for each component to 
-the **src** subdirectory of the base working directory and extract
-them using the "tar -xf" command. This can be done automatically for
-the versions listed above by running the **download-samba-src.sh**
-script.
+### Customize the build scripts
+You may need to edit the variables at the top of the **build-common**
+file in your project directory to suit your build environment.
 
-### Seagate Central libraries and headers TODO: GET RID OF THIS
-We need to copy the binary libraries and header files on the Seagate 
-Central to the build host so that they can be linked to during the
-build process. The build scripts are configured to use the "sc-libs"
-subdirectory under the base working directory to hold these files.
-
-There are many methods of copying information from the Seagate Central 
-but in this example we use the secure copy program - scp.
-
-First create the required subdirectories under sc-libs. Namely lib,
-usr/lib, and usr/includes.
-
-    mkdir -p sc-libs/lib sc-libs/usr/lib sc-libs/usr/include 
-    
-In this example we use the "admin" user to copy files from the Seagate
-Central. You will need to substitute your own username and NAS IP 
-address. After executing each scp command you'll be prompted for the 
-password for that username on the Seagate Central. Ignore any warning
-messages about "not a regular file".
-
-Note that when copying the include files the "-r" option is used to
-copy the sub directories as well.
-
-    scp admin@192.0.2.99:/lib/* sc-libs/lib/
-    scp admin@192.0.2.99:/usr/lib/* sc-libs/usr/lib
-    scp -r admin@192.0.2.99:/usr/include/* sc-libs/usr/include/
-   
-### Special library and header customizations   
-After the libraries and headers are copied over we need to make a 
-slight modification to **usr/lib/libc.so** and **usr/lib/libpthread.so**. 
-These are text files that contain the names of other libraries to
-load but they contain references to the absolute paths /lib and
-/usr/lib that will not work in our build environment. Manually edit
-these files to remove these paths or run the following commands in the 
-sc-libs directory to automatically remove them.
-
-    sed -i.orig -e 's#\(/usr\|/lib/\)##g' sc-libs/usr/lib/libc.so
-    sed -i.orig -e 's#\(/usr\|/lib/\)##g' sc-libs/usr/lib/libpthread.so
-
-The original versions of the files will be kept with a .orig suffix.
-
-We also need to rename the **usr/include/md5.h** header file so that
-it is not used in the compilation process, otherwise errors related to 
-md5 functions will appear when compiling samba.
-
-    mv -f sc-libs/usr/include/md5.h sc-libs/usr/include/md5.h.orig
-
-### Customize the scripts
-Change back to the base working directory and edit the variables
-at the top of the **build-common** file to suit your build
-environment.
-
-These parameters are arranged roughly in order of their likelihood
-of needing to be changed. The first two are the most important
-to get right.
+Listed below are the most important parameters to get right, however
+there are some other parameters in the file that can be tweaked.
 
 #### CROSS_COMPILE (Important)
 This parameter sets the prefix name of the cross compiling toolkit.
-This will likely be something like "arm-XXX-linux-gnueabi-" . 
-Normally this will have a dash (-) at the end.
+This will likely be something like "arm-XXX-linux-gnueabi-" . If 
+using the tools generated by the Seagate-Central-Toolkit project
+this prefix will be "arm-sc-linux-gnueabi-". Normally this parameter
+will have a dash (-) at the end.
 
     CROSS_COMPILE=arm-sc-linux-gnueabi-
     
-#### CROSS and TOOLS (Important)
+#### CROSS, TOOLS and SYSROOT (Important)
 The location of the root of the cross compiling tool suite on the 
-compiling host (CROSS), and the location of the cross compiling 
-binary executables such as gcc (TOOLS).
+compiling host (CROSS), the location of the cross compiling 
+binary executables such as arm-XXX-linux-gnueabi-gcc (TOOLS), and
+the location of the compiler's platform specific libraries and
+header files (SYSROOT).
 
 Make sure to use an absolute path and not the ~ or . symbols.
 
     CROSS=$HOME/Seagate-Central-Toolchain/cross
     TOOLS=$CROSS/tools/bin
+    SYSROOT=$CROSS/sysroot
 
 #### J (Number of CPU threads) 
 Set the number of threads to use when compiling. Generally set 
@@ -263,36 +237,14 @@ Set to 1 when troubleshooting.
     J=6
 
 #### BUILDHOST_DEST (Unlikely to need changing)
-The directory on the compiling host where binaries and other 
+The directory on the building host where binaries and other 
 generated files will be temporarily installed before being copied 
 to the Seagate Central.
 
 This is different to PREFIX and EXEC_PREFIX (see below) which is where 
-the generated files need to be located on the Seagate Central itself.
+the generated files will be installed to on the Seagate Central.
 
      BUILDHOST_DEST=$(pwd)/cross
-
-#### PREFIX, EXEC_PREFIX (Unlikely to need changing)
-The directories where the libraries (PREFIX) and executables
-(EXEC_PREFIX) will be installed on the target device (i.e. on
-the Seagate Central). This should probably be left as /usr/local 
-and /usr.
-
-Note that is NOT the place where the resultant binaries and libraries 
-will be temporarily copied to on the compiling host (see 
-BUILDHOST_DEST).
-
-     PREFIX=/usr/local
-     
-     EXEC_PREFIX=/usr
-
-#### SEAGATE_LIBS_BASE (Unlikely to need changing)
-Specify a directory containing the native library files as copied
-from the Seagate Central. If this directory is changed then make
-sure the step that downloads libraries from the Seagate Central
-to the build host is modified accordingly.
-
-     SEAGATE_LIBS_BASE=$(pwd)/sc-libs
 
 ### Samba cross answers file 
 If you decide to build a significantly different version of 
@@ -302,9 +254,9 @@ to alter the included cross-answers file which has a name similar to
 **cross-answers-seagate-central-samba-X.X.X.txt**
 
 This file contains information that allows samba to be cross
-compiled for the arm platform. If you create a new cross-answers
-file you will need to modify the main samba build script
-**build-samba-08-samba.sh** to point at the new cross answers file.
+compiled for the arm platform. The build script for samba
+will automatically use the latest version of cross-answers
+found in the build directory.
 
 For more details about the samba cross-answers file see 
 
@@ -317,21 +269,33 @@ sure each one works.
 
     ./build-samba-01-gmp.sh
     ./build-samba-02-nettle.sh
-    ./build-samba-03-acl.sh
-    ./build-samba-04-libtasn1.sh
-    ./build-samba-05-gnutls.sh
-    ./build-samba-06-openldap.sh
-    ./build-samba-07-samba-host-tools.sh
-    ./build-samba-08-samba.sh
+    ./build-samba-03-attr.sh
+    ./build-samba-04-acl.sh
+    ./build-samba-05-zlib.sh
+    ./build-samba-06-libunistring.sh
+    ./build-samba-07-libidn2.sh
+    ./build-samba-08-libtasn1.sh
+    ./build-samba-09-p11-kit.sh
+    ./build-samba-10-gnutls.sh
+    ./build-samba-11-openldap.sh
+    ./build-samba-12-libtirpc-no-krb5.sh
+    ./build-samba-13-Linux-PAM.sh
+    ./build-samba-14-samba-host-tools.sh
+    ./build-samba-15-samba.sh
+    ./build-samba-16-krb5.sh
+    ./build-samba-17-libtirpc-with-krb5.sh
 
-There is a script called **run_all_build.sh** that will execute all 
+There is a script called **run-all-build-samba.sh** that will execute all 
 the individual build scripts in order however this is only recommended
 once you are confident that the build will run without issue.
 
-### Optional - Reducing the software size
+### Optional - Reduce the software size
 You can reduce the size of the software that will be installed
 on the Seagate Central by deleting or "stripping" components that
 aren't normally useful to store on the Seagate Central itself.
+
+All the steps in this section can be executed by running the 
+included script called **trim_build.sh**.
 
 #### Optional - Remove static libraries (Strongly recommended)
 Many of the build scripts in this project to build both shared and
@@ -350,20 +314,6 @@ subdirectory and deletes them.
 
 An alternative is to keep the static libraries but to "strip" them as
 per the information below.
-
-#### Optional - Strip binaries and executables
-Binaries and executables generated in this project have debugging
-information embedded in them by default. A small amount of space 
-(around 20%) can be saved by removing this debugging information 
-using the "strip" command. 
-
-The following command searches through the "cross" subdirectory 
-and "strips" any appropriate files.
-
-     find cross/ -type f -exec strip {} \;
-     
-"strip" command error messages saying "file format not recognized" are 
-safe to ignore.
 
 #### Optional - Remove documentation
 Documentation, which is unlikely to be read on the Seagate Central, can
@@ -395,29 +345,90 @@ To remove the headers run the following command.
 
     rm -rf cross/usr/local/include
 
+#### Optional - Strip binaries and executables
+Binaries and executables generated in this project have debugging
+information embedded in them by default. A small amount of space 
+(around 20%) can be saved by removing this debugging information 
+using the "strip" command. 
+
+The following example searches through the "cross" subdirectory 
+and "strips" any appropriate files.
+
+     find cross/ -type f -exec strip {} \;
+     
+"strip" command error messages saying "file format not recognized" are 
+safe to ignore.
+
 ### Optional : Create an archive of the finished product
-The finished product is now in the **cross** subdirectory (or whatever
-BULILDHOST_DEST is set to). If this data needs to be transferred to 
-the Seagate Central as part of the manual installation procedure then
-rename that directory to a descriptive name and then create an archive.
-For example
+The finished product is now in the **cross** subdirectory. If this 
+data needs to be transferred to the Seagate Central as part of the
+manual installation procedure then rename that directory to a
+descriptive name and then create an archive. For example
 
      mv cross seagate-central-samba
      tar -caf seagate-central-samba.tar.gz seagate-central-samba
      
 ### Troubleshooting
+Here are some steps that should be taken when troubleshooting issues
+while cross compiling software for the Seagate Central. Note that
+logs for each stage are automatically stored in the **log** 
+subdirectory of the base working directory.
+
+### Configure logs
+If the configure stage of a build is failing, then verbose configure
+logs are generally stored in a file called "config.log" underneath
+the "obj/myutil" sub directory or the src/samba-X.X.X directory for
+samba.
+
+Search for configure logs by running the following command from the
+base working directory.
+
+     find -name config.log
+
+### More verbose build logs
+The output of the "make" part of the build scripts can be made more
+verbose and detailed by adding some options to the build commands.
+For example, to restrict a build to one thread and to produce more
+verbose output, specify the "-j1 V=1" parameters as follows.
+
+     ./build-samba-01-library1.sh -j1 V=1 
+     
+"-d" may be added in order to troubleshoot issues with "make" itself 
+as opposed to the compilation part of the process. Note that "-d" 
+generates a very large amount of logs.
+
+### Make sure required build tools are installed
+If the compilation process complains about a too not being installed
+or a command not being found then it may be necessary to install that
+utility on your build host.
+
+Use your build host's software management tools to search for the
+appropriate packages that need installing. For example
+
+OpenSuse : zypper search tool-name
+Debian : apt search tool-name
+
 The vast majority of problems will be due to
 
  * A needed build system component has not been installed.
- * The "Special library and header customizations" step was skipped.
  * A previous build step was not completed successfully.
  * Weird issues with the samba in-tree build system.
+
+### Problems building the samba component 
+Building samba itself is unique in that it must use "in tree" 
+building, which means that objects and compilation outputs are placed
+in the source tree of samba itself. 
 
 If you encounter problems compiling the samba component then make sure
 to always have a clean source tree at the start of each build. This 
 means deleting the samba source directory and then re-expanding the 
 samba tar archive to generate a fresh samba source directory.
 
+     cd src
+     rm -rf samba-X.X.X
+     tar -xf samba-X.X.X.tar.gz
+
+### Warning messages
 It's worth mentioning that some of the libraries, especially gnutls,
 may generate a very large volume of warning messages during 
 compilation. Particularly 
@@ -427,13 +438,4 @@ compilation. Particularly
 These are nothing to worry about as long as the success 
 message is printed at the end of each script.
 
-The "configure" stages of the build are where things will most likely
-go wrong. In this case it is useful to view the configure log which 
-will be located at obj/component-X.Y.Z/config.log or 
-src/samba-4.X.Y/bin/config.log
-
-Cross compiling samba is difficult and there are a lot of articles
-and posts that detail the trouble people have had with this process. 
-Hopefully by following this guide you will avoid most of those 
-problems.
 
