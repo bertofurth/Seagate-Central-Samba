@@ -35,11 +35,31 @@ running firmware version 2015.0916.0008-F however I believe these
 instructions should work for other Seagate Central configurations and
 firmware versions.
 
-## TODO TLDNR
+## TLDNR
+On a build server with an appropriate cross compilation suite installed
+run the following commands to download and compile Samba v4.14.6 for
+the Seagate Central
 
+    # Download this project to the build host
+    git clone https://github.com/bertofurth/Seagate-Central-Samba.git
+    cd Seagate-Central-Samba
+    
+    # Obtain the required source code
+    ./download-src-samba.sh
+    
+    # Build Samba v4.14.6 for Seagate Central
+    ./run-all-build-samba.sh
+    
+    # Remove optional excess components from the software
+    ./trim-build.sh
+    
+    # Create an archive of the software
+    mv cross seagate-central-samba-v4.14.6
+    tar -caf seagate-central-samba-v4.14.6.tar.gz seagate-central-samba-v4.14.6
+    
 ## Prerequisites 
 ### Disk space
-This procedure will take up to a maximum of just under 850MiB of disk
+This procedure will take up to 850MiB of disk  BERTO
 space during the build process and will generate up to 85MiB of finished
 product. 
 
