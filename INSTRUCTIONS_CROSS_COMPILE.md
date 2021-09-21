@@ -81,12 +81,6 @@ of magnitude slower than most modern PCs. This would mean that compiling
 something like this project on a Seagate Central could take hours to 
 complete.
 
-### Know how to copy files between your host and the Seagate Central. 
-Not only should you know how to transfer files to and from your Seagate
-Central NAS and the build host, ideally you'll know how to transfer files 
-**even if the samba service is not working**. I would suggest
-that if samba is not working to use FTP or SCP which should both still work.
-
 ### Do not perform this procedure as the root user on the build machine
 Some versions of the libraries being used in this procedure have flaws
 that may cause the "make install" component of the build process try to 
@@ -194,8 +188,10 @@ the same major version numbers, will still work with this guide.
 You may need to edit the variables at the top of the **build-common**
 file in your project directory to suit your build environment.
 
-Listed below are the most important parameters to get right, however
-there are some other parameters in the file that can be tweaked.
+Listed below are the two important parameters to get right. 
+
+There are some other parameters and environment variables that can
+be set and modified. See details in the text of the script itself.
 
 #### CROSS_COMPILE (Important)
 This parameter sets the prefix name of the cross compiling toolkit.
@@ -218,23 +214,6 @@ Make sure to use an absolute path and not the ~ or . symbols.
     CROSS=$HOME/Seagate-Central-Toolchain/cross
     TOOLS=$CROSS/tools/bin
     SYSROOT=$CROSS/sysroot
-
-#### J (Number of CPU threads) 
-Set the number of threads to use when compiling. Generally set 
-equal to or less than the number of CPU cores on the building machine. 
-Set to 1 when troubleshooting.
-    
-    J=6
-
-#### BUILDHOST_DEST (Unlikely to need changing)
-The directory on the building host where binaries and other 
-generated files will be temporarily installed before being copied 
-to the Seagate Central.
-
-This is different to PREFIX and EXEC_PREFIX (see below) which is where 
-the generated files will be installed to on the Seagate Central.
-
-     BUILDHOST_DEST=$(pwd)/cross
 
 ### Samba cross answers file 
 If you decide to build a significantly different version of 
