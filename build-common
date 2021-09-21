@@ -24,16 +24,6 @@ CROSS=$HOME/Seagate-Central-Toolchain/cross
 TOOLS=$CROSS/tools/bin
 SYSROOT=$CROSS/sysroot
 
-#
-# Set the number of threads to use when compiling.
-#
-# Generally set equal to or less than the number of CPU
-# cores on the building machine. Set to 1 when
-# troubleshooting.
-#
-J=6
-
-
 # *****************************************************
 # *****************************************************
 # It's not likely that any of the values below need to
@@ -41,7 +31,15 @@ J=6
 # *****************************************************
 # *****************************************************
 
+# Number of threads to engage during build process.
 #
+# If not explicitly set then we use the total
+# number of CPUs available according to "nproc".
+#
+# Set environment variable J=1 for troubleshooting.
+#
+J=${J-$(nproc)}
+
 # The directory on the compiling host where binaries and
 # other generated files will be temporarily installed
 # before being copied to the Seagate Central.
@@ -52,7 +50,6 @@ J=6
 #
 BUILDHOST_DEST=$(pwd)/cross
 
-#
 # The directory where the libraries and associated files
 # will be installed on the target device (i.e. on the
 # Seagate Central). Default value is "/usr/local" so as
@@ -70,15 +67,19 @@ BUILDHOST_DEST=$(pwd)/cross
 #
 PREFIX=${PREFIX:-/usr/local}
 
-#
 # The directory where executables will be installed on the
 # target device. Default value is "/usr/local" so as to not
 # overwrite the native binaries in "/usr".
+#
 EXEC_PREFIX=${EXEC_PREFIX:-/usr/local}
 
+# Sometimes it's easier to download pre-built libraries
+# from the target (Seagate Central) and link against
+# those instead of building them from scratch.
 #
 # Specify a directory on the building host containing the
-# native library files as copied from the Seagate Central.
+# tree of native library files and include headers as copied
+# from the Seagate Central.
 #
 # From the Seagate central copy /lib/* and /usr/lib/* to this
 # directory. Also copy /usr/include/* along with subdirectories.
