@@ -15,9 +15,9 @@ that detail the trouble people have had with this process. Hopefully by
 following this guide you will avoid most of those problems.
 
 ## TLDNR
-On a build server with an appropriate cross compilation suite installed
-run the following commands to download and compile Samba v4.14.6 for
-the Seagate Central
+On a build server with the "arm-sc-linux-gnueabi-" cross compilation 
+suite installed, run the following commands to download and compile 
+Samba v4.14.6 for the Seagate Central
 
     # Download this project to the build host
     git clone https://github.com/bertofurth/Seagate-Central-Samba.git
@@ -256,7 +256,7 @@ sure each one works.
 
 There is a script called **run-all-build-samba.sh** that will execute all 
 the individual build scripts in order however this is only recommended
-once you are confident that the build will run without issue.
+once you are confident that the build will run without issue. 
 
 ### Optional - Reduce the software size
 You can reduce the size of the software that will be installed
@@ -346,8 +346,8 @@ subdirectory of the base working directory.
 ### Configure logs
 If the configure stage of a build is failing, then verbose configure
 logs are generally stored in a file called "config.log" underneath
-the "obj/myutil" sub directory or the src/samba-X.X.X directory for
-samba.
+the "obj/component-name" sub directory or the src/samba-X.X.X directory
+for samba.
 
 Search for configure logs by running the following command from the
 base working directory.
@@ -367,7 +367,7 @@ as opposed to the compilation part of the process. Note that "-d"
 generates a very large amount of logs.
 
 ### Make sure required build tools are installed
-If the compilation process complains about a too not being installed
+If the compilation process complains about a tool not being installed
 or a command not being found then it may be necessary to install that
 utility on your build host.
 
@@ -376,12 +376,6 @@ appropriate packages that need installing. For example
 
 OpenSuse : zypper search tool-name
 Debian : apt search tool-name
-
-The vast majority of problems will be due to
-
- * A needed build system component has not been installed.
- * A previous build step was not completed successfully.
- * Weird issues with the samba in-tree build system.
 
 ### Problems building the samba component 
 Building samba itself is unique in that it must use "in tree" 
