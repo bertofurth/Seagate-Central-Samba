@@ -29,6 +29,14 @@ DEFAULT_ROOT_PASSWORD=$(cat /dev/urandom | base64 | cut -c1-15 | head -n1)
 #
 DISABLE_TAPPIN=1
 
+# Add /usr/local/bin and /usr/local/sbin to the
+# default PATH.
+#
+# This is required if any other cross compiled software
+# is added to the samba software bundle.
+#
+ADD_USR_LOCAL_PATH=1
+
 # ************************************************
 # ************************************************
 # Nothing below here should normally need to be
@@ -263,6 +271,10 @@ if [ -n $DISABLE_TAPPIN ]; then
     find  squashfs-root/etc/ -name *tappinAgent* -exec rm {} +
 fi
 
+if [ -n $ADD_USR_LOCAL_PATH ]; then
+    sed -i '/^ENV_SUPATH/c \ENV_SUPATH      PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' squashfs-root/etc/login.defs
+    sed -i '/^ENV_PATH/c \ENV_PATH        PATH=/usr/local/bin:/bin:/usr/bin' squashfs-root/etc/login.defs
+fi
 #
 # Generate the small descriptor file associated
 # with the firmware update
