@@ -1,14 +1,14 @@
-# INSTRUCTIONS_CROSS_COMPILE.md
+# README_CROSS_COMPILE.md
 ## Summary
 This is a guide that describes how to cross compile replacement samba
 software suitable for installation on a Seagate Central NAS device.
 
 Manual installation of the cross compiled software is covered by
-**INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md**
+**README_MANUALLY_INSTALL_BINARIES.md**
 
 Installation of the cross compiled software using the easier but less
 flexible firmware upgrade method is covered by
-**INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md**
+**README_FIRMWARE_UPGRADE_METHOD.md**
 
 Cross compiling samba is difficult and there are many articles and posts
 that detail the trouble people have had with this process. Hopefully by
