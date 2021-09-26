@@ -264,7 +264,7 @@ on the Seagate Central by deleting or "stripping" components that
 aren't normally useful to store on the Seagate Central itself.
 
 All the steps in this section can be executed by running the 
-included script called **trim_build.sh**.
+included script called **trim-build-samba.sh**.
 
 #### Optional - Remove static libraries (Strongly recommended)
 Many of the build scripts in this project to build both shared and

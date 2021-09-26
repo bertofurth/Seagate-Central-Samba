@@ -131,8 +131,39 @@ extract it as per the following example.
 Take note of the extracted directory name as this will be used
 later in the procedure.
 
+### Optional (Advanced) : Add other cross compiled software
+This is an "Advanced" option and should only be used if you
+have a very solid understanding of this procedure, the
+Seagate Central upgrade process and exactly what's happening
+at each stage.
+
+Other software besides samba can be cross compiled for the Seagate
+Central as per the **Seagate-Central-Utils** project at
+
+https://github.com/bertofurth/Seagate-Central-Utils/
+
+If you build software using that project, then the generated
+software can be copied into the same directory tree as the
+samba software seen above and embedded in the new firmware 
+at the same time as samba.
+
+All you have to do is make sure that the new software is 
+copied into the correct sub directories which are generally
+as follows (this is not an exhaustive list)
+
+usr/local/bin : Binary executables
+usr/local/lib : Library files
+usr/local/sbin : Service binary executables
+
+Some of the projects also require that configuration and
+startup files be installed in the following directories
+
+etc : Configuration files
+etc/init.d : Startup scripts
+etc/rcX.d : Startup script links
+
 ### Optional : Tweak the make_seagate_firmware.sh script
-#### su access
+#### Optional : su access
 By default the script will make sure that su access is enabled 
 on the upgraded Seagate Central. It will also set a default
 password for the root user that is applied if one is **not**
@@ -149,7 +180,7 @@ front of it as follows
 
      #DEFAULT_ROOT_PASSWORD=.......
 
-#### TappIn
+#### Optional : TappIn
 By default the script will disable and remove the TappIn remote
 access service on the Seagate Central. This service has been non 
 operational for some time as per the notice on Seagate's website.
@@ -168,6 +199,19 @@ setting by placing a # symbol in front of it as follows
      
 Note that the Tappin icon will still appear in the Seagate Central
 web management interface but it will not be able to be activated.
+     
+#### Optional : Add /usr/local/bin and /usr/local/sbin to PATH     
+If any other new cross compiled software besides samba is included
+in the firmware then the system default PATH needs to be updated to
+include the /usr/local/bin and /usr/local/sbin directories. This 
+means that the "/etc/login.defs" file needs to be modified.
+
+If you **do not** want to change the default PATH on the Seagate
+Central to include the /usr/local directories then edit the
+make_seagate_firmware.sh file and comment out the ADD_USR_LOCAL_PATH 
+setting by placing a # symbol in front of it as follows
+
+    #ADD_USR_LOCAL_PATH=1
      
 #### TODO : Add other options?? 
 If anyone has any suggestions about quick settings on the 
