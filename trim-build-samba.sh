@@ -55,8 +55,7 @@ checkerr
 
 let current_stage++
 echo Running stage $current_stage : Remove unneeded directories
-rm -rf cross/var ;  &> /dev/null
-rm -rf cross/etc ;  &> /dev/null
+rm -rf cross/var cross/etc ;  &> /dev/null
 checkerr
 
 AFTER=$(du -s cross/ | cut -f1)
