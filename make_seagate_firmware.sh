@@ -50,7 +50,7 @@ usage()
     echo "  Environment variables that may be set to modify "
     echo "  default behavior"
     echo 
-    echo "  DISABLE_ROOT : Do NOT enable su/root access"
+    echo "  NO_ENABLE_ROOT : Do NOT enable su/root access"
     echo "  KEEP_TAPPIN : Do NOT remove defunct Tappin software"
     echo "  DISABLE_USR_LOCAL_PATH : Do NOT add /usr/local/bin to PATH"
     echo "  SKIP_CLEANUP : Do NOT cleanup expanded filesystems after build"
@@ -119,7 +119,7 @@ echo "Using base firmware $SEAGATE_FIRMWARE"
 if ! [ -z $SAMBA_DIRECTORY ]; then
     echo "Using samba directory $SAMBA_DIRECTORY"
 fi
-if [[ -z $DISABLE_ROOT ]]; then
+if [[ -z $NO_ENABLE_ROOT ]]; then
     echo "Enabling su access with default root password $DEFAULT_ROOT_PASSWORD"
 fi
 echo   
@@ -224,7 +224,7 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
     fi
 fi 
   
-if [[ -z $DISABLE_ROOT ]]; then
+if [[ -z $NO_ENABLE_ROOT ]]; then
     new_stage "Enable su access"
     if [ "$(grep "^PermitRootLogin yes" squashfs-root/etc/ssh/sshd_config)" = "" ]; then
 	sed s#"^PermitRootLogin without-password"#"PermitRootLogin yes"#g -i squashfs-root/etc/ssh/sshd_config
@@ -312,7 +312,7 @@ fi
 echo
 echo -e "$GRN Success!! $NOCOLOR"
 echo -e "$GRN Created $NOCOLOR $SEAGATE_NEW_FIRMWARE"
-if [[ -z $DISABLE_ROOT ]]; then
+if [[ -z $NO_ENABLE_ROOT ]]; then
     echo -e "$GRN Default Root Password :$NOCOLOR $DEFAULT_ROOT_PASSWORD"
     echo $DEFAULT_ROOT_PASSWORD > $SEAGATE_NEW_FIRMWARE.root-password
     echo -e "$GRN Generated text file :$NOCOLOR $SEAGATE_NEW_FIRMWARE.root-password"
