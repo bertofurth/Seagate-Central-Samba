@@ -121,6 +121,8 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
 fi
 if [[ -z $NO_ENABLE_ROOT ]]; then
     echo "Enabling su access with default root password $DEFAULT_ROOT_PASSWORD"
+else
+    echo "WARNING : NOT Enabling su access. NO_ENABLE_ROOT is set"
 fi
 echo   
 
@@ -265,6 +267,7 @@ fi
 # the default PATH
 #
 if [[ -z $NO_USR_LOCAL_PATH ]]; then
+    new_stage "Add /usr/local/ to default PATH"
     sed -i '/^ENV_SUPATH/c \ENV_SUPATH      PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' squashfs-root/etc/login.defs
     sed -i '/^ENV_PATH/c \ENV_PATH        PATH=/usr/local/bin:/bin:/usr/bin' squashfs-root/etc/login.defs
 fi
