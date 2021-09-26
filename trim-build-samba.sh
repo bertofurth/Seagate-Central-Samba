@@ -53,6 +53,12 @@ echo Running stage $current_stage : Strip binaries
 find cross/ -type f -exec strip {} \;  &> /dev/null
 checkerr
 
+let current_stage++
+echo Running stage $current_stage : Remove unneeded directories
+rm -rf cross/var ;  &> /dev/null
+rm -rf cross/etc ;  &> /dev/null
+checkerr
+
 AFTER=$(du -s cross/ | cut -f1)
 echo Finished. Bytes before - $BEFORE  Bytes after - $AFTER
 
