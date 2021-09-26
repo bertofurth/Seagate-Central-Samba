@@ -156,7 +156,7 @@ the scope of this project.
 Make sure that there is a subdirectory under the base working 
 directory containing the cross compiled samba software. This
 will be called **cross** if the procedure in
-INSTRUCTIONS_CROSS_COMPILE.md has been followed.
+README_CROSS_COMPILE.md has been followed.
 
 If you have instead downloaded a pre-compiled archive of the
 samba software then copy it to the base working directory and

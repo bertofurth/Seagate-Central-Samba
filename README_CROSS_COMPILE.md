@@ -37,8 +37,8 @@ Samba v4.14.6 for the Seagate Central
     tar -caf seagate-central-samba-v4.14.6.tar.gz seagate-central-samba-v4.14.6
     
 Proceed to the instructions in either
-**INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md** or
-**INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md** to install the newly
+**README_MANUALLY_INSTALL_BINARIES.md** or
+**README_FIRMWARE_UPGRADE_METHOD.md** to install the newly
 built software on the Seagate Central.
     
 ## Tested platforms
