@@ -52,7 +52,7 @@ usage()
     echo 
     echo "  NO_ENABLE_ROOT : Do NOT enable su/root access"
     echo "  KEEP_TAPPIN : Do NOT remove defunct Tappin software"
-    echo "  DISABLE_USR_LOCAL_PATH : Do NOT add /usr/local/bin to PATH"
+    echo "  NO_USR_LOCAL_PATH : Do NOT add /usr/local/bin to PATH"
     echo "  SKIP_CLEANUP : Do NOT cleanup expanded filesystems after build"
     echo    
 }   
@@ -264,7 +264,7 @@ fi
 # software we add /usr/local/bin and /usr/local/sbin to
 # the default PATH
 #
-if [[ -z $DISABLE_USR_LOCAL_PATH ]]; then
+if [[ -z $NO_USR_LOCAL_PATH ]]; then
     sed -i '/^ENV_SUPATH/c \ENV_SUPATH      PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' squashfs-root/etc/login.defs
     sed -i '/^ENV_PATH/c \ENV_PATH        PATH=/usr/local/bin:/bin:/usr/bin' squashfs-root/etc/login.defs
 fi
