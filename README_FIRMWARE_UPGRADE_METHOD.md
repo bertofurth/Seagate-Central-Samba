@@ -167,18 +167,6 @@ extract it as per the following example.
 Take note of the extracted directory name as this will be used
 later in the procedure.
 
-### Optional : Add a new Linux kernel
-If you have built a new Linux kernel for the Seagate Central
-as per the **Seagate-Central-Slot-In-v5.x-Kernel** project at
-
-https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
-
-then you can insert this new kernel into the new software
-directory tree as follows
-
-    mkdir -p cross/boot
-    cp uImage cross/boot/uImage
-    
 ### Optional (Advanced) : Add other cross compiled software
 This is an "Advanced" option and should only be used if you
 have a very solid understanding of this procedure, the
@@ -209,7 +197,26 @@ startup files be installed in the following directories
 etc : Configuration files
 etc/init.d : Startup scripts
 etc/rcX.d : Startup script links
-     
+
+### Optional : Add a new Linux kernel
+If you have built a new Linux kernel for the Seagate Central
+as per the **Seagate-Central-Slot-In-v5.x-Kernel** project at
+
+https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
+
+then you can insert this new kernel into the new software
+directory tree as follows
+
+    mkdir -p cross/boot
+    cp my-kernel/uImage cross/boot/uImage
+    
+If any kernel modules have been compiled to go with the new
+kernel then they also need to be copied into the new software
+tree. For example
+
+    mkdir -p cross/lib/modules
+    cp -r my-kernel/cross-mod/lib/modules/* cross/lib/modules/
+        
 ### Run the make_seagate_firmware.sh script
 The **make_seagate_firmware.sh** script takes an existing
 Seagate Central firmware image, overlays the contents of the
