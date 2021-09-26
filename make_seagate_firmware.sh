@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# make_seagate_firmware <Seagate-Central-Firmware.img> [Samba-Directory]
+# make_seagate_firmware <Seagate-Central-Firmware.img> [Software-Directory]
 #
 # Script to create a new firmware image for the Seagate
-# Central NAS containing a new version of samba software.
+# Central NAS containing a version of samba and other
+# cross compiled software.
 #
 # See usage() function below for usage.
 #
@@ -15,27 +16,11 @@
 
 
 # Set the default root password to a random
-# string. If this option is commented out then
-# the generated firmware image will NOT enable
-# su access on the Seagate Central.
+# string. Feel free to change this to a
+# fixed string if you prefer.
 #
 DEFAULT_ROOT_PASSWORD=$(cat /dev/urandom | base64 | cut -c1-15 | head -n1)
 
-# Disable the defunct TappIn service. If this option
-# is commented out then the TappIn service will NOT
-# be disabled.
-#
-# See https://www.seagate.com/au/en/support/kb/seagate-central-tappin-update-007647en/
-#
-DISABLE_TAPPIN=1
-
-# Add /usr/local/bin and /usr/local/sbin to the
-# default PATH.
-#
-# This is required if any other cross compiled software
-# is added to the samba software bundle.
-#
-ADD_USR_LOCAL_PATH=1
 
 # ************************************************
 # ************************************************
@@ -46,29 +31,29 @@ ADD_USR_LOCAL_PATH=1
 
 usage()
 {
-    echo "Usage: $0 <Seagate-Central-Firmware.img> [Samba-Directory]"
+    echo "Usage: $0 <Seagate-Central-Firmware.img> [Software-Directory]"
     echo 
     echo "Script to create a new firmware image for the Seagate"
-    echo "Central NAS containing a new version of samba software."
+    echo "Central NAS containing a new version of samba and other"
+    echo "cross compiled software."
     echo 
     echo "  Seagate-Central-Firmware.img - "
     echo "    The name of the original Seagate Central firmware"
-    echo "    image"
+    echo "    image. Make sure this is a .img file"
     echo 
-    echo "  Samba-Software-Directory -"
-    echo "    Optional : The directory containing the cross compiled"
-    echo "    samba software for Seagate Central. Expect a directory"
-    echo "    structure where important binaries and libraries are "
-    echo "    under the usr/ subdirectory."
+    echo "  Software-Directory -"
+    echo "    Optional : The directory containing samba and other"
+    echo "    cross compiled software for Seagate Central. The contents"
+    echo "    of this directory will be overlaid on top of the native"
+    echo "    Seagate Central directory structure."
     echo
-    echo "  Other parameters that may be manually modified within the "
-    echo "  the $0 script"
+    echo "  Environment variables that may be set to modify "
+    echo "  default behavior"
     echo 
-    echo "  DEFAULT_ROOT_PASSWORD : Enable su access and set the"
-    echo "    default root password (default : on)"
-    echo 
-    echo "  DISABLE_TAPPIN : Remove defunct Tappin software"
-    echo "    (default : on)"
+    echo "  DISABLE_ROOT : Do NOT enable su/root access"
+    echo "  KEEP_TAPPIN : Do NOT remove defunct Tappin software"
+    echo "  DISABLE_USR_LOCAL_PATH : Do NOT add /usr/local/bin to PATH"
+    echo "  SKIP_CLEANUP : Do NOT cleanup expanded filesystems after build"
     echo    
 }   
 
@@ -134,7 +119,7 @@ echo "Using base firmware $SEAGATE_FIRMWARE"
 if ! [ -z $SAMBA_DIRECTORY ]; then
     echo "Using samba directory $SAMBA_DIRECTORY"
 fi
-if [ -n $DEFAULT_ROOT_PASSWORD ]; then
+if [[ -z $DISABLE_ROOT ]]; then
     echo "Enabling su access with default root password $DEFAULT_ROOT_PASSWORD"
 fi
 echo   
@@ -239,7 +224,7 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
     fi
 fi 
   
-if [ -n $DEFAULT_ROOT_PASSWORD ]; then
+if [[ -z $DISABLE_ROOT ]]; then
     new_stage "Enable su access"
     if [ "$(grep "^PermitRootLogin yes" squashfs-root/etc/ssh/sshd_config)" = "" ]; then
 	sed s#"^PermitRootLogin without-password"#"PermitRootLogin yes"#g -i squashfs-root/etc/ssh/sshd_config
@@ -265,16 +250,25 @@ if [ -n $DEFAULT_ROOT_PASSWORD ]; then
     chmod 4555 squashfs-root/usr/bin/su
 fi
 
-if [ -n $DISABLE_TAPPIN ]; then
+# By default we disable the defunct TappIn service. 
+#
+# See https://www.seagate.com/au/en/support/kb/seagate-central-tappin-update-007647en/
+#
+if [[ -z $KEEP_TAPPIN ]]; then
     new_stage "Disable and Remove TappIn service"
     rm -rf squashfs-root/apps/tappin
     find  squashfs-root/etc/ -name *tappinAgent* -exec rm {} +
 fi
 
-if [ -n $ADD_USR_LOCAL_PATH ]; then
+# In order to support newly installed cross compiled
+# software we add /usr/local/bin and /usr/local/sbin to
+# the default PATH
+#
+if [[ -z $DISABLE_USR_LOCAL_PATH ]]; then
     sed -i '/^ENV_SUPATH/c \ENV_SUPATH      PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' squashfs-root/etc/login.defs
     sed -i '/^ENV_PATH/c \ENV_PATH        PATH=/usr/local/bin:/bin:/usr/bin' squashfs-root/etc/login.defs
 fi
+
 #
 # Generate the small descriptor file associated
 # with the firmware update
@@ -308,8 +302,7 @@ checkerr $? "mksquashfs squashfs-root" log_05_mksquashfs.log
 tar -czvf $SEAGATE_NEW_FIRMWARE rfs.squashfs uImage config.ser &> log_06_tar_firmware.log
 checkerr $? "tar up firmware" log_06_tar_firmware.log
 
-#SKIP_CLEANUP=1
-if [ -z $SKIP_CLEANUP ]; then
+if [[ -z $SKIP_CLEANUP ]]; then
     new_stage "Cleanup"
     rm -rf squashfs-root
     rm -rf uImage config.ser config.ser.orig
@@ -319,7 +312,7 @@ fi
 echo
 echo -e "$GRN Success!! $NOCOLOR"
 echo -e "$GRN Created $NOCOLOR $SEAGATE_NEW_FIRMWARE"
-if [ -n $DEFAULT_ROOT_PASSWORD ]; then
+if [[ -z $DISABLE_ROOT ]]; then
     echo -e "$GRN Default Root Password :$NOCOLOR $DEFAULT_ROOT_PASSWORD"
     echo $DEFAULT_ROOT_PASSWORD > $SEAGATE_NEW_FIRMWARE.root-password
     echo -e "$GRN Generated text file :$NOCOLOR $SEAGATE_NEW_FIRMWARE.root-password"
