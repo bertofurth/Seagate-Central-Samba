@@ -1,4 +1,4 @@
-# INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md
+# README_FIRMWARE_UPGRADE_METHOD.md
 ## Summary
 This is a guide that describes how to generate a firmware update
 for a Seagate Central NAS that contains a modern, cross compiled
