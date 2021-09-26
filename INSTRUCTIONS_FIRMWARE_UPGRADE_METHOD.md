@@ -46,7 +46,7 @@ Make sure you have already built or downloaded a cross compiled
 copy of samba for the Seagate Central. This TLDNR assumes that it
 is stored in the "cross" subdirectory.
 
-Next download a copy of Seagate Central firmware from the Seagate 
+Download a copy of the latest Seagate Central firmware from the Seagate 
 website. This TLDNR assumes the downloaded firmware zip file is called
 Seagate-HS-update-201509160008F.zip
 
@@ -57,7 +57,7 @@ Optional : Install a new Linux kernel (uImage) into the new software
 directory tree. (See **Seagate-Central-Slot-In-v5.x-Kernel** project)
  
     mkdir -p ./cross/boot
-    cp uImage ./cross/boot/uImage
+    cp my-kernel/uImage ./cross/boot/uImage
     
 Optional : Install other new software into the new software directory
 tree. (See **Seagate-Central-Utils** project)
