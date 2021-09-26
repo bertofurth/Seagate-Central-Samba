@@ -12,7 +12,7 @@ http://seagatecentralenhancementclub.blogspot.com/2015/11/root-su-recovery-for-s
 
 Refer to the README.md file for the location of a set of 
 pre-compiled binaries that can be used in this process or
-refer to the instructions in **INSTRUCTIONS_CROSS_COMPILE.md**
+refer to the instructions in **README_CROSS_COMPILE.md**
 to self generate the binaries.
 
 If any custom changes have been made to a Seagate Central
@@ -25,7 +25,7 @@ Central web management interface will not be affected.
 If you have made extensive custom modifications via the CLI then
 it might be more appropriate to use the more difficult but more
 flexible manual installation method covered by
-**INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md**
+**README_FIRMWARE_UPGRADE_METHOD.md**
 
 Note that it is possible to also upgrade the Seagate Central
 Linux kernel and to install other cross compiled software using
@@ -48,7 +48,7 @@ is stored in the "cross" subdirectory.
 
 Download a copy of the latest Seagate Central firmware from the Seagate 
 website. This TLDNR assumes the downloaded firmware zip file is called
-Seagate-HS-update-201509160008F.zip
+Seagate-HS-update-201509160008F.zip 
 
     # Unzip the downloaded Seagate Central Firmware
     unzip Seagate-HS-update-201509160008F.zip
@@ -167,6 +167,18 @@ extract it as per the following example.
 Take note of the extracted directory name as this will be used
 later in the procedure.
 
+### Optional : Add a new Linux kernel
+If you have built a new Linux kernel for the Seagate Central
+as per the **Seagate-Central-Slot-In-v5.x-Kernel** project at
+
+https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
+
+then you can insert this new kernel into the new software
+directory tree as follows
+
+    mkdir -p cross/boot
+    cp uImage cross/boot/uImage
+    
 ### Optional (Advanced) : Add other cross compiled software
 This is an "Advanced" option and should only be used if you
 have a very solid understanding of this procedure, the
@@ -197,9 +209,35 @@ startup files be installed in the following directories
 etc : Configuration files
 etc/init.d : Startup scripts
 etc/rcX.d : Startup script links
+     
+### Run the make_seagate_firmware.sh script
+The **make_seagate_firmware.sh** script takes an existing
+Seagate Central firmware image, overlays the contents of the
+specified sofware directory and then packages up a new
+firmware image that can be installed using the normal
+Seagate Central Web Management interface.
 
-### Optional : Tweak the make_seagate_firmware.sh script
-#### Optional : su access
+Execute the **make_seagate_firmware.sh** script as per the following
+example. The first argument is the name of the original unmodified 
+Seagate Central firmware image. The second argument is the name of
+the directory containing the cross compiled samba software. 
+
+     ./make_seagate_firmware.sh ./Seagate-HS-update-201509160008F.img ./cross
+     
+The script should generate output indicating the status of the process.
+Finally it should display the name of the newly generated firmware image,
+the new randomly generated default root password, and the name of a text
+file containing the password.
+
+       Success!!
+       Created  Seagate-Samba-Update-2021.0808.0605-S.img
+       Default Root Password : XxXxXxXxXxXxX
+       Generated text file : Seagate-Samba-Update-2021.0808.0605-S.img.root-password
+
+In addition to generating a new firmware image, the script also
+does the following things.
+
+#### Re-enable su / root access
 By default the script will make sure that su access is enabled 
 on the upgraded Seagate Central. It will also set a default
 password for the root user that is applied if one is **not**
@@ -209,14 +247,13 @@ The password will be set randomly each time the script is run
 but you can modify this by changing the DEFAULT_ROOT_PASSWORD 
 parameter within the script.
 
-If you **do not** want to allow su access then edit the
-make_seagate_firmware.sh file and comment out the 
-DEFAULT_ROOT_PASSWORD setting by placing a # symbol in
-front of it as follows
+If you do NOT want to re-enable su / root access on the Seagate
+Central then set the NO_ENABLE_ROOT enviroment variable to any 
+value. For example
 
-     #DEFAULT_ROOT_PASSWORD=.......
+     NO_ENABLE_ROOT=1 ./make_seagate_firmware.sh .......
 
-#### Optional : TappIn
+#### Remove the defunct TappIn service
 By default the script will disable and remove the TappIn remote
 access service on the Seagate Central. This service has been non 
 operational for some time as per the notice on Seagate's website.
@@ -227,55 +264,19 @@ By disabling the service we stop the Seagate Central from spending
 cpu and memory resources on something that serves no purpose. In
 addition about 25MB of disk space is saved by removing it.
 
-If you **do not** want to remove the TappIn service then edit the
-make_seagate_firmware.sh file and comment out the DISABLE_TAPPIN 
-setting by placing a # symbol in front of it as follows
+If you do NOT want to disable the Tappin service then set
+the KEEP_TAPPIN environment variable to any value.
 
-     #DISABLE_TAPPIN=1
-     
-Note that the Tappin icon will still appear in the Seagate Central
-web management interface but it will not be able to be activated.
-     
-#### Optional : Add /usr/local/bin and /usr/local/sbin to PATH     
-If any other new cross compiled software besides samba is included
-in the firmware then the system default PATH needs to be updated to
-include the /usr/local/bin and /usr/local/sbin directories. This 
-means that the "/etc/login.defs" file needs to be modified.
+#### Add /usr/local/bin and /usr/local/sbin to PATH
+If any other new cross compiled software besides samba is added
+to the new software directory then the system default PATH needs 
+to be updated to include the /usr/local/bin and /usr/local/sbin
+directories. 
 
-If you **do not** want to change the default PATH on the Seagate
-Central to include the /usr/local directories then edit the
-make_seagate_firmware.sh file and comment out the ADD_USR_LOCAL_PATH 
-setting by placing a # symbol in front of it as follows
+If you do NOT want to add these directories to the default PATH
+then set the NO_USR_LOCAL_PATH environment variable to any
+value.
 
-    #ADD_USR_LOCAL_PATH=1
-     
-#### TODO : Add other options?? 
-If anyone has any suggestions about quick settings on the 
-Seagate Central that could be modified and optimized using this
-procedure then please raise an issue and we can look into it.
-
-### Run the make_seagate_firmware.sh script
-Execute the **make_seagate_firmware.sh** script as per the following
-example. The first argument is the name of the original unmodified 
-Seagate Central firmware image. The second argument is the name of
-the directory containing the cross compiled samba software. 
-
-     ./make_seagate_firmware.sh ./Seagate-HS-update-201509160008F.img ./seagate-central-samba
-     
-Note that it's possible to also include the name and location of a
-new linux kernel for the system as a third argument. See the 
-Seagate-Central-Slot-In-v5.x-Kernel project for details.
-
-The script should generate output indicating the status of the process.
-Finally it should display the name of the newly generated firmware image,
-the new randomly generated default root password, and the name of a text
-file containing the password.
-
-       Success!!
-       Created  Seagate-Samba-Update-2021.0808.0605-S.img
-       Default Root Password : XxXxXxXxXxXxX
-       Generated text file : Seagate-Samba-Update-2021.0808.0605-S.img.root-password
-       
 ### Upgrade the Seagate Central
 Login to the target Seagate Central web management page.
 
@@ -373,9 +374,17 @@ Note that this needs to be done at anytime when the root
 password is changed on the Seagate Central.
 
 #### Confirm that samba is working as expected
-Check to see if the smbd process is running by executing the 
-following command. Multiple instances of smbd should be
-active.
+First, perform a sanity check to make sure the new samba binaries
+are installed and executable by running the following command to
+check the version of samba that is active.
+
+    testparm -V
+
+The command should report the expected new version (v4.x.x) and 
+not the old version (3.5.16).
+
+Next, check to see if the smbd process is running by executing the 
+following command. Multiple instances of smbd should be active.
 
      ps -w | grep smbd
 
