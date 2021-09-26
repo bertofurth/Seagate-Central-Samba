@@ -27,16 +27,52 @@ it might be more appropriate to use the more difficult but more
 flexible manual installation method covered by
 **INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md**
 
-Note that it is possible to also upgrade the system Linux kernel
-using this method. See the Seagate-Central-Slot-In-v5.x-Kernel
-project for details.
+Note that it is possible to also upgrade the Seagate Central
+Linux kernel and to install other cross compiled software using
+this method. See the **Seagate-Central-Slot-In-v5.x-Kernel**
+and **Seagate-Central-Utils** projects for details.
 
 https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel/
+
+https://github.com/bertofurth/Seagate-Central-Utils/
 
 The target platform tested was a Seagate Central Single Drive NAS 
 running firmware version 2015.0916.0008-F however I believe these
 instructions should work for other Seagate Central configurations
 and firmware versions. 
+
+## TLDNR
+Make sure you have already built or downloaded a cross compiled 
+copy of samba for the Seagate Central. This TLDNR assumes that it
+is stored in the "cross" subdirectory.
+
+Download a copy of the latest Seagate Central firmware from the Seagate 
+website. This TLDNR assumes the downloaded firmware zip file is called
+Seagate-HS-update-201509160008F.zip
+
+    # Unzip the downloaded Seagate Central Firmware
+    unzip Seagate-HS-update-201509160008F.zip
+    
+Optional : Install a new Linux kernel (uImage) into the new software
+directory tree. (See **Seagate-Central-Slot-In-v5.x-Kernel** project)
+ 
+    mkdir -p ./cross/boot
+    cp my-kernel/uImage ./cross/boot/uImage
+    
+Optional : Install other new software into the new software directory
+tree. (See **Seagate-Central-Utils** project)
+
+    cp -r my-util/cross/* ./cross/
+    
+Create the new Seagate Central firmware image
+
+    ./make_seagate_firmware.sh ./Seagate-HS-update-201509160008F.img ./cross
+    
+Take note of the new randomly generated default root password which
+will be applied if there is no root password already set.
+
+Upgrade the Seagate Central via the web management interface using the
+newly generated image.
 
 ## Prerequisites 
 ### Disk space on the building host
