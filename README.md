@@ -22,7 +22,7 @@ https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
 
 There are three sets of instructions included in this project.
 
-### INSTRUCTIONS_CROSS_COMPILE.md 
+### README_CROSS_COMPILE.md 
 Cross compile the replacement samba server from scratch.
 
 This is the most difficult and involved option but compiling your own
@@ -35,7 +35,7 @@ significant chance that the process may require tweaking to suit
 different systems and therefore might require some understanding of
 the cross compilation process if anything goes wrong.
 
-### INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md
+### README_MANUALLY_INSTALL_BINARIES.md
 These instructions describe how to manually install the samba software
 created by the first set of instructions and alter the Seagate Central
 configuration accordingly.
@@ -45,7 +45,7 @@ have already installed custom software or modified the settings on the
 Seagate Central using the command line rather than the web management
 interface. 
 
-### INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md
+### README_FIRMWARE_UPGRADE_METHOD.md
 This option involves running an automated script that takes an existing 
 official Seagate Central firmware image and the samba binaries generated
 in the first set of instructions, or the downloaded pre-compiled
