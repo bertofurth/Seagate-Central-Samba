@@ -1,4 +1,4 @@
-# INSTRUCTIONS_MANUALLY_INSTALL_BINARIES.md
+# README_MANUALLY_INSTALL_BINARIES.md
 ## Summary
 This is a guide that describes how to manually replace the old samba
 software on a Seagate Central NAS with an updated, modern, cross
@@ -6,12 +6,12 @@ compiled version of samba.
 
 Refer to the README.md file for the location of a set of 
 pre-compiled binaries that can be used in this process or
-refer to the instructions in **INSTRUCTIONS_CROSS_COMPILE.md**
+refer to the instructions in **README_CROSS_COMPILE.md**
 to self generate the binaries.
 
 Installation of the cross compiled software using the easier but less
 flexible firmware upgrade method is covered by
-**INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md**
+**README_FIRMWARE_UPGRADE_METHOD.md**
 
 The target platform tested was a Seagate Central Single Drive NAS 
 running firmware version 2015.0916.0008-F however I believe these
@@ -41,7 +41,7 @@ priviledges. Note that some later versions of Seagate Central firmware
 deliberately disable su access by default.
 
 The alternative procedure detailed in
-**INSTRUCTIONS_FIRMWARE_UPGRADE_METHOD.md** does not require su access
+**README_FIRMWARE_UPGRADE_METHOD.md** does not require su access
 and will in fact automatically re-enable su access as a result of the
 procedure.
 
