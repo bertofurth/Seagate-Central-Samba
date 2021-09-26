@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# make_seagate_firmware <Seagate-Central-Firmware.img> [Software-Directory]
+# make_seagate_firmware <Seagate-HS-update-XXXXX.img> [Software-Directory]
 #
 # Script to create a new firmware image for the Seagate
 # Central NAS containing a version of samba and other
@@ -31,13 +31,13 @@ DEFAULT_ROOT_PASSWORD=$(cat /dev/urandom | base64 | cut -c1-15 | head -n1)
 
 usage()
 {
-    echo "Usage: $0 <Seagate-Central-Firmware.img> [Software-Directory]"
+    echo "Usage: $0 <Seagate-HS-update-XXXXX.img> [Software-Directory]"
     echo 
     echo "Script to create a new firmware image for the Seagate"
     echo "Central NAS containing a new version of samba and other"
     echo "cross compiled software."
     echo 
-    echo "  Seagate-Central-Firmware.img - "
+    echo "  Seagate-HS-update-XXXXX.img - "
     echo "    The name of the original Seagate Central firmware"
     echo "    image. Make sure this is a .img file"
     echo 
