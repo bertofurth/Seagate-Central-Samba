@@ -20,7 +20,7 @@ CROSS_COMPILE=arm-sc-linux-gnueabi-
 #
 # Make sure to use an absolute path and not the ~ or . symbols.
 #
-CROSS=$HOME/Seagate-Central-Toolchain/cross
+CROSS=$HOME/Seagate-Central-Toolchain/crosshf
 TOOLS=$CROSS/tools/bin
 SYSROOT=$CROSS/sysroot
 
@@ -181,15 +181,21 @@ export NOSTDINC_FLAGS="--sysroot=$SYSROOT -I$SYSROOT/usr/include \
 
 #
 # For some configure scripts it's important to have access
-# to the pkg-config information for libraries
+# to the pkg-config information for libraries. Note that
+# some packages also require a configure flag like
+# "--pkg-config=pkg-config" to point to a working version of 
+# pkg-config.
 #
 export PKG_CONFIG_PATH="$BUILDHOST_DEST/$PREFIX/lib/pkgconfig"
 
 #
 # The Seagate Central Cavium CNS3420 CPU uses the armv6k
-# architecture
+# arch and the mpcore cpu. There's no need to specify them
+# here when using the Seagate-Central-Toolchain cross compiler.
 #
-export CFLAGS="$NOSTDINC_FLAGS -march=armv6k"
+# Use "-mfloat-abi=soft" to disable hard float.
+# 
+export CFLAGS="$NOSTDINC_FLAGS -mcpu=mpcore"
 export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CFLAGS
 export ARCH=arm-linux
