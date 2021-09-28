@@ -20,7 +20,7 @@ CROSS_COMPILE=arm-sc-linux-gnueabi-
 #
 # Make sure to use an absolute path and not the ~ or . symbols.
 #
-CROSS=$HOME/Seagate-Central-Toolchain/crosshf
+CROSS=$HOME/Seagate-Central-Toolchain/cross
 TOOLS=$CROSS/tools/bin
 SYSROOT=$CROSS/sysroot
 
