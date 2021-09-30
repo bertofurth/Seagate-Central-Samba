@@ -127,7 +127,7 @@ make_it()
 install_it()
 {
         mkdir -p $LOG
-	make DESTDIR=$BUILDHOST_DEST install |& tee $LOG/"$NAME"_install.log
+	make DESTDIR=$BUILDHOST_DEST install $@ |& tee $LOG/"$NAME"_install.log
 	if [ $? -ne 0 ]; then
     	   echo   
            echo make install of $LIB_NAME to $BUILDHOST_DEST Failed.
