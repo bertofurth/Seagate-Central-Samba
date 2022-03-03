@@ -58,7 +58,7 @@ echo Running stage $current_stage : Remove unneeded directories
 rm -rf cross/var cross/etc ;  &> /dev/null
 checkerr
 
-AFTER=$(du -s cross/ | cut -f1)
+AFTER=$(du -b -s cross/ | cut -f1)
 echo Finished. Bytes before - $BEFORE  Bytes after - $AFTER
 
 
