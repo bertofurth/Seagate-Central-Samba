@@ -149,7 +149,7 @@ install_it
 # from the cross built tree because they conflict with
 # some of the existing directories already on the Seagate
 # central.
-rm -rf $CROSS/var/log $CROSS/var/lock $CROSS/var/run
+rm -rf $BUILDHOST_DEST/var/log $BUILDHOST_DEST/var/lock $BUILDHOST_DEST/var/run
 
 
 finish_it
