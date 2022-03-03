@@ -143,4 +143,14 @@ export COMPILE_ET=./compile_et
 
 make_it
 install_it
+
+#
+# Remove the /var/log /var/lock and /var/run directories
+# from the cross built tree because they conflict with
+# some of the existing directories already on the Seagate
+# central.
+rm -f $CROSS/var/log $CROSS/var/lock $CROSS/var/run
+
+
+
 finish_it
