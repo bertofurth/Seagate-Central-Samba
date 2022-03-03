@@ -9,9 +9,7 @@ A set of pre-compiled samba binaries for Seagate Central generated using
 the instructions in this project are currently available for download
 in the "releases" section of this project at
 
-https://github.com/bertofurth/Seagate-Central-Samba/releases/download/v1.0/seagate-central-samba-4.14.6-15-Aug-2021.tar.gz
-
-md5sum : 0d4a5a9e795f4d95dfd19d8c1b60e2fe
+https://github.com/bertofurth/Seagate-Central-Samba/releases/download/v1.0.1/seagate-central-samba-4.14.6-04-Mar-2022.tar.gz
 
 Note that there is a related project called 
 **Seagate-Central-Slot-In-v5.x-Kernel** that provides a guide on how to
