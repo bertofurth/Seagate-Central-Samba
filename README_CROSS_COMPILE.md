@@ -30,7 +30,7 @@ Samba v4.14.6 for the Seagate Central
     ./run-all-build-samba.sh
     
     # Remove optional excess components from the software
-    ./trim-build.sh
+    ./trim-build-samba.sh
     
     # Optional : Create an archive of the software
     mv cross seagate-central-samba-v4.14.6
