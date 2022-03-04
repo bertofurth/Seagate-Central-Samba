@@ -3,7 +3,7 @@
 # Set this to the name of the cross-answers file.
 #
 
-CROSS_ANSWERS=$(basename $(ls -1drv cross-answers*))
+CROSS_ANSWERS=$(basename $(ls -1drv cross-answers* | head -1))
 
 # Below we set "/usr" as the directory for executables
 # as opposed to the default of /usr/local because we
