@@ -180,7 +180,7 @@ the same major version numbers, will still work with this guide.
 * gnutls-3.6.16 - https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.16.tar.xz
 * openldap-2.5.7 - https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.5.7.tgz
 * libtirpc-1.3.2 - https://downloads.sourceforge.net/project/libtirpc/libtirpc/1.3.2/libtirpc-1.3.2.tar.bz2
-* Linux-PAM-1.5.2 - https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz'
+* Linux-PAM-1.5.2 - https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 * samba-4.14.6 - https://www.samba.org/ftp/samba/stable/samba-4.14.6.tar.gz
 * krb5-1.19.2 - https://kerberos.org/dist/krb5/1.19/krb5-1.19.2.tar.gz
 
