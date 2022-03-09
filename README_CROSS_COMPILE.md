@@ -225,7 +225,9 @@ to alter the included cross-answers file which has a name similar to
 This file contains information that allows samba to be cross
 compiled for the arm platform. The build script for samba
 will automatically use the latest version of cross-answers
-found in the build directory.
+found in the build directory. You can generally use a samba cross
+answers file for a later version of samba when compiling an
+earlier version of samba but not vice versa. 
 
 For more details about the samba cross-answers file see 
 
