@@ -404,3 +404,18 @@ These are nothing to worry about as long as the success
 message is printed at the end of each script.
 
 
+### TODO Samba version 4.15.5
+Building fails when we get to a new file called 
+
+source3/printing/samba-bgqd.c
+
+The problem is with the old glibc v2.11 that needs to be used
+for Seagate Central. The issue can be worked around by adding
+
+#include <signal.h>
+
+to the include section in samba-bgqd.c
+
+I have emailed the samba list asking for advice.
+
+I'll update the project when I get an answer back.
