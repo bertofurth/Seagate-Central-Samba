@@ -96,12 +96,16 @@ fi
 
 if [ ! -r $SEAGATE_FIRMWARE ]; then
     echo "Unable to find Seagate firmware $SEAGATE_FIRMWARE"
+    echo
+    usage
     exit 1
 fi
 
 if ! [ -z $SAMBA_DIRECTORY ]; then
     if [ ! -d $SAMBA_DIRECTORY ]; then	
 	echo "Unable to find samba directory $SAMBA_DIRECTORY"
+	echo
+	usage
 	exit 1  
     fi
     # Sanity check
