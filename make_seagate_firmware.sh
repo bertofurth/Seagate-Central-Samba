@@ -54,7 +54,7 @@ usage()
     echo 
     echo "  NO_ENABLE_ROOT : Do NOT enable su/root access"
     echo "  KEEP_TAPPIN : Do NOT remove defunct Tappin software"
-    echo "  KEEP_SEAGATE_MEDIA : Do NOT remove defunct Seagate Remote Media"
+    echo "  KEEP_SEAGATE_MEDIA : Do NOT remove defunct Seagate Media app"
     echo "  NO_USR_LOCAL_PATH : Do NOT add /usr/local/bin to PATH"
     echo "  SKIP_CLEANUP : Do NOT cleanup expanded filesystems after build"
     echo    
@@ -268,6 +268,18 @@ if [[ -z $KEEP_TAPPIN ]]; then
     rm -rf squashfs-root/apps/tappin
     find  squashfs-root/etc/ -name *tappinAgent* -exec rm {} +
 fi
+
+# By default we disable the defunct Segate media service. 
+# Note that this is NOT the twonky media server
+#
+# See https://www.seagate.com/support/downloads/seagate-media/
+#
+if [[ -z $KEEP_SEAGATE_MEDIA ]]; then
+    new_stage "Disable and Remove Seagate Media app service"
+    rm -rf squashfs-root/media_server
+    find  squashfs-root/etc/ -name *media_server* -exec rm {} +
+fi
+
 
 # In order to support newly installed cross compiled
 # software we add /usr/local/bin and /usr/local/sbin to
