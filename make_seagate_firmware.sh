@@ -19,6 +19,8 @@
 # string. Feel free to change this to a
 # fixed string if you prefer.
 #
+#DEFAULT_ROOT_PASSWORD=S3g@t3c#nTr4l
+
 DEFAULT_ROOT_PASSWORD=$(cat /dev/urandom | base64 | cut -c1-15 | head -n1)
 
 
@@ -52,6 +54,7 @@ usage()
     echo 
     echo "  NO_ENABLE_ROOT : Do NOT enable su/root access"
     echo "  KEEP_TAPPIN : Do NOT remove defunct Tappin software"
+    echo "  KEEP_SEAGATE_MEDIA : Do NOT remove defunct Seagate Remote Media"
     echo "  NO_USR_LOCAL_PATH : Do NOT add /usr/local/bin to PATH"
     echo "  SKIP_CLEANUP : Do NOT cleanup expanded filesystems after build"
     echo    
