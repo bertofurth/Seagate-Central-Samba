@@ -265,7 +265,7 @@ By default the script will disable and remove the TappIn remote
 access service on the Seagate Central. This service has been non 
 operational for some time as per the notice on Seagate's website.
 
-https://www.seagate.com/au/en/support/kb/seagate-central-tappin-update-007647en/
+https://www.seagate.com/support/kb/seagate-central-tappin-update-007647en/
 
 By disabling the service we stop the Seagate Central from spending
 cpu and memory resources on something that serves no purpose. In
@@ -273,6 +273,23 @@ addition about 25MB of disk space is saved by removing it.
 
 If you do NOT want to disable the Tappin service then set
 the KEEP_TAPPIN environment variable to any value.
+
+#### Remove the defunct Seagate Media app service
+By default the script will disable and remove the proprietary Seagate
+Media app service on the Seagate Central. Note that this is not the
+same as the Twonky DLNA media service. 
+
+The proprietary Seagate Media app service has been non 
+operational for some time as per the notice on Seagate's website.
+
+https://www.seagate.com/support/downloads/seagate-media/
+
+By disabling the service we stop the Seagate Central from spending
+cpu and memory resources on something that serves no purpose. In
+addition about 8MB of disk space is saved by removing it.
+
+If you do NOT want to disable the Tappin service then set
+the KEEP_SEAGATE_MEDIA environment variable to any value.
 
 #### Add /usr/local/bin and /usr/local/sbin to PATH
 If any other new cross compiled software besides samba is added
