@@ -5,11 +5,9 @@
 # /etc/rcS.d/S99finish
 # script.
 #
-# If the root password is currently blank it sets
+# If the root password is currently blank or setup
+# only using the /etc/passwd file it sets
 # it to the value specified below in the script.
-#
-# This value should have been randomly generated
-# when the firmware was built.
 #
 # If a root password is already set then this
 # script has no impact and will not change the
@@ -17,8 +15,14 @@
 #
 if grep -q "^root:x:" /etc/passwd
 then
-      echo "root:XXXXXXXXXX" | chpasswd
-      # Make sure the changes are in the Central's backup config folder.
-      rsync -Rva /etc/passwd /usr/config/backupconfig
+    #clear out root pw in /etc/passwd
+    sed "s#^root:.*#root:x:0:0:root:/home/root:/bin/sh#" -i /etc/passwd
+    
+    # The value below should have been set by the firmware creation script
+    echo "root:XXXXXXXXXX" | chpasswd
+
+    # Copy the changes to the Central's backup config folder.
+    rsync -Rva /etc/passwd /usr/config/backupconfig
+    rsync -Rva /etc/shadow /usr/config/backupconfig
 fi
 	
