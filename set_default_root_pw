@@ -13,7 +13,7 @@
 # script has no impact and will not change the
 # current root password.
 #
-if grep -q "^root:x:" /etc/passwd
+if ! grep -q "^root:x:" /etc/passwd
 then
     #clear out root pw in /etc/passwd
     sed "s#^root:.*#root:x:0:0:root:/home/root:/bin/sh#" -i /etc/passwd
