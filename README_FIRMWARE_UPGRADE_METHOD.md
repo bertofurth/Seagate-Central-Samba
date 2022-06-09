@@ -270,6 +270,9 @@ root password as displayed. For example
 
      FORCE_PW_CHANGE=1 ./make_seagate_firmware.sh .......
 
+This option should only be used if the root password has
+already been set and needs to be recovered. 
+
 #### Remove the defunct TappIn service
 By default the script will disable and remove the TappIn remote
 access service on the Seagate Central. This service has been non 
