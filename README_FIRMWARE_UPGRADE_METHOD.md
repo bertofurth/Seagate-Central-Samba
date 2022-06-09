@@ -260,6 +260,15 @@ value. For example
 
      NO_ENABLE_ROOT=1 ./make_seagate_firmware.sh .......
 
+#### Force su / root password change
+If you want to force a change to the Seagate Central's root
+password then set the FORCE_PW_CHANGE environment variable. 
+This will mean that when the unit reboots after the
+upgrade the root password will be changed **once** to the
+randomly generated root password as displayed. For example
+
+     FORCE_PW_CHANGE=1 ./make_seagate_firmware.sh .......
+
 #### Remove the defunct TappIn service
 By default the script will disable and remove the TappIn remote
 access service on the Seagate Central. This service has been non 
@@ -277,18 +286,25 @@ the KEEP_TAPPIN environment variable to any value.
 #### Remove the defunct Seagate Media app service
 By default the script will disable and remove the proprietary Seagate
 Media app service on the Seagate Central. Note that this is not the
-same as the Twonky DLNA media service. 
+same as the Twonky DLNA media service which remains unaffected by
+this firmware upgrade.
 
 The proprietary Seagate Media app service has been non 
 operational for some time as per the notice on Seagate's website.
 
 https://www.seagate.com/support/downloads/seagate-media/
 
-By disabling the service we stop the Seagate Central from spending
+By disabling this service we stop the Seagate Central from spending
 cpu and memory resources on something that serves no purpose. In
-addition about 8MB of disk space is saved by removing it.
+addition, some users have reported that this service generates thousands of
+files containing megabytes of rubbish data in the Public folder. These files
+start with the following names.
 
-If you do NOT want to disable the Tappin service then set
+     bootstrapdb
+     media_server_daemon.txt
+     messages
+     
+If you do NOT want to disable the Seagate Media app service then set
 the KEEP_SEAGATE_MEDIA environment variable to any value.
 
 #### Add /usr/local/bin and /usr/local/sbin to PATH
