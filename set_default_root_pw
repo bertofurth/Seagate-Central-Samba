@@ -9,10 +9,8 @@
 # only using the /etc/passwd file it sets
 # it to the value specified below in the script.
 #
-# If a root password is already set then this
-# script has no impact and will not change the
-# current root password unless FORCE_PW_CHANGE
-# is set to 1.
+# If FORCE_PW_CHANGE is set to 1 then the root
+# password will always be changed on bootup.
 #
 
 FORCE_PW_CHANGE=0
@@ -34,11 +32,5 @@ then
     # Copy the changes to the Central's backup config folder.
     rsync -Rva /etc/passwd /usr/config/backupconfig
     rsync -Rva /etc/shadow /usr/config/backupconfig
-fi
-
-if [ $FORCE_PW_CHANGE == 1 ]
-then
-    # Self modify this script to disable FORCE_PW_CHANGE
-    sed "s#^FORCE_PW_CHANGE=1#FORCE_PW_CHANGE=0#" -i $0
 fi
 
