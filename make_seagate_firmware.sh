@@ -19,10 +19,10 @@
 # string. Feel free to change this to a
 # fixed string if you prefer.
 #
-#DEFAULT_ROOT_PASSWORD=S3g@t3c#nTr4l
 
 DEFAULT_ROOT_PASSWORD=$(cat /dev/urandom | base64 | cut -c1-15 | head -n1)
 
+#DEFAULT_ROOT_PASSWORD=MyPassword
 
 # ************************************************
 # ************************************************
@@ -120,7 +120,7 @@ fi
 
 new_version=$(date +%Y.%m%d.%H%M-S)
 new_release_date=$(date +%d-%m-%Y)
-SEAGATE_NEW_FIRMWARE=Seagate-Samba-Update-$new_version.img
+SEAGATE_NEW_FIRMWARE=Seagate-Central-Update-$new_version.img
 echo
 echo "Creating new firmware image $SEAGATE_NEW_FIRMWARE"
 echo "Using base firmware $SEAGATE_FIRMWARE"
@@ -129,6 +129,9 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
 fi
 if [[ -z $NO_ENABLE_ROOT ]]; then
     echo "Enabling su access with default root password $DEFAULT_ROOT_PASSWORD"
+    if [[ -n $FORCE_PW_CHANGE ]]; then
+	echo "Forcing root password change on reboot. FORCE_PW_CHANGE is set"
+    fi
 else
     echo "WARNING : NOT Enabling su access. NO_ENABLE_ROOT is set"
 fi
