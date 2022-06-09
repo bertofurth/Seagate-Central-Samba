@@ -53,6 +53,7 @@ usage()
     echo "  default behavior"
     echo 
     echo "  NO_ENABLE_ROOT : Do NOT enable su/root access"
+    echo "  FORCE_PW_CHANGE : Force a one time root password change on upgrade"
     echo "  KEEP_TAPPIN : Do NOT remove defunct Tappin software"
     echo "  KEEP_SEAGATE_MEDIA : Do NOT remove defunct Seagate Media app"
     echo "  NO_USR_LOCAL_PATH : Do NOT add /usr/local/bin to PATH"
@@ -251,6 +252,10 @@ if [[ -z $NO_ENABLE_ROOT ]]; then
     fi
 
     sed s#XXXXXXXXXX#$DEFAULT_ROOT_PASSWORD#g set_default_root_pw > set_default_root_pw.modified
+    if [[ -n $FORCE_PW_CHANGE ]]; then
+	sed s#^FORCE_PW_CHANGE=0#FORCE_PW_CHANGE=1# -i set_default_root_pw.modified
+    fi
+    
     cp set_default_root_pw.modified squashfs-root/etc/init.d/set_default_root_pw
     chmod a+x squashfs-root/etc/init.d/set_default_root_pw
     ln -s ../init.d/set_default_root_pw squashfs-root/etc/rcS.d/S98set_default_root_pw
