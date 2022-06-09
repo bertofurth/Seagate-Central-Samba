@@ -264,9 +264,9 @@ value. For example
 #### Force su / root password change
 If you want to force a change to the Seagate Central's root
 password then set the FORCE_PW_CHANGE environment variable. 
-This will mean that when the unit reboots after the
-upgrade the root password will be changed **once** to the
-randomly generated root password as displayed. For example
+This will mean that every time the unit reboots the root
+password will be changed **once** to the randomly generated 
+root password as displayed. For example
 
      FORCE_PW_CHANGE=1 ./make_seagate_firmware.sh .......
 
