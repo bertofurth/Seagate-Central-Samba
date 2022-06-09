@@ -267,6 +267,7 @@ if [[ -z $KEEP_TAPPIN ]]; then
     new_stage "Disable and Remove TappIn service"
     rm -rf squashfs-root/apps/tappin
     find  squashfs-root/etc/ -name *tappinAgent* -exec rm {} +
+    sed -i "s#Enable or disable the remote access service. Remote access allows you to access Seagate Central content remotely.#The Seagate Central remote access service is defunct. It can not be activated in this version of firmware.#g" squashfs-root/cirrus/application/language/en/cirrus_lang.php
 fi
 
 # By default we disable the defunct Segate media service. 
@@ -278,6 +279,7 @@ if [[ -z $KEEP_SEAGATE_MEDIA ]]; then
     new_stage "Disable and Remove Seagate Media app service"
     rm -rf squashfs-root/media_server
     find  squashfs-root/etc/ -name *media_server* -exec rm {} +
+    sed -i "s#The Seagate Media app allows you to access your media anywhere in the world. Download the Seagate Media app for iPhone, iPad, Android, and Kindle Fire from your mobile device’s app store.#The Seagate Media app is now defunct. This service cannot be activated in this version of Seagate Central firmware#g" squashfs-root/cirrus/application/language/en/cirrus_lang.php
 fi
 
 
