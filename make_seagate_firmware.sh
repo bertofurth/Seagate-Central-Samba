@@ -275,7 +275,7 @@ if [[ -z $KEEP_TAPPIN ]]; then
     new_stage "Disable and Remove TappIn service"
     rm -rf squashfs-root/apps/tappin
     find  squashfs-root/etc/ -name *tappinAgent* -exec rm {} +
-    sed -i "s#Enable or disable the remote access service. Remote access allows you to access Seagate Central content remotely.#The Seagate Central remote access service is defunct. It can not be activated in this version of firmware.#g" squashfs-root/cirrus/application/language/en/cirrus_lang.php
+    sed -i "s#Remote access allows you to access your files anywhere in the world using a web browser. To use, you can download apps for iPhone, iPad, Android, Kindle Fire, and Windows Phone.#The Seagate Central remote access service is defunct. It can not be activated in this version of firmware.#g" squashfs-root/cirrus/application/language/en/cirrus_lang.php
 fi
 
 # By default we disable the defunct Segate media service. 
