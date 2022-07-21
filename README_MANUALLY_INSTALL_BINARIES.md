@@ -21,7 +21,7 @@ differences.
 
 These instructions should not be followed "blindly". If you have already
 made other custom changes to your Seagate Central software via the
-command line, such as installing other cross compled software, then
+command line, such as installing other cross compiled software, then
 make sure that none of the steps below interfere with those changes.
 
 ## Prerequisites 
@@ -36,8 +36,8 @@ hopefully this small addition of files will not cause any problems.
 
 ### su/root access on the Seagate Central.
 Make sure that you can establish an ssh session to the Seagate Central
-and that you can succesfully issue the **su** command to gain root
-priviledges. Note that some later versions of Seagate Central firmware
+and that you can successfully issue the **su** command to gain root
+privileges. Note that some later versions of Seagate Central firmware
 deliberately disable su access by default.
 
 The alternative procedure detailed in
@@ -101,7 +101,7 @@ directory.
     
 ### Login as root or prepend sudo to further commands
 The commands after this point in the procedure must be executed with
-root priviledges on the Seagate Central. This can be done by either
+root privileges on the Seagate Central. This can be done by either
 prepending **sudo** to each command or by issuing the **su** command
 and becoming the root user.
 
@@ -150,8 +150,8 @@ The command should report the expected new version (v4.x.x) and
 not the old version (3.5.16).
 
 ### Customize samba configuration files
-The main samba configuation file /etc/samba/smb.conf needs to be
-modfied in order to work with modern versions of samba.
+The main samba configuration file /etc/samba/smb.conf needs to be
+modified in order to work with modern versions of samba.
 
 First make a backup of the original file just in case you wish to
 revert to the original version of samba.
@@ -237,7 +237,7 @@ If the new version of samba is not performing as desired then there
 is always the option of reinstating the original version.
 
 If the procedure above has been followed then the following sequence
-of commands issued with root priviledges will restore the original
+of commands issued with root privileges will restore the original
 samba software.
 
      /etc/init.d/samba stop
