@@ -3,8 +3,11 @@ Checking uname sysname type: "Linux"
 Checking simple C program: "hello world"
 rpath library support: OK
 -Wl,—version-script support: OK
-Checking getconf LFS_CFLAGS: NO
-Checking for large file support without additional flags: OK
+Checking getconf LFS_CFLAGS: OK
+Checking getconf large file support flags work: OK
+Checking for large file support without additional flags: NO
+Checking for -D_FILE_OFFSET_BITS=64: OK
+Checking for -D_LARGE_FILES: NO
 Checking correct behavior of strtoll: OK
 Checking for working strptime: NO
 Checking for C99 vsnprintf: "1"
