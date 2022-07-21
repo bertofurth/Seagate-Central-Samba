@@ -172,7 +172,7 @@ the same major version numbers, will still work with this guide.
 * nettle-3.7.3 - http://mirrors.kernel.org/gnu/nettle/nettle-3.7.3.tar.gz
 * attr-2.4.48 - http://download.savannah.gnu.org/releases/attr/attr-2.4.48.tar.gz
 * acl-2.3.1 - http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
-* zlib-1.2.11 - https://zlib.net/zlib-1.2.11.tar.xz
+* zlib-1.2.12 - https://zlib.net/zlib-1.2.12.tar.xz
 * libunistring-0.9.10 - http://mirrors.kernel.org/gnu/libunistring/libunistring-0.9.10.tar.xz
 * libidn2-2.3.1 - http://mirrors.kernel.org/gnu/libidn/libidn2-2.3.1.tar.gz
 * libtasn1-4.17.0 - http://mirrors.kernel.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz 
