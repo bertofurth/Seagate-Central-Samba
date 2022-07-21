@@ -24,7 +24,7 @@ checkerr()
     fi
 }
 
-BEFORE=$(du -s cross/ | cut -f1)
+BEFORE=$(du -b -s cross/ | cut -f1)
 
 let current_stage++
 echo Running stage $current_stage : Delete static libraries
