@@ -167,7 +167,7 @@ if ! [ -z $SAMBA_DIRECTORY ]; then
 
     
     # Install samba software 
-    cp -r $SAMBA_DIRECTORY/* squashfs-root/ &> log_03_cp_samba.log
+    cp -f -r $SAMBA_DIRECTORY/* squashfs-root/ &> log_03_cp_samba.log
     checkerr $? "copy libraries" log_03_cp_samba.log
 
     new_stage "Generate modified samba configuration"
