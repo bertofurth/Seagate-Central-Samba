@@ -2,7 +2,6 @@
 #
 # Set this to the name of the cross-answers file.
 #
-
 CROSS_ANSWERS=$(basename $(ls -1drv cross-answers* | head -1))
 
 # Below we set "/usr" as the directory for executables
@@ -118,13 +117,13 @@ if [ $? -ne 0 ]; then
     exit 0
 fi
 
-cp ./asn1_compile.local bin/default/source4/heimdal_build/asn1_compile
+cp ./asn1_compile.local `realpath bin/asn1_compile`
 if [ $? -ne 0 ]; then
     echo
     echo Unable to copy host asn1_compile tool. Exiting
     exit 0
 fi
-cp ./compile_et.local bin/default/source4/heimdal_build/compile_et
+cp ./compile_et.local `realpath bin/compile_et`
 if [ $? -ne 0 ]; then
     echo
     echo Unable to copy host compile_et tool. Exiting
@@ -150,6 +149,5 @@ install_it
 # some of the existing directories already on the Seagate
 # central.
 rm -rf $BUILDHOST_DEST/var/log $BUILDHOST_DEST/var/lock $BUILDHOST_DEST/var/run
-
 
 finish_it
