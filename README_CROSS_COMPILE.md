@@ -1,7 +1,7 @@
 # README_CROSS_COMPILE.md
 ## Summary
 This is a guide that describes how to cross compile replacement samba
-software suitable for installation on a Seagate Central NAS device.
+v4.x.x software suitable for installation on a Seagate Central NAS device.
 
 Manual installation of the cross compiled software is covered by
 **README_MANUALLY_INSTALL_BINARIES.md**
@@ -17,24 +17,25 @@ following this guide you will avoid most of those problems.
 ## TLDNR
 On a build server with the "arm-sc-linux-gnueabi-" cross compilation 
 suite installed, run the following commands to download and compile 
-Samba v4.14.6 for the Seagate Central
+Samba v4.x.x for the Seagate Central (replace v4.x.x with the exact
+version of samba used)
 
     # Download this project to the build host
     git clone https://github.com/bertofurth/Seagate-Central-Samba.git
     cd Seagate-Central-Samba
     
-    # Obtain the required source code
+    # Download the required component's source code
     ./download-src-samba.sh
     
-    # Build Samba v4.14.6 for Seagate Central
+    # Build Samba v4.x.x and associated libraries for Seagate Central
     ./run-all-build-samba.sh
     
     # Remove optional excess components from the software
     ./trim-build-samba.sh
     
     # Optional : Create an archive of the software
-    mv cross seagate-central-samba-v4.14.6
-    tar -caf seagate-central-samba-v4.14.6.tar.gz seagate-central-samba-v4.14.6
+    mv cross seagate-central-samba-v4.x.x
+    tar -caf seagate-central-samba-v4.x.x.tar.gz seagate-central-samba-v4.x.x
     
 Proceed to the instructions in either
 **README_MANUALLY_INSTALL_BINARIES.md** or
@@ -45,8 +46,8 @@ built software on the Seagate Central.
 This procedure has been tested to work on the following building
 platforms
 
-* OpenSUSE Tumbleweed (Aug 2021) on x86
-* OpenSUSE Tumbleweed (Aug 2021) on Raspberry Pi 4B
+* OpenSUSE Tumbleweed (Jul 2022) on x86
+* OpenSUSE Tumbleweed (Jul 2022) on Raspberry Pi 4B
 * Debian 10 (Buster) on x86
 
 The procedure has been tested to work with make v4.3 and v4.2.1 as well
@@ -60,7 +61,7 @@ firmware versions.
 ## Prerequisites 
 ### Disk space
 This procedure will take up to 1.1GB of disk space during the build
-process and will generate approximately 85MiB of finished product. 
+process and will generate approximately 86MiB of finished product. 
 
 ### Time
 The build component takes a total of about 25 minutes to complete on an 
@@ -119,6 +120,7 @@ installed on the building system.
     libgnutls-devel
     perl
     perl-Parse-Yapp
+    perl-JSON
     rpcgen
     
 #### Debian 10 - Buster (apt-get install ...)
@@ -169,20 +171,20 @@ time of writing. Hopefully later versions, or at least those with
 the same major version numbers, will still work with this guide.
 
 * gmp-6.2.1 - http://mirrors.kernel.org/gnu/gmp/gmp-6.2.1.tar.xz
-* nettle-3.7.3 - http://mirrors.kernel.org/gnu/nettle/nettle-3.7.3.tar.gz
-* attr-2.4.48 - http://download.savannah.gnu.org/releases/attr/attr-2.4.48.tar.gz
+* nettle-3.8 - http://mirrors.kernel.org/gnu/nettle/nettle-3.8.tar.gz
+* attr-2.5.1 - http://download.savannah.gnu.org/releases/attr/attr-2.5.1.tar.xz
 * acl-2.3.1 - http://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
 * zlib-1.2.12 - https://zlib.net/zlib-1.2.12.tar.xz
-* libunistring-0.9.10 - http://mirrors.kernel.org/gnu/libunistring/libunistring-0.9.10.tar.xz
-* libidn2-2.3.1 - http://mirrors.kernel.org/gnu/libidn/libidn2-2.3.1.tar.gz
-* libtasn1-4.17.0 - http://mirrors.kernel.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz 
-* p11-kit-0.24.0 - https://github.com/p11-glue/p11-kit/releases/download/0.24.0/p11-kit-0.24.0.tar.xz
-* gnutls-3.6.16 - https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.16.tar.xz
-* openldap-2.5.7 - https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.5.7.tgz
+* libunistring-1.0 - http://mirrors.kernel.org/gnu/libunistring/libunistring-1.0.tar.xz
+* libidn2-2.3.3 - http://mirrors.kernel.org/gnu/libidn/libidn2-2.3.3.tar.gz
+* libtasn1-4.18.0 - http://mirrors.kernel.org/gnu/libtasn1/libtasn1-4.18.0.tar.gz
+* p11-kit-0.24.1 - https://github.com/p11-glue/p11-kit/releases/download/0.24.1/p11-kit-0.24.1.tar.xz
+* gnutls-3.7.6 - https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.6.tar.xz
+* openldap-2.6.3 - https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.3.tgz 
 * libtirpc-1.3.2 - https://downloads.sourceforge.net/project/libtirpc/libtirpc/1.3.2/libtirpc-1.3.2.tar.bz2
 * Linux-PAM-1.5.2 - https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
-* samba-4.14.6 - https://www.samba.org/ftp/samba/stable/samba-4.14.6.tar.gz
-* krb5-1.19.2 - https://kerberos.org/dist/krb5/1.19/krb5-1.19.2.tar.gz
+* samba-4.16.3 - https://www.samba.org/ftp/samba/stable/samba-4.16.3.tar.gz
+* krb5-1.20 - https://kerberos.org/dist/krb5/1.20/krb5-1.20.tar.gz
 
 ### Customize the build scripts
 You may need to edit the variables at the top of the **build-common**
@@ -235,8 +237,9 @@ https://wiki.samba.org/index.php/Waf#Using_--cross-answers
 
 ### Run the build scripts in order
 The build scripts are named in the numerical order that they need to be
-executed. On the first run we suggest executing them individually to make
-sure each one works.
+executed. There is a script called **run-all-build-samba.sh** that will 
+execute all the individual build scripts in order however it may be more
+prudent to run each individually to make sure each one works.
 
     ./build-samba-01-gmp.sh
     ./build-samba-02-nettle.sh
@@ -255,10 +258,6 @@ sure each one works.
     ./build-samba-15-samba.sh
     ./build-samba-16-krb5.sh
     ./build-samba-17-libtirpc-with-krb5.sh
-
-There is a script called **run-all-build-samba.sh** that will execute all 
-the individual build scripts in order however this is only recommended
-once you are confident that the build will run without issue. 
 
 ### Optional - Reduce the software size
 You can reduce the size of the software that will be installed
@@ -403,19 +402,3 @@ compilation. Particularly
 These are nothing to worry about as long as the success 
 message is printed at the end of each script.
 
-
-### TODO Samba version 4.15.5
-Building fails when we get to a new file called 
-
-source3/printing/samba-bgqd.c
-
-The problem is with the old glibc v2.11 that needs to be used
-for Seagate Central. The issue can be worked around by adding
-
-#include <signal.h>
-
-to the include section in samba-bgqd.c
-
-I have emailed the samba list asking for advice.
-
-I'll update the project when I get an answer back.
