@@ -20,7 +20,7 @@ gnutls='https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.6.tar.xz'
 openldap='https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.3.tgz'
 libtirpc='https://downloads.sourceforge.net/project/libtirpc/libtirpc/1.3.2/libtirpc-1.3.2.tar.bz2'
 LinuxPAM='https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz'
-samba='https://www.samba.org/ftp/samba/stable/samba-4.16.3.tar.gz'
+samba='https://www.samba.org/ftp/samba/stable/samba-4.14.14.tar.gz'
 krb5='https://kerberos.org/dist/krb5/1.20/krb5-1.20.tar.gz'
 
 echo_archives() {
