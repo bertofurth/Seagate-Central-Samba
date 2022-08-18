@@ -183,8 +183,12 @@ the same major version numbers, will still work with this guide.
 * openldap-2.6.3 - https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.3.tgz 
 * libtirpc-1.3.2 - https://downloads.sourceforge.net/project/libtirpc/libtirpc/1.3.2/libtirpc-1.3.2.tar.bz2
 * Linux-PAM-1.5.2 - https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
-* samba-4.16.3 - https://www.samba.org/ftp/samba/stable/samba-4.16.3.tar.gz
+* samba-4.14.14 - https://www.samba.org/ftp/samba/stable/samba-4.14.14.tar.gz
 * krb5-1.20 - https://kerberos.org/dist/krb5/1.20/krb5-1.20.tar.gz
+
+N.B. At the moment, Samba v4.15 and later will not work with the original Seagate Central
+kernel due to the following bug https://bugzilla.samba.org/show_bug.cgi?id=15149 . These more
+recent versions of Samba will work with an updated kernel.
 
 ### Customize the build scripts
 You may need to edit the variables at the top of the **build-common**
