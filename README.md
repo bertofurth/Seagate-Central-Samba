@@ -106,7 +106,10 @@ normally overcomes any kind of cataclysmic software induced failure.
 In the absolute worst case where a Seagate Central were rendered totally
 inoperable there is always the option of physically opening the Seagate
 Central, removing the hard drive and mounting it on a different machine
-in order to resurrect it, and if necessary, retrieve any user data.
+in order to resurrect it, and if necessary, retrieve any user data. See
+
+Unbrick, Replace or Reset Seagate Central Hard Drive : 
+https://github.com/bertofurth/Seagate-Central-Tips/blob/main/Unbrick-Replace-Reset-Hard-Drive.md
 
 Finally, note that the Seagate Central has not received an official 
 firmware update since 2015 so the manufacturer will probably not be
@@ -215,6 +218,9 @@ the same way that the one provided in the original firmware is. This
 means that the full array of features available in samba server software 
 may be configured, albeit via the command line and configuration file 
 rather than the web interface.
+
+### Performance : TODO
+TEST A FRESH OUT OF THE BOX UNIT RUNNING OLD SAMBA vs A NEW ONE
 
 ## Disadvantages of installing the new samba server
 ### Second CPU (fixed by Seagate-Central-Slot-In-v5.x-Kernel)
