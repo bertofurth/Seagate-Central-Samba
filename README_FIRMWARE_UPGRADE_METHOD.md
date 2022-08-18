@@ -1,4 +1,14 @@
 # README_FIRMWARE_UPGRADE_METHOD.md
+
+# NOTICE : THIS PROCEDURE IS UNDER REVIEW.
+Many people have contacted me recently about issues in this procedure, especially
+in regards to kernel upgrades.
+
+I am aware of the issue. I am in the process of fixing it. Check back in a few days
+time. Hoepfully by September 2022 the process will be fixed and improved.
+
+Thanks for your understanding!!
+
 ## Summary
 This is a guide that describes how to generate a firmware update
 for a Seagate Central NAS that contains a modern, cross compiled
