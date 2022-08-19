@@ -5,14 +5,15 @@ Many people have contacted me recently about issues in this procedure, especiall
 in regards to kernel upgrades.
 
 I am aware of the issue. I am in the process of fixing it. Check back in a few days
-time. Hoepfully by September 2022 the process will be fixed and improved.
+time. Hopefully by September 2022 the process will be fixed and improved.
 
 Thanks for your understanding!!
 
 ## Summary
-This is a guide that describes how to generate a firmware update
-for a Seagate Central NAS that contains a modern, cross compiled
-version of samba.
+This is a guide that describes how to generate a custom firmware update
+for a Seagate Central NAS. This is primarily done to install a modern,
+cross compiled version of the samba file sharing service however there are
+other benefits as documented below.
 
 It is partially based on the work at
 
@@ -20,67 +21,65 @@ https://github.com/detain/seagate_central_sudo_firmware
 
 http://seagatecentralenhancementclub.blogspot.com/2015/11/root-su-recovery-for-seagate-central.html
 
-Refer to the README.md file for the location of a set of 
-pre-compiled binaries that can be used in this process or
-refer to the instructions in **README_CROSS_COMPILE.md**
-to self generate the binaries.
+Refer to the README.md file for the location of a set of pre-compiled binaries
+that can be used in this process or refer to the instructions in
+**README_CROSS_COMPILE.md** to self generate the binaries.
 
-If any custom changes have been made to a Seagate Central
-unit via the command line, such as manual installation of new 
-software or manual configuration changes not done via the web
-management interface, then this method may overwrite those 
-changes. Configuration changes made via the normal Seagate
-Central web management interface will not be affected.
+If you are a user with some Linux experience, or if you have already
+made some custom modifications to your Seagate Central's operating system,
+then we would strongly suggest that you use the slightly more difficult
+but much more flexible and easier to troubleshoot installation method 
+described by **README_MANUALLY_INSTALL_BINARIES.md** in this project.
 
-If you have made extensive custom modifications via the CLI then
-it might be more appropriate to use the more difficult but more
-flexible manual installation method covered by
-**README_FIRMWARE_UPGRADE_METHOD.md**
-
-Note that it is possible to also upgrade the Seagate Central
-Linux kernel and to install other cross compiled software using
-this method. See the **Seagate-Central-Slot-In-v5.x-Kernel**
-and **Seagate-Central-Utils** projects for details.
+Along with upgrading samba, it is also possible to also upgrade the Seagate
+Central Linux kernel and to install other cross compiled software using this 
+method. See the **Seagate-Central-Slot-In-v5.x-Kernel** and
+**Seagate-Central-Utils** projects for details.
 
 https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel/
 
 https://github.com/bertofurth/Seagate-Central-Utils/
 
+This firmware upgrade can also optionally be used to reset a Seagate Central's
+root password in order to regain root access to the system. This might
+be useful as Seagate's most recent native firmware updates disable root
+access.
+
 The target platform tested was a Seagate Central Single Drive NAS 
-running firmware version 2015.0916.0008-F however I believe these
+running firmware version 2015.0916.0008-F however we believe these
 instructions should work for other Seagate Central configurations
 and firmware versions. 
 
 ## TLDNR
-Make sure you have already built or downloaded a cross compiled 
-copy of samba for the Seagate Central. This TLDNR assumes that it
-is stored in the "cross" subdirectory.
-
-Download a copy of the latest Seagate Central firmware from the Seagate 
-website. This TLDNR assumes the downloaded firmware zip file is called
-Seagate-HS-update-201509160008F.zip 
+Download a copy of the latest Seagate Central firmware archive from the
+Seagate website. This TLDNR assumes the downloaded firmware zip file is
+called Seagate-HS-update-201509160008F.zip . Unzip this file to generate a
+firmware image file with suffix ".img" as per the following example.
 
     # Unzip the downloaded Seagate Central Firmware
     unzip Seagate-HS-update-201509160008F.zip
     
-Optional : Install a new Linux kernel (uImage) into the new software
-directory tree. (See **Seagate-Central-Slot-In-v5.x-Kernel** project)
- 
-    mkdir -p ./cross/boot
-    cp my-kernel/uImage ./cross/boot/uImage
-    
+Optional : Download or build a cross compiled version of samba 4.x.x for
+the Seagate Central. See the **Seagate-Central-Samba** project for 
+details. This TLDNR assumes that the samba binaries are stored in the "cross"
+subdirectory.
+        
+Optional : Download or build a new Linux kernel for the Seagate
+Central (uImage). See the **Seagate-Central-Slot-In-v5.x-Kernel** project
+for details.
+
 Optional : Install other new software into the new software directory
-tree. (See **Seagate-Central-Utils** project)
+tree. See the **Seagate-Central-Utils** project for details.
 
-    cp -r my-util/cross/* ./cross/
+Optional : Decide on a new root password for the unit.
+
+Create the new Seagate Central firmware image using the "make_seagate_firmware.sh"
+script by specifying the Seagate firmware image file (-f), then optionally
+the location of cross compiled software (-d), the uImage file (-u) and the new
+system root password (-f).
+
+    ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img  -d ./cross -u ./uImage -f myrootpassword
     
-Create the new Seagate Central firmware image
-
-    ./make_seagate_firmware.sh ./Seagate-HS-update-201509160008F.img ./cross
-    
-Take note of the new randomly generated default root password which
-will be applied if there is no root password already set.
-
 Upgrade the Seagate Central via the web management interface using the
 newly generated image.
 
@@ -118,7 +117,7 @@ For example, the following **git** command will download the
 files in this project to a new subdirectory called 
 Seagate-Central-Samba
 
-    git clone https://github.com/bertofurth/Seagate-Central-Samba.git
+    git clone https://github.com/bertofurth/Seagate-Central-Samba
     
 Alternately, the following **wget** and **unzip** commands will 
 download the files in this project to a new subdirectory called
@@ -150,17 +149,21 @@ The latest firmware zip file available as of the writing of this
 document is Seagate-HS-update-201509160008F.zip
 
 Copy this file to the base working directory on the build host 
-and unzip it as follows.
+and unzip it as per the following example.
 
-     unzip Seagate-HS-update-201509160008F.zip
-
+    # unzip Seagate-HS-update-201509160008F.zip
+    Archive:  Seagate-HS-update-201509160008F.zip  
+      inflating: ReadMe.pdf
+      inflating: Seagate-HS-update-201509160008F.img
+  
 There should now be a .img file in the base working directory.
-This is the firmware image that will be used in the coming steps.
+This is the original Segate Central firmware image that will be
+used as a basis to create a new firmware image in the coming steps.
 
-Note : If Seagate ever stop supplying firmware downloads then it
-would be possible to generate a new firmware image based on the
-contents of a working Seagate Central. That, however, is beyond
-the scope of this project.
+Note : If Seagate ever stop supplying firmware downloads then there
+is a ".img" format firmware file stored in partition 5, the "Config"
+parititon, on the Seagate Central hard drive. This is accessible in
+the /usr/config/firmware directory on the Seagate Central.
 
 ### Optional : Obtain cross compiled samba software
 If you wish to include an upgraded samba server in the newly
@@ -192,17 +195,18 @@ https://github.com/bertofurth/Seagate-Central-Utils/
 If you build software using that project, then the generated
 software can be copied into the same directory tree as the
 samba software seen above and embedded in the new firmware 
-at the same time as samba.
+at the same time as samba. 
 
 All you have to do is make sure that the new software is 
-copied into the correct sub directories which are generally
-as follows (this is not an exhaustive list)
+copied into the correct sub directories of the software
+directory. These directories are generally as follows (this
+is not an exhaustive list)
 
 usr/local/bin : Binary executables
 usr/local/lib : Library files
 usr/local/sbin : Service binary executables
 
-Some of the projects also require that configuration and
+Some cross compiled software also require that configuration and
 startup files be installed in the following directories
 
 etc : Configuration files
@@ -210,17 +214,18 @@ etc/init.d : Startup scripts
 etc/rcX.d : Startup script links
 
 ### Optional : Add a new Linux kernel
-If you have built a new Linux kernel for the Seagate Central
-as per the **Seagate-Central-Slot-In-v5.x-Kernel** project at
+If you have downloaded or built a new "uImage" style Linux kernel 
+for the Seagate Central as per the **Seagate-Central-Slot-In-v5.x-Kernel**
+project at
 
 https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
 
-then you can insert this new kernel into the new software
-directory tree as follows
+then this can be inserted into the new firmware as well.
 
-    mkdir -p cross/boot
-    cp my-kernel/uImage cross/boot/uImage
-    
+Simply take a note of the location of the new "uImage" so that it can
+be specified later. It might be prudent to copy it to the working
+directory.
+   
 If any kernel modules have been compiled to go with the new
 kernel then they also need to be copied into the new software
 tree. For example
@@ -229,60 +234,116 @@ tree. For example
     cp -r my-kernel/cross-mod/lib/modules/* cross/lib/modules/
         
 ### Run the make_seagate_firmware.sh script
-The **make_seagate_firmware.sh** script takes an existing
-Seagate Central firmware image, overlays the contents of the
-specified sofware directory (fi specified) and then packages 
-up a new firmware image that can be installed using the normal
-Seagate Central Web Management interface.
+The **make_seagate_firmware.sh** script takes an existing Seagate Central
+firmware image and creates a new one that can be used to upgrade the Seagate
+Central using the normal Seagate Central Web Management interface.
 
-Execute the **make_seagate_firmware.sh** script as per the following
-example. The first argument is the name of the original unmodified 
-Seagate Central firmware image. The second argument is the name of
-the directory containing any cross compiled software for the Seagate
-Central (e.g. samba). 
+The **make_seagate_firmware.sh** script has the following flags.
 
-     ./make_seagate_firmware.sh ./Seagate-HS-update-201509160008F.img ./cross
-     
+#### -f original-firmware-image.img  (Required)
+This is the only compulsory/required option. With this flag we specify the
+name of the original Seagate Central firmware image file that will be used
+as the basis to create a new firmware image. This will probably be something
+like "-f ./Seagate-HS-update-201509160008F.img". Warning : Do not specify a 
+".zip" file as downloaded from Seagate here. You must first unzip the ".zip"
+file to produce the needed ".img" file.
+
+#### -d Software-directory (Optional)
+This optional flag specifies the directory containing samba and/or other cross
+compiled software for Seagate Central. The contents of this directory will
+be overlaid on top of the native Seagate Central directory structure inside
+the firmware.
+    
+#### -u uImage (Optional)
+This optional flag specifies a uImage style Linux kernel image file that has
+been compiled for the Seagate Central. This will be inserted into the firmware
+and will replace the native Seagate supplied v2.6.25 uImage kernel in generated
+firmware.
+
+#### -r Root-Password 
+If this optional flag is configured then the root password on the Seagate Central
+will be set to the value specified. This only occurs once during the very first
+bootup after the firmware upgrade. This is useful because recent firmware from
+Seagate disables root access on the Seagate Central. We strongly suggest manually 
+changing the root password again after bootup.
+
+Some example invocations are as follows
+
+### Example 1 - Upgrade samba, Linux Kernel and root password 
+Create a new firmware image that contains the cross compiled samba software in the
+"cross" directory, as well as a downloaded precompiled Linux kernel called
+"uImage.v5.16.12-sc", and a root password of "mypassword123"
+
+    ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -d ./cross -u ./uImage.v5.16.12-sc -p mypassword123
+          
+### Example 2 - Change root password only
+This example generates a firmware image that is virtually the same as native Seagate
+firmware (no new samba or kernel), but resets the root password to "superman321"
+
+    ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -p superman321
+    
+### Example 3 - Upgrade the samba server and change the root password
+This example creates a firmware image that upgrades samba to the pre-compiled version
+in the newly downloaded "seagate-central-samba-4.14.6-21-Jul-2022" directory and sets
+the root password to "seagate9977". No Linux kernel upgrade occurs.
+
+    ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -d ./seagate-central-samba-4.14.6-21-Jul-2022 -p seagate9977
+
 The script should generate output indicating the status of the process.
-Finally it should display the name of the newly generated firmware image,
+
+If any fatal errors occur the script should stop and point to a log file
+that will hopefully provide some troubleshooting data about the error that has
+occured.
+
+Finally, the script should display the name of the newly generated firmware image,
 the new randomly generated default root password, and the name of a text
-file containing the password.
+file containing the password. Here is an example of the script being executed with
+all the flags and completing succesfully.
 
-       Success!!
-       Created  Seagate-Central-Update-2021.0808.0605-S.img
-       Default Root Password : XxXxXxXxXxXxX
-       Generated text file : Seagate-Central-Update-2021.0808.0605-S.img.root-password
-
-In addition to generating a new firmware image, the script also
-does the following things.
-
-#### Re-enable su / root access
-By default the script will make sure that su access is enabled 
-on the upgraded Seagate Central. It will also set a default
-password for the root user that is applied if one is **not**
-already set.
-
-The password will be set randomly each time the script is run
-but you can modify this by changing the DEFAULT_ROOT_PASSWORD 
-parameter within the script.
-
-If you do NOT want to re-enable su / root access on the Seagate
-Central then set the NO_ENABLE_ROOT enviroment variable to any 
-value. For example
-
-     NO_ENABLE_ROOT=1 ./make_seagate_firmware.sh .......
-
-#### Force su / root password change
-If you want to force a change to the Seagate Central's root
-password then set the FORCE_PW_CHANGE environment variable. 
-This will mean that every time the unit reboots the root
-password will be forcibly changed to the randomly generated 
-root password as displayed. For example
-
-     FORCE_PW_CHANGE=1 ./make_seagate_firmware.sh .......
-
-This option should only be used if the root password has
-already been set and needs to be recovered. 
+    $ ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -d ./seagate-central-samba-4.14.6-21-Jul-2022 -u ./uImage.v5.16.12-sc -r MyNewPassword123
+    Flag f argument ./Seagate-HS-update-201509160008F.img
+    Flag d argument ./seagate-central-samba-4.14.6-21-Jul-2022
+    Flag u argument ./uImage.v5.16.12-sc
+    Flag r argument MyNewPassword123
+    
+    Creating new firmware image Seagate-Central-Update-2022.0819.164318-S.img
+    Using original firmware ./Seagate-HS-update-201509160008F.img
+    Using cross compiled software directory ./seagate-central-samba-4.14.6-21-Jul-2022
+    Using uImage file ./uImage.v5.16.12-sc as Linux kernel
+    Setting root password on first boot to MyNewPassword123
+    Using temporary build directory temp-2022.0819.164318-S
+    
+    Filesystem      Size  Used Avail Use% Mounted on
+    tmpfs           1.9G  604M  1.3G  32% /tmp
+     Extract Seagate Firmware : 16:43:18
+      Success: Create temporary directory  16:43:18 See log_01_extract_firmware.log
+      Success: untar Seagate Firmware  16:43:20 See log_01_extract_firmware.log
+      Success: unsquashfs  16:43:22 See log_02_unsquashfs.log
+     Insert cross compiled software : 16:43:22
+      Success: copy libraries  16:43:23 See log_03_cp_samba.log
+     Found SAMBA binaries.
+     Generate modified samba configuration : 16:43:23
+      Success: smb.conf modification  16:43:23 See log_04_smb_conf.log
+      Success: smb.conf modification  16:43:23 See log_04_smb_conf.log
+     Copy uImage to firmware : 16:43:23
+      Success: Copy uImage to firmware  16:43:23 See log_05_copy_uImage.log
+     Enable su access : 16:43:23
+     Disable and Remove TappIn service : 16:43:23
+     Disable and Remove Seagate Media app service : 16:43:23
+     Add /usr/local/[s]bin to default PATH : 16:43:23
+     Creating new firmware archive : 16:43:24
+      Success: Delete old archive  16:43:24 See log_06_mksquashfs.log
+      Success: mksquashfs squashfs-root  16:43:29 See log_06_mksquashfs.log
+      Success: tar up firmware  16:43:39 See log_07_tar_firmware.log
+     Cleanup : 16:43:39
+    
+     Success!!
+     Created  Seagate-Central-Update-2022.0819.164318-S.img
+     Root Password : MyNewPassword123
+     Generated text file : Seagate-Central-Update-2022.0819.164318-S.img.root-password.txt
+ 
+In addition to generating a new firmware image, the script also does the 
+following things.
 
 #### Remove the defunct TappIn service
 By default the script will disable and remove the TappIn remote
@@ -333,23 +394,23 @@ then set the NO_USR_LOCAL_PATH environment variable to any
 value.
 
 ### Upgrade the Seagate Central
-Login to the target Seagate Central web management page.
+Login to the target Seagate Central web management page as an admin
+user. (Normal users are not able to perform a system upgrade.)
 
-Make sure that the newly created firmware image is locally
-accessible from the machine you are using to log into the
-web management page. 
+Make sure that the newly created firmware image is locally accessible 
+from the machine you are using to log into the web management page. 
 
-On the web management page go into "Settings" Tab. Under the
-"Advanced" folder select the "Firmware Update" option.
+On the web management page go into "Settings" Tab. Under the "Advanced" 
+folder select the "Firmware Update" option.
 
-At this point I would suggest making sure that the 
-"Update Automatically" check box is deselected as Seagate is
-no longer providing automatic firmware updates.
+At this point I would suggest making sure that the "Update Automatically"
+check box is deselected as Seagate is no longer providing automatic 
+firmware updates.
 
 In the "Install from file" field click on "Choose File". 
 
-A file selection dialog box should appear where you can select
-the newly built firmware image.
+A file selection dialog box should appear where you can select the newly 
+built firmware image. 
 
 Once the firmware upgrade image has been chosen click on the
 "Install" button.
@@ -365,7 +426,7 @@ Click on OK
 A display entitled "Update progress" showing a progress meter should
 appear.
 
-After about few minutes the progress meter seems to pause for a
+After about few minutes the progress meter may seem to pause for a
 significant amount of time at 86%.
 
 I believe at this point the upgrade process is trying to catalogue
@@ -401,15 +462,12 @@ samba software the unit is running.
 
 ### Post upgrade
 #### ssh into the Seagate Central and change the root password
-If the root password has not already been set then the root password 
-will be set by the firmware upgrade to the randomly generated password 
-as indicated when the firmware was created. 
+If you chose to setup the firmware to force the root password to change
+then I would strongly suggest changing it again at this point.
 
-If you wish to change the root password to another value then log
-into the Seagate Central via ssh as a normal user then issue
-the **su** command to gain root privileges. You should be prompted
-for a password which should be the one randomly generated by the firmware
-creation script.
+Login to the Seagate Central via ssh as any user. Issue the "su" command
+to become the root user and enter the password you selected during the
+firmware generation process.
 
 Next, change the root password with the **passwd** command. Here is
 a sample session.
@@ -428,8 +486,9 @@ password back to the defaults on the next system boot.
      cp /etc/passwd /usr/config/backupconfig/etc/
      cp /etc/shadow /usr/config/backupconfig/etc/
      
-Note that this needs to be done at anytime when the root
-password is changed on the Seagate Central.
+Note that these "cp" commands need to be run at any future time when the root
+password is changed. This is unique to the Seagate Central and is not generally
+required on other Linux systems.
 
 #### Confirm that samba is working as expected
 IF you have upgraded the samba software on the unit, perform a
@@ -450,9 +509,9 @@ following command. Multiple instances of smbd should be active.
 Also confirm that you can once again transfer files between the
 Seagate Central and your clients.
 
-Further test that you are able to disable legacy SMBv1.0 support
-on any clients and that you are still able to transfer data to and 
-from the Seagate Central.
+Once you have confirmed that the samba service is working you may optionally
+disable legacy SMBv1.0 support on any clients that you using to access the
+Seagate Central.
 
 #### Optional : Reverting firmware
 If the new version of firmware or samba is not performing as 
