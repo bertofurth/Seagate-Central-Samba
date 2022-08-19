@@ -181,8 +181,8 @@ echo "Using original firmware $SEAGATE_FIRMWARE"
 if [[ -n $SAMBA_DIRECTORY ]]; then
     echo "Using cross compiled software directory $SAMBA_DIRECTORY"
 fi
-if [[ -n $UBOOT ]]; then
-    echo "Using uImage file $UBOOT as Linux kernel"
+if [[ -n $UIMAGE ]]; then
+    echo "Using uImage file $UIMAGE as Linux kernel"
 fi
 if [[ -n $ROOT_PW ]]; then
     echo "Setting root password on first boot to $ROOT_PW"
