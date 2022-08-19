@@ -443,7 +443,7 @@ echo -e "$GRN Success!! $NOCOLOR"
 echo -e "$GRN Created $NOCOLOR $SEAGATE_NEW_FIRMWARE"
 if [[ -n $ROOT_PW ]]; then
     echo -e "$GRN Root Password :$NOCOLOR $ROOT_PW"
-    echo $ROOT_PW > $SEAGATE_NEW_FIRMWARE.root-password
-    echo -e "$GRN Generated text file :$NOCOLOR $SEAGATE_NEW_FIRMWARE.root-password"
+    echo $ROOT_PW > $SEAGATE_NEW_FIRMWARE.root-password.txt
+    echo -e "$GRN Generated text file :$NOCOLOR $SEAGATE_NEW_FIRMWARE.root-password.txt"
 fi
 
