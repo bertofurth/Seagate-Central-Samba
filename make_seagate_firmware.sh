@@ -231,7 +231,7 @@ if ! [[ -z $SAMBA_DIRECTORY ]]; then
     
     # Install cross compiled software 
     cp -f -r $SAMBA_DIRECTORY/* $BASE/squashfs-root/ &> log_03_cp_samba.log
-    checkerr $? "copy libraries" log_03_cp_samba.log
+    checkerr $? "copy data" log_03_cp_samba.log
 
 
     if [[ -r $SAMBA_DIRECTORY/usr/sbin/smbd ]]; then
@@ -248,9 +248,9 @@ if ! [[ -z $SAMBA_DIRECTORY ]]; then
 	
 	# Remove no longer supported or needed smb.conf options
 	cp $BASE/squashfs-root/etc/samba/smb.conf $BASE/squashfs-root/etc/samba/smb.conf.v4 &> log_04_smb_conf.log
-	checkerr $? "smb.conf modification" log_04_smb_conf.log
+	checkerr $? "smb.conf modification part 1" log_04_smb_conf.log
 	cp $BASE/squashfs-root/etc/samba/smb.conf $BASE/squashfs-root/etc/samba/smb.conf.v3 &>> log_04_smb_conf.log
-	checkerr $? "smb.conf modification" log_04_smb_conf.log
+	checkerr $? "smb.conf modification part 2" log_04_smb_conf.log
 
 	sed -i '1i#Copied from smb.conf.v4 at startup' $BASE/squashfs-root/etc/samba/smb.conf.v4
     
