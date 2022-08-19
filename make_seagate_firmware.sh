@@ -167,6 +167,7 @@ if [[ -n $UIMAGE_FLAG ]]; then
     echo
     exit 1
    fi
+   
 fi
 
 
@@ -176,16 +177,19 @@ BASE=temp-$new_version
 SEAGATE_NEW_FIRMWARE=Seagate-Central-Update-$new_version.img
 echo
 echo "Creating new firmware image $SEAGATE_NEW_FIRMWARE"
-echo "Using base firmware $SEAGATE_FIRMWARE"
-echo "Using temporary build directory $BASE"
+echo "Using original firmware $SEAGATE_FIRMWARE"
 if [[ -n $SAMBA_DIRECTORY ]]; then
     echo "Using cross compiled software directory $SAMBA_DIRECTORY"
+fi
+if [[ -n $UBOOT ]]; then
+    echo "Using uImage file $UBOOT as Linux kernel"
 fi
 if [[ -n $ROOT_PW ]]; then
     echo "Setting root password on first boot to $ROOT_PW"
 else
     echo "NOT resetting root password."
 fi
+echo "Using temporary build directory $BASE"
 echo   
 
 # You could change the script to use a random password as follows
