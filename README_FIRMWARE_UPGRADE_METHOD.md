@@ -320,11 +320,11 @@ all the flags and completing succesfully.
       Success: untar Seagate Firmware  16:43:20 See log_01_extract_firmware.log
       Success: unsquashfs  16:43:22 See log_02_unsquashfs.log
      Insert cross compiled software : 16:43:22
-      Success: copy libraries  16:43:23 See log_03_cp_samba.log
+      Success: copy data  16:43:23 See log_03_cp_samba.log
      Found SAMBA binaries.
      Generate modified samba configuration : 16:43:23
-      Success: smb.conf modification  16:43:23 See log_04_smb_conf.log
-      Success: smb.conf modification  16:43:23 See log_04_smb_conf.log
+      Success: smb.conf modification part 1  16:43:23 See log_04_smb_conf.log
+      Success: smb.conf modification part 2  16:43:23 See log_04_smb_conf.log
      Copy uImage to firmware : 16:43:23
       Success: Copy uImage to firmware  16:43:23 See log_05_copy_uImage.log
      Enable su access : 16:43:23
