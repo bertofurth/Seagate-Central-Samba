@@ -17,11 +17,6 @@
 # http://seagatecentralenhancementclub.blogspot.com/2015/11/root-su-recovery-for-seagate-central.html
 #
 
-
-DEFAULT_ROOT_PASSWORD=$(cat /dev/urandom | base64 | cut -c1-15 | head -n1)
-
-#DEFAULT_ROOT_PASSWORD=MyPassword
-
 # ************************************************
 # ************************************************
 # Nothing below here should normally need to be
@@ -88,7 +83,7 @@ NOCOLOR="\e[0m"
 
 while getopts "f:d:u:r: :hHvV" flag
 do
-    echo flag $flag OPTARG ${OPTARG}
+    echo Flag $flag argument ${OPTARG}
     case $flag in
 	f) SEAGATE_FIRMWARE_FLAG=$flag
 	   SEAGATE_FIRMWARE=${OPTARG};;
@@ -98,9 +93,9 @@ do
 	   UIMAGE=${OPTARG};;
 	r) ROOT_PW_FLAG=$flag
 	   ROOT_PW=${OPTARG};;
-	h|H|v|V|?) usage
+	h|H) usage
 	   exit 1;;
-	*) small_usage
+	v|V|*) small_usage
 	   exit 1;;
     esac
 done
@@ -192,6 +187,9 @@ else
     echo "NOT resetting root password."
 fi
 echo   
+
+# You could change the script to use a random password as follows
+#ROOT_PW=$(cat /dev/urandom | base64 | cut -c1-15 | head -n1)
 
 # Printing free space on the device because this process takes up
 # so much disk space.
