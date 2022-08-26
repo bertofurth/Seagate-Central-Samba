@@ -328,7 +328,9 @@ At the moment (August 2022) the new kernel at the **Seagate-Central-Slot-In-v5.x
 project doesn't work well. We strongly suggest that you do not install it.
 
 
-Old note :
+Here are the notes that will be re-included in this project once the kernel
+is fixed.
+
 
 Note that there is another project called Seagate-Central-Slot-In-v5.x-Kernel
 located at
