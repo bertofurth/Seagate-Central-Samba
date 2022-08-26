@@ -40,6 +40,8 @@ https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel/
 
 https://github.com/bertofurth/Seagate-Central-Utils/
 
+**NOTE : We do not recommend upgrading the kernel at the moment**
+
 This firmware upgrade can also optionally be used to reset a Seagate Central's
 root password in order to regain root access to the system. This might
 be useful as Seagate's most recent native firmware updates disable root
@@ -66,7 +68,7 @@ subdirectory.
         
 Optional : Download or build a new Linux kernel for the Seagate
 Central (uImage). See the **Seagate-Central-Slot-In-v5.x-Kernel** project
-for details.
+for details. **NOTE : We do not recommend upgrading the kernel at the moment**
 
 Optional : Install other new software into the new software directory
 tree. See the **Seagate-Central-Utils** project for details.
@@ -213,7 +215,7 @@ etc : Configuration files
 etc/init.d : Startup scripts
 etc/rcX.d : Startup script links
 
-### Optional : Add a new Linux kernel
+### Optional : Add a new Linux kernel (Not recommended)
 If you have downloaded or built a new "uImage" style Linux kernel 
 for the Seagate Central as per the **Seagate-Central-Slot-In-v5.x-Kernel**
 project at
@@ -254,7 +256,7 @@ compiled software for Seagate Central. The contents of this directory will
 be overlaid on top of the native Seagate Central directory structure inside
 the firmware.
     
-#### -u uImage (Optional)
+#### -u uImage (Optional) (NOT RECOMMENDED)
 This optional flag specifies a uImage style Linux kernel image file that has
 been compiled for the Seagate Central. This will be inserted into the firmware
 and will replace the native Seagate supplied v2.6.25 uImage kernel in generated
@@ -269,25 +271,25 @@ changing the root password again after bootup.
 
 Some example invocations are as follows
 
-### Example 1 - Upgrade samba, Linux Kernel and root password 
-Create a new firmware image that contains the cross compiled samba software in the
-"cross" directory, as well as a downloaded precompiled Linux kernel called
-"uImage.v5.16.12-sc", and a root password of "mypassword123"
+### Example 1 - Upgrade the samba server and change the root password
+This example creates a firmware image that upgrades samba to the pre-compiled version
+in the newly downloaded "seagate-central-samba-4.14.6-21-Jul-2022" directory and sets
+the root password to "seagate9977". 
 
-    ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -d ./cross -u ./uImage.v5.16.12-sc -p mypassword123
-          
+    ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -d ./seagate-central-samba-4.14.6-21-Jul-2022 -p seagate9977
+
 ### Example 2 - Change root password only
 This example generates a firmware image that is virtually the same as native Seagate
 firmware (no new samba or kernel), but resets the root password to "superman321"
 
     ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -p superman321
     
-### Example 3 - Upgrade the samba server and change the root password
-This example creates a firmware image that upgrades samba to the pre-compiled version
-in the newly downloaded "seagate-central-samba-4.14.6-21-Jul-2022" directory and sets
-the root password to "seagate9977". No Linux kernel upgrade occurs.
+### Example 3 - Upgrade samba, root password and Linux Kernel (NOT RECOMMENDED)
+Create a new firmware image that contains the cross compiled samba software in the
+"cross" directory, as well as a downloaded precompiled Linux kernel called
+"uImage.v5.16.12-sc", and a root password of "mypassword123"
 
-    ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -d ./seagate-central-samba-4.14.6-21-Jul-2022 -p seagate9977
+    ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -d ./cross -u ./uImage.v5.16.12-sc -p mypassword123
 
 The script should generate output indicating the status of the process.
 
