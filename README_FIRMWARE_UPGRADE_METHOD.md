@@ -61,7 +61,7 @@ for details.
 Optional : Install other new software into the new software directory
 tree. See the **Seagate-Central-Utils** project for details.
 
-Optional : Decide on a new root password for the unit.
+Recomended but Optional : Decide on a new root password for the unit.
 
 Create the new Seagate Central firmware image using the "make_seagate_firmware.sh"
 script by specifying the Seagate firmware image file (-f), then optionally
@@ -218,8 +218,8 @@ be specified later. It might be prudent to copy it to the working
 directory.
    
 If any kernel modules have been compiled to go with the new
-kernel then they also need to be copied into the new software
-tree. For example
+kernel then they need to be copied into the new software tree. For 
+example
 
     mkdir -p cross/lib/modules
     cp -r my-kernel/cross-mod/lib/modules/* cross/lib/modules/
@@ -251,7 +251,7 @@ been compiled for the Seagate Central. This will be inserted into the firmware
 and will replace the native Seagate supplied v2.6.25 uImage kernel in generated
 firmware.
 
-#### -r Root-Password 
+#### -r Root-Password (Recommended but Optional)
 If this optional flag is configured then the root password on the Seagate Central
 will be set to the value specified. This only occurs once during the very first
 bootup after the firmware upgrade. This is useful because recent firmware from
