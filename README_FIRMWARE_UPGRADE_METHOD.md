@@ -1,14 +1,4 @@
 # README_FIRMWARE_UPGRADE_METHOD.md
-
-# NOTICE : THIS PROCEDURE IS UNDER REVIEW.
-Many people have contacted me recently about issues in this procedure, especially
-in regards to kernel upgrades.
-
-I am aware of the issue. I am in the process of fixing it. Check back in a few days
-time. Hopefully by September 2022 the process will be fixed and improved.
-
-Thanks for your understanding!!
-
 ## Summary
 This is a guide that describes how to generate a custom firmware update
 for a Seagate Central NAS. This is primarily done to install a modern,
@@ -40,8 +30,6 @@ https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel/
 
 https://github.com/bertofurth/Seagate-Central-Utils/
 
-**NOTE : We do not recommend upgrading the kernel at the moment**
-
 This firmware upgrade can also optionally be used to reset a Seagate Central's
 root password in order to regain root access to the system. This might
 be useful as Seagate's most recent native firmware updates disable root
@@ -68,7 +56,7 @@ subdirectory.
         
 Optional : Download or build a new Linux kernel for the Seagate
 Central (uImage). See the **Seagate-Central-Slot-In-v5.x-Kernel** project
-for details. **NOTE : We do not recommend upgrading the kernel at the moment**
+for details. 
 
 Optional : Install other new software into the new software directory
 tree. See the **Seagate-Central-Utils** project for details.
@@ -162,10 +150,11 @@ There should now be a .img file in the base working directory.
 This is the original Segate Central firmware image that will be
 used as a basis to create a new firmware image in the coming steps.
 
-Note : If Seagate ever stop supplying firmware downloads then there
-is a ".img" format firmware file stored in partition 5, the "Config"
-parititon, on the Seagate Central hard drive. This is accessible in
-the /usr/config/firmware directory on the Seagate Central.
+Technical Note : If Seagate ever stop supplying firmware downloads 
+then there is a ".img" format firmware file stored in partition 5,
+the "Config" parititon, on the Seagate Central hard drive. This is
+accessible in the /usr/config/firmware directory on the Seagate 
+Central.
 
 ### Optional : Obtain cross compiled samba software
 If you wish to include an upgraded samba server in the newly
@@ -215,7 +204,7 @@ etc : Configuration files
 etc/init.d : Startup scripts
 etc/rcX.d : Startup script links
 
-### Optional : Add a new Linux kernel (Not recommended)
+### Optional : Add a new Linux kernel
 If you have downloaded or built a new "uImage" style Linux kernel 
 for the Seagate Central as per the **Seagate-Central-Slot-In-v5.x-Kernel**
 project at
@@ -256,7 +245,7 @@ compiled software for Seagate Central. The contents of this directory will
 be overlaid on top of the native Seagate Central directory structure inside
 the firmware.
     
-#### -u uImage (Optional) (NOT RECOMMENDED)
+#### -u uImage (Optional)
 This optional flag specifies a uImage style Linux kernel image file that has
 been compiled for the Seagate Central. This will be inserted into the firmware
 and will replace the native Seagate supplied v2.6.25 uImage kernel in generated
@@ -284,12 +273,12 @@ firmware (no new samba or kernel), but resets the root password to "superman321"
 
     ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -p superman321
     
-### Example 3 - Upgrade samba, root password and Linux Kernel (NOT RECOMMENDED)
+### Example 3 - Upgrade samba, root password and Linux Kernel
 Create a new firmware image that contains the cross compiled samba software in the
 "cross" directory, as well as a downloaded precompiled Linux kernel called
-"uImage.v5.16.12-sc", and a root password of "mypassword123"
+"uImage.v5.16.20-sc", and a root password of "mypassword123"
 
-    ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -d ./cross -u ./uImage.v5.16.12-sc -p mypassword123
+    ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -d ./cross -u ./uImage.v5.16.20-sc -p mypassword123
 
 The script should generate output indicating the status of the process.
 
@@ -302,16 +291,16 @@ the new randomly generated default root password, and the name of a text
 file containing the password. Here is an example of the script being executed with
 all the flags and completing succesfully.
 
-    $ ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -d ./seagate-central-samba-4.14.6-21-Jul-2022 -u ./uImage.v5.16.12-sc -r MyNewPassword123
+    $ ./make_seagate_firmware.sh -f ./Seagate-HS-update-201509160008F.img -d ./seagate-central-samba-4.14.6-21-Jul-2022 -u ./uImage.v5.16.20-sc -r MyNewPassword123
     Flag f argument ./Seagate-HS-update-201509160008F.img
     Flag d argument ./seagate-central-samba-4.14.6-21-Jul-2022
-    Flag u argument ./uImage.v5.16.12-sc
+    Flag u argument ./uImage.v5.16.20-sc
     Flag r argument MyNewPassword123
     
     Creating new firmware image Seagate-Central-Update-2022.0819.164318-S.img
     Using original firmware ./Seagate-HS-update-201509160008F.img
     Using cross compiled software directory ./seagate-central-samba-4.14.6-21-Jul-2022
-    Using uImage file ./uImage.v5.16.12-sc as Linux kernel
+    Using uImage file ./uImage.v5.16.20-sc as Linux kernel
     Setting root password on first boot to MyNewPassword123
     Using temporary build directory temp-2022.0819.164318-S
     
@@ -347,6 +336,26 @@ all the flags and completing succesfully.
 In addition to generating a new firmware image, the script also does the 
 following things.
 
+#### Remove the defunct Seagate Media app service
+By default the script will disable and remove the proprietary Seagate
+Media app service on the Seagate Central. Note that this is not the
+same as the Twonky DLNA media service which remains unaffected by
+this firmware upgrade.
+
+The proprietary Seagate Media app service has been non 
+operational for some time as per the notice on Seagate's website.
+
+https://www.seagate.com/support/downloads/seagate-media/
+
+By disabling this service we stop the Seagate Central from spending
+cpu and memory resources on something that serves no purpose. 
+     
+If you do NOT want to disable the Seagate Media app service then set
+the KEEP_SEAGATE_MEDIA environment variable to any value.
+
+Note that if you are upgrading the Linux kernel then you **must** disable
+the Seagate Media app service otherwise the unit will hang on boot.
+
 #### Remove the defunct TappIn service
 By default the script will disable and remove the TappIn remote
 access service on the Seagate Central. This service has been non 
@@ -360,30 +369,6 @@ addition about 25MB of disk space is saved by removing it.
 
 If you do NOT want to disable the Tappin service then set
 the KEEP_TAPPIN environment variable to any value.
-
-#### Remove the defunct Seagate Media app service
-By default the script will disable and remove the proprietary Seagate
-Media app service on the Seagate Central. Note that this is not the
-same as the Twonky DLNA media service which remains unaffected by
-this firmware upgrade.
-
-The proprietary Seagate Media app service has been non 
-operational for some time as per the notice on Seagate's website.
-
-https://www.seagate.com/support/downloads/seagate-media/
-
-By disabling this service we stop the Seagate Central from spending
-cpu and memory resources on something that serves no purpose. In
-addition, some users have reported that this service generates thousands of
-files containing megabytes of rubbish data in the Public folder. These files
-start with the following names.
-
-     bootstrapdb
-     media_server_daemon.txt
-     messages
-     
-If you do NOT want to disable the Seagate Media app service then set
-the KEEP_SEAGATE_MEDIA environment variable to any value.
 
 #### Add /usr/local/bin and /usr/local/sbin to PATH
 If any other new cross compiled software besides samba is added
