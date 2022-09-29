@@ -9,6 +9,10 @@ A set of pre-compiled samba binaries for Seagate Central generated using
 the instructions in this project are currently available for download
 in the "releases" section of this project at
 
+https://github.com/bertofurth/Seagate-Central-Samba/releases
+
+The latest as of the time of writing is
+
 https://github.com/bertofurth/Seagate-Central-Samba/releases/download/v1.2/seagate-central-samba-4.14.6-21-Jul-2022.tar.gz
 
 There are three sets of instructions included in this project.
@@ -248,6 +252,22 @@ spends a few minutes cataloging the data files stored on the unit.
 During this brief time the CPU load can be quite high and file serving 
 performance can slightly suffer.
 
+Note that there is another project called Seagate-Central-Slot-In-v5.x-Kernel
+located at
+
+https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel/ 
+
+which shows instructions for compiling and installing an upgraded SMP
+capable Linux Kernel on the Seagate Central. This will overcome the second
+CPU problem by making **both** CPUs in the Seagate Central available for
+**all** linux processes. That is, SMP (Symmetrical Multi Processing) 
+will be implemented in this updated Linux Kernel. 
+
+If this new upgraded linux kernel is installed and running then the new
+version of samba can take advantage of both the SMP based CPU cores on the
+system and then, in theory, the new samba software will be able to 
+perform even better than the original Seagate AMP based samba software.
+
 ### Memory
 My tests reveal that the updated samba v4.14.6 software seems to consume 
 significantly more system memory than the original v3.5.16. Most recent 
@@ -322,28 +342,4 @@ while writing this guide. Please read these instructions with the
 understanding that I am still in the process of learning. I trust that
 this project will help others to learn as well.
 
-## TODO 
-### Fix the kernel.
-At the moment (August 2022) the new kernel at the **Seagate-Central-Slot-In-v5.x-Kernel**
-project doesn't work well. We strongly suggest that you do not install it.
 
-
-Here are the notes that will be re-included in this project once the kernel
-is fixed.
-
-
-Note that there is another project called Seagate-Central-Slot-In-v5.x-Kernel
-located at
-
-https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel/ 
-
-which shows instructions for compiling and installing an upgraded SMP
-capable Linux Kernel on the Seagate Central. This will overcome the second
-CPU problem by making **both** CPUs in the Seagate Central available for
-**all** linux processes. That is, SMP (Symmetrical Multi Processing) 
-will be implemented in this updated Linux Kernel. 
-
-If this new upgraded linux kernel is installed and running then the new
-version of samba can take advantage of both the SMP based CPU cores on the
-system and then, in theory, the new samba software will be able to 
-perform even better than the original Seagate AMP based samba software.
