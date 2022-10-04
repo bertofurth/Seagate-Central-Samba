@@ -353,9 +353,6 @@ cpu and memory resources on something that serves no purpose.
 If you do NOT want to disable the Seagate Media app service then set
 the KEEP_SEAGATE_MEDIA environment variable to any value.
 
-Note that if you are upgrading the Linux kernel then you **must** disable
-the Seagate Media app service otherwise the unit will hang on boot.
-
 #### Remove the defunct TappIn service
 By default the script will disable and remove the TappIn remote
 access service on the Seagate Central. This service has been non 
