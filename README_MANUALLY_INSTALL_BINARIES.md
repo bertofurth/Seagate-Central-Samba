@@ -183,6 +183,7 @@ directive at the end of the file
     fruit:model = RackMac
     fruit:time machine = yes
     multicast dns register = yes
+    strict allocate = yes
     . . .
 
 At this point you can take the opportunity to enable other samba
