@@ -267,9 +267,10 @@ if ! [[ -z $SAMBA_DIRECTORY ]]; then
 	# removed. We replace it with
 	# 
 	# min receivefile size = 16384
-    	#
+    	# strict allocate = yes
     
 	sed -i '/SOP receive file bug/a \        min receivefile size = 16384' $BASE/squashfs-root/etc/samba/smb.conf.v4
+	sed -i '/SOP receive file bug/a \        strict allocate = yes' $BASE/squashfs-root/etc/samba/smb.conf.v4	
 	sed -i '/SOP receive file bug/d' $BASE/squashfs-root/etc/samba/smb.conf.v4
     
 	# Replace and update old appletalk configuration
