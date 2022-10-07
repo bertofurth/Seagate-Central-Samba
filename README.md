@@ -202,12 +202,11 @@ server the Seagate Central will be able to serve modern security
 conscious operating systems without the need for any security compromising 
 workarounds on the client systems.
 
-### Enhanced security and performance
+### Enhanced security
 SMBv1.0 has multiple security issues that make it vulnerable to various 
 forms of attack. Additionally later versions of SMB introduce more
 efficient messaging mechanisms and stronger builtin data integrity 
-checking. Some tests show that SMBv3.0 can be many times faster
-than SMBv1.0 in some circumstances because of increased efficiency.
+checking.
 
 ### Support for new features 
 The samba server created using these instructions is not crippled in 
@@ -216,68 +215,39 @@ means that the full array of features available in samba server software
 may be configured, albeit via the command line and configuration file 
 rather than the web interface.
 
-### Performance : 
-
-**TODO** TEST A FRESH OUT OF THE BOX UNIT RUNNING OLD SAMBA vs A NEW ONE
-
 ## Disadvantages of installing the new samba server
-### Second CPU
-The Seagate Central is based on a Cavium CNS3420 CPU which has 2 CPU 
-cores. In stock Seagate Central firmware, the first CPU core is available
-for normal linux processes and the second is reserved exclusively for the 
-samba file server. In other words, the second CPU cannot be used by any 
-"normal" linux processes. In Seagate Central software this scheme is
-referred to as the "Cavium SMP Offloading Procession" (SOP), or in
-general terms "Asymmetric Multi Processing" (AMP).
+### Performance of SMBv1.0 vs later versions
+Since SMBv1.0 has very few inbuilt encryption or security features, it 
+inherently requires less CPU resources. This means that later, more
+secure versions of the SMB protocol are more CPU hungry and may not
+perform quite as well as the older, less secure version.
 
-The original samba software on the Seagate Central has custom 
-modifications that allow it to make use of the second CPU core operating
-in AMP mode. This means that in the unlikely event that the first Seagate
-Central CPU is overwhelmed by some non file-sharing task, the file 
-serving functionality will not be slowed down as it will be using the
-second CPU.
+This means that in general the original samba server may be faster,
+particularly when files are being downloaded from the Seagate
+Central to a client. Upload speeds from a client to the Seagate Central
+do not seem to be particuarly impacted.
 
-Unfortunately, normal samba software as used by this installation guide 
-does not make use of AMP mode. This is because AMP is rarely implemented
-in modern linux systems. Most modern linux systems use "Symmetrical 
-Multi Processing" (SMP) which allows **all** processes to make use of
-**any** CPU.
+This performance issue can generally be overcome by also upgrading the
+Linux kernel on the unit from the original version to an updated modern
+version as per the **Seagate-Central-Slot-In-v5.x-Kernel" project
+as seen at
 
-Given that the Seagate Central doesn't normally do anything except serve 
-files, in my judgement this disadvantage won't make much of a practical
-difference in the moderate usage environment of a home or small business 
-where a Seagate Central would typically be deployed. The only minor 
-exception I've encountered is just after bootup when the Seagate Central
-spends a few minutes cataloging the data files stored on the unit.
-During this brief time the CPU load can be quite high and file serving 
-performance can slightly suffer.
+https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
 
-Note that there is another project called Seagate-Central-Slot-In-v5.x-Kernel
-located at
+See the following URL for some statistics regarding networking
+and file transfer performance.
 
-https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel/ 
-
-which shows instructions for compiling and installing an upgraded SMP
-capable Linux Kernel on the Seagate Central. This will overcome the second
-CPU problem by making **both** CPUs in the Seagate Central available for
-**all** linux processes. That is, SMP (Symmetrical Multi Processing) 
-will be implemented in this updated Linux Kernel. 
-
-If this new upgraded linux kernel is installed and running then the new
-version of samba can take advantage of both the SMP based CPU cores on the
-system and then, in theory, the new samba software will be able to 
-perform even better than the original Seagate AMP based samba software.
+https://github.com/bertofurth/Seagate-Central-Tips/blob/main/Network_Performance.md
 
 ### Memory
-My tests reveal that the updated samba v4.14.6 software seems to consume 
+Tests reveal that the updated samba v4.14.6 software seems to consume 
 significantly more system memory than the original v3.5.16. Most recent 
 versions of samba will generally be quite memory hungry so this is not 
 something unique to this project. 
 
-As per the CPU issue, in practical terms this does not seem to 
-significantly impact system performance. This is thanks to the Seagate 
-Central having sufficient swap space to cater for any temporary excessive 
-memory usage.
+In practical terms this does not seem to significantly impact system 
+performance. This is thanks to the Seagate Central having sufficient
+swap space to cater for any temporary excessive memory usage.
 
 ### No support for very old clients that depend on SMBv1.0
 Very old client operating systems, such as Windows XP, Windows 95 or Windows 
