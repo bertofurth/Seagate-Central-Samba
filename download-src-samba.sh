@@ -50,7 +50,7 @@ mkdir -p src
 cd src
 
 if type wget > /dev/null ; then
-    fetch='wget'
+    fetch='wget --backups=1'
 else
     if type curl > /dev/null; then
 	fetch='curl -LO'
