@@ -23,10 +23,10 @@ described by **README_MANUALLY_INSTALL_BINARIES.md** in this project.
 
 Along with upgrading samba, it is also possible to also upgrade the Seagate
 Central Linux kernel and to install other cross compiled software using this 
-method. See the **Seagate-Central-Slot-In-v5.x-Kernel** and
+method. See the **Seagate-Central-Modern-Slot-In-Kernel** and
 **Seagate-Central-Utils** projects for details.
 
-https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel/
+https://github.com/bertofurth/Seagate-Central-Modern-Slot-In-Kernel/
 
 https://github.com/bertofurth/Seagate-Central-Utils/
 
@@ -55,7 +55,7 @@ details. This TLDNR assumes that the samba binaries are stored in the "cross"
 subdirectory.
         
 Optional : Download or build a new Linux kernel for the Seagate
-Central (uImage). See the **Seagate-Central-Slot-In-v5.x-Kernel** project
+Central (uImage). See the **Seagate-Central-Modern-Slot-In-Kernel** project
 for details. 
 
 Optional : Install other new software into the new software directory
@@ -206,10 +206,10 @@ etc/rcX.d : Startup script links
 
 ### Optional : Add a new Linux kernel
 If you have downloaded or built a new "uImage" style Linux kernel 
-for the Seagate Central as per the **Seagate-Central-Slot-In-v5.x-Kernel**
+for the Seagate Central as per the **Seagate-Central-Modern-Slot-In-Kernel**
 project at
 
-https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
+https://github.com/bertofurth/Seagate-Central-Modern-Slot-In-Kernel
 
 then this can be inserted into the new firmware as well.
 
