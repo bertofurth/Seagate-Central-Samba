@@ -89,11 +89,15 @@ device becoming unusable or damaged.**
 **Do not use the products of this project in a mission critical system
 or in a system that people's health or safety depends on.** 
 
+**This project is not endorsed or supported by the original vendors or
+manufacturers of the Seagate Central NAS.**
+
 It is worth noting that during the testing and development of this
 procedure I never encountered any problems involving data corruption 
 or abrupt loss of connectivity.
 
-In addition, I have never come close to "bricking" any Seagate Central!
+In addition, I have never come close to "bricking" any Seagate Central
+during the course of implementing this project!
 
 The Seagate Central boot loader (u-boot) has a feature where it
 automatically reverts to the previous version of firmware if it finds
@@ -229,10 +233,10 @@ do not seem to be particuarly impacted.
 
 This performance issue can generally be overcome by also upgrading the
 Linux kernel on the unit from the original version to an updated modern
-version as per the **Seagate-Central-Slot-In-v5.x-Kernel" project
+version as per the **Seagate-Central-Modern-Slot-In-Kernel** project
 as seen at
 
-https://github.com/bertofurth/Seagate-Central-Slot-In-v5.x-Kernel
+https://github.com/bertofurth/Seagate-Central-Modern-Slot-In-Kernel
 
 See the following URL for some statistics regarding networking
 and file transfer performance.
@@ -263,6 +267,12 @@ media sharing protocol which is unaffected by this upgrade.
 
 SMBv2.1 client support was introduced for Windows 7 in 2007 and for
 Linux v3.7 in 2012 so most clients from after these dates should be fine. 
+
+## TODO (But probably not)
+Implement instructions for including wsdd2 which will allow the Samba
+server to be discoverable by Windows 10 and later clients
+
+https://github.com/Netgear/wsdd2
 
 ## Motivation for this project
 My work supplied laptop currently runs Windows 10. After one particular IT
