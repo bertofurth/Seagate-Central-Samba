@@ -114,7 +114,7 @@ available.
 The following packages or their equivalents may also need to be
 installed on the building system.
 
-#### OpenSUSE Tumbleweed - Aug 2021 (zypper add ...)
+#### OpenSUSE Tumbleweed - Aug 2021 (zypper install ...)
     zypper install -t pattern devel_basis
     gcc-c++
     libgnutls-devel
