@@ -126,14 +126,15 @@ As of the writing of this document a Seagate Central firmware zip
 file can be downloaded from the Seagate website by going to the
 following URL and entering your Seagate Central's serial number.
 
-https://www.seagate.com/au/en/support/external-hard-drives/network-storage/seagate-central/#downloads
+https://apps1.seagate.com/downloads/request.html
 
 The serial number can be found on the bottom of your Seagate
 Central's case, via the web management interface on the
 "Settings -> Setup -> About" page, or via the ssh command line by
 issuing the "serialno.sh" command.
 
-The serial number should be in a format similar to "NA6SXXXX".
+The serial number should be in a format similar to "NA6SG99A" which
+is a made up example of a valid Seagate Central serial number.
 
 The latest firmware zip file available as of the writing of this 
 document is Seagate-HS-update-201509160008F.zip
@@ -150,11 +151,13 @@ There should now be a .img file in the base working directory.
 This is the original Segate Central firmware image that will be
 used as a basis to create a new firmware image in the coming steps.
 
-Technical Note : If Seagate ever stop supplying firmware downloads 
-then there is a ".img" format firmware file stored in partition 5,
-the "Config" parititon, on the Seagate Central hard drive. This is
-accessible in the /usr/config/firmware directory on the Seagate 
-Central.
+Note: Some users have reported that the download only works when
+connecting to the seagate website from a US based IP address.
+
+Note: If Seagate ever stop supplying firmware downloads then there is 
+a ".img" format firmware file stored in partition 5, the "Config" parititon,
+on the Seagate Central hard drive. This is accessible in the 
+/usr/config/firmware directory on the Seagate Central.
 
 ### Optional : Obtain cross compiled samba software
 If you wish to include an upgraded samba server in the newly
