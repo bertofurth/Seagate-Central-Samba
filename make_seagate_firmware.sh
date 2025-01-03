@@ -72,6 +72,7 @@ usage()
     echo "  KEEP_SEAGATE_MEDIA : Do NOT remove defunct Seagate Media app"
     echo "  NO_USR_LOCAL_PATH : Do NOT add /usr/local/[s]bin to PATH"
     echo "  SKIP_CLEANUP : Do NOT cleanup expanded filesystems after build"
+    echo "  SUFFIX : Add a particular suffix to the version number (default "S")"
     echo    
 }   
 
@@ -170,8 +171,8 @@ if [[ -n $UIMAGE_FLAG ]]; then
    
 fi
 
-
-new_version=$(date +%Y.%m%d.%H%M%S-S)
+SUFFIX=${SUFFIX-S}
+new_version=$(date +%Y.%m%d.%H%M%S-$SUFFIX)
 new_release_date=$(date +%d-%m-%Y)
 BASE=temp-$new_version
 SEAGATE_NEW_FIRMWARE=Seagate-Central-Update-$new_version.img
