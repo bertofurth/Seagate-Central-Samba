@@ -1,0 +1,37 @@
+Hi there,
+
+If you could provide me a copy of the Seagate Central firmware you'd like to modify, then I'm willing to modify it for you on your behalf so that it uses Samba v4.14.14 which provides SMBv2.0 and higher connectivity. 
+
+You can get a copy of the latest firmware for your Seagate Central from the link 
+
+https://apps1.seagate.com/downloads/request.html
+
+by putting in the serial number of your Seagate Central (format NXXXXXXX). You can find this serial number on the bottom of the unit or on the unit's Web Management Page under "Setup" -> "About". 
+
+Please upload the firmware you've obtained to a file sharing site or provide me with a link that I can download it from. Please don't try to email it to me as the file will be in the order of 120MB and is too large for my email server to accept.
+
+Note that some people have reported that if you are outside the USA you may have problems downloading the firmware. In that case, if you're inclined, you can send me your unit's serial number and with your permission I can download the file on your behalf.
+
+Once I've obtained your firmware that you've voluntarily of your own free will given me access to I will modify it as per your wishes, upload it for you to download again and you can perform the upgrade procedure as per the normal process. 
+
+Note that you'll need administrator access to the web management page of the Seagate Central in order to perform the upgrade. For brief instructions on how to perform the upgrade read the section entitled "Upgrade the Seagate Central" at
+
+https://github.com/bertofurth/Seagate-Central-Samba/blob/main/README_FIRMWARE_UPGRADE_METHOD.md#upgrade-the-seagate-central
+
+If there are any problems, such as the unit becoming unreachable then you can revert the unit to it's previous firmware using the following method
+
+Step 1 : Physically power down your Seagate Central.
+
+Step 2 : Power Up again and watch the little LED light on top of the unit.
+
+Step 3 : When the LED changes from solid amber/green to flashing green let it blink about 2 times then quickly unplug the power.
+
+Step 4 : Repeat Steps 2 and 3 another 4 times.
+
+Step 5 : Power on and let the unit fully boot up so that the LED light goes solid green. The unit should now be running the "old" firmware.
+
+This method takes advantage of feature where if the Seagate Central fails to fully boot 4 times in a row it will switch to the "backup" firmware which is the firmware you were running just prior to the upgrade.
+
+Thanks,
+
+Berto.
